@@ -6,6 +6,8 @@ struct Args
 {
 	std::string inputPath;
 	std::string outputPath;
+	std::string searchString;
+	std::string replacementString;
 };
 
 std::string replaceSubstring(std::string& const searchString, std::string& const replacementString, std::string& const line)
@@ -15,7 +17,7 @@ std::string replaceSubstring(std::string& const searchString, std::string& const
 
 	while (cursorPos < line.length())
 	{
-		size_t substringPos = line.find(searchString);
+		size_t substringPos = line.find(searchString, cursorPos);
 		replacedString.append(line, cursorPos, substringPos - cursorPos);
 		
 		if (substringPos == std::string::npos)
@@ -30,7 +32,7 @@ std::string replaceSubstring(std::string& const searchString, std::string& const
 	return replacedString;
 }
 
-int copyFilesWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, std::string& const searchString, std::string& const replacementString)
+void copyFilesWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, std::string& const searchString, std::string& const replacementString)
 {
 	std::string line;
 
@@ -60,16 +62,21 @@ int copyFile(std::ifstream& inputFile, std::ofstream& outputFile)
 
 	return 0;
 }
-
+	
 int main(int argc, char* argv[])
 {
 	if (argc != 5)
 	{
-		std::cout << "Wrond input. Params should be: copyfile.exe <input file name> <output file name>" << std::endl;
+		std::cout << "Wrond input. Params should be: copyfile.exe <input file name> <output file name> <search string> <replacement string>" << std::endl;
 		return 1;
 	}
 
-	struct Args args = { argv[1], argv[2] };
+	struct Args args = {
+		argv[1],
+		argv[2],
+		argv[3],
+		argv[4],
+	};
 
 	std::ifstream inputFile;
 	inputFile.open(args.inputPath);
@@ -87,15 +94,12 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	std::string searchString = argv[3];
-	std::string replacementString = argv[4];
-
-	if (!searchString.empty() || searchString != replacementString)
+	if (args.searchString.empty() || args.searchString == args.replacementString)
 	{
 		return copyFile(inputFile, outputFile);
 	}
 
-	copyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
+	copyFilesWithReplace(inputFile, outputFile, args.searchString, args.replacementString);
 
 	if (!outputFile.flush())
 	{

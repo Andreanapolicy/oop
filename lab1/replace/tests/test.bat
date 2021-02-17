@@ -34,6 +34,9 @@ fc notepad.txt %OUT% > %TEMPTRASH% || goto err
 %PROGRAM% notepad.txt %OUT% notepad notepad
 fc notepad.txt %OUT% > %TEMPTRASH% || goto err
 
+%PROGRAM% notepad.txt %OUT% ote laptop
+fc notepad-middle.output.txt %OUT% > %TEMPTRASH% || goto err
+
 
 echo Test passed
 exit /B 1
