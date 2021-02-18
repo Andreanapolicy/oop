@@ -11,31 +11,31 @@ set TEMPTRASH="%TEMP%/out.txt"
 
  
 %PROGRAM% > %OUT%
-fc error.txt %OUT% > %TEMPTRASH% || goto err
+fc %CD%\tests\error.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% input.txt > %OUT%
-fc error.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\input.txt > %OUT%
+fc %CD%\tests\error.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% input.txt output.txt > %OUT%
-fc error.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\input.txt %CD%\tests\output.txt > %OUT%
+fc %CD%\tests\error.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% input.txt output.txt searchString > %OUT%
-fc error.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\input.txt %CD%\tests\output.txt searchString > %OUT%
+fc %CD%\tests\error.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% emptyInputFile.txt %OUT% laptop notebook
-fc emptyOutputFile.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\emptyInputFile.txt %OUT% laptop notebook
+fc %CD%\tests\emptyOutputFile.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% notepad.txt %OUT% notepad laptop
-fc notepad.output.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\notepad.txt %OUT% notepad laptop
+fc %CD%\tests\notepad.output.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% notepad.txt %OUT% '' laptop
-fc notepad.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\notepad.txt %OUT% '' laptop
+fc %CD%\tests\notepad.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% notepad.txt %OUT% notepad notepad
-fc notepad.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\notepad.txt %OUT% notepad notepad
+fc %CD%\tests\notepad.txt %OUT% > %TEMPTRASH% || goto err
 
-%PROGRAM% notepad.txt %OUT% ote laptop
-fc notepad-middle.output.txt %OUT% > %TEMPTRASH% || goto err
+%PROGRAM% %CD%\tests\notepad.txt %OUT% ote laptop
+fc %CD%\tests\notepad-middle.output.txt %OUT% > %TEMPTRASH% || goto err
 
 
 echo Test passed
