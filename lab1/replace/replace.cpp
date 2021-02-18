@@ -82,11 +82,6 @@ int InitArgs(std::ifstream& inputFile, std::ofstream& outputFile, const std::str
 		return 1;
 	}
 
-	if (searchString.empty() || searchString == replacementString)
-	{
-		return CopyFile(inputFile, outputFile, error);
-	}
-
 	return 0;
 }
 
@@ -116,6 +111,11 @@ int main(int argc, char* argv[])
 	if (InitArgs(inputFile, outputFile, args.searchString, args.replacementString, error))
 	{
 		std::cout << error.message << std::endl;
+	}
+
+	if (args.searchString.empty() || args.searchString == args.replacementString)
+	{
+		return CopyFile(inputFile, outputFile, error);
 	}
 
 	CopyFilesWithReplace(inputFile, outputFile, args.searchString, args.replacementString);
