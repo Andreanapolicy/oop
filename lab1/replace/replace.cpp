@@ -111,6 +111,7 @@ int main(int argc, char* argv[])
 	if (InitFiles(inputFile, outputFile, error))
 	{
 		std::cout << error.message << std::endl;
+		return 1;
 	}
 
 	if (args.searchString.empty() || args.searchString == args.replacementString)
