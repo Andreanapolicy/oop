@@ -85,6 +85,35 @@ int InitFiles(std::ifstream& inputFile, std::ofstream& outputFile, Error& error)
 	return 0;
 }
 
+int Replace(const std::string& inputPath, const std::string& outputPath, const std::string& searchString, const std::string& replacementString, Error& error)
+{
+	std::ifstream inputFile;
+	inputFile.open(inputPath);
+
+	std::ofstream outputFile;
+	outputFile.open(outputPath);
+
+	if (InitFiles(inputFile, outputFile, error))
+	{
+		return 1;
+	}
+
+	if (searchString.empty() || searchString == replacementString)
+	{
+		return CopyFile(inputFile, outputFile, error);
+	}
+
+	CopyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
+
+	if (!outputFile.flush())
+	{
+		return 1;
+	}
+
+	return 0;
+}
+
+
 int main(int argc, char* argv[])
 {
 	if (argc != 5)
@@ -100,29 +129,11 @@ int main(int argc, char* argv[])
 		argv[4],
 	};
 
-	std::ifstream inputFile;
-	inputFile.open(args.inputPath);
-
-	std::ofstream outputFile;
-	outputFile.open(args.outputPath);
-
 	Error error;
 
-	if (InitFiles(inputFile, outputFile, error))
+	if (Replace(args.inputPath, args.outputPath, args.searchString, args.replacementString, error))
 	{
 		std::cout << error.message << std::endl;
-		return 1;
-	}
-
-	if (args.searchString.empty() || args.searchString == args.replacementString)
-	{
-		return CopyFile(inputFile, outputFile, error);
-	}
-
-	CopyFilesWithReplace(inputFile, outputFile, args.searchString, args.replacementString);
-
-	if (!outputFile.flush())
-	{
 		return 1;
 	}
 
