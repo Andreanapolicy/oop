@@ -68,7 +68,7 @@ int CopyFile(std::ifstream& inputFile, std::ofstream& outputFile, Error& error)
 	return 0;
 }
 
-int InitArgs(std::ifstream& inputFile, std::ofstream& outputFile, const std::string& searchString, const std::string& replacementString, Error& error)
+int InitFiles(std::ifstream& inputFile, std::ofstream& outputFile, Error& error)
 {
 	if (!inputFile.is_open())
 	{
@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
 
 	Error error;
 
-	if (InitArgs(inputFile, outputFile, args.searchString, args.replacementString, error))
+	if (InitFiles(inputFile, outputFile, error))
 	{
 		std::cout << error.message << std::endl;
 	}
