@@ -1,7 +1,8 @@
+#include <string>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <stdexcept>
-#include <string>
 
 struct Args
 {
@@ -10,6 +11,16 @@ struct Args
 	std::string searchString;
 	std::string replacementString;
 };
+
+std::optional<Args> ParseArgs(int argc, char** argv)
+{
+	if (argc != 5)
+	{
+		return std::nullopt;
+	}
+
+	return { { argv[1], argv[2], argv[3], argv[4] } };
+}
 
 std::string ReplaceSubstring(const std::string& searchString, const std::string& replacementString, const std::string& line)
 {
@@ -112,22 +123,17 @@ void Replace(const std::string& inputPath, const std::string& outputPath, const 
 
 int main(int argc, char* argv[])
 {
-	if (argc != 5)
+	std::optional<Args> args = ParseArgs(argc, argv);
+
+	if (!args.has_value())
 	{
 		std::cout << "Wrond input. Params should be: copyfile.exe <input file name> <output file name> <search string> <replacement string>" << std::endl;
 		return 1;
 	}
 
-	struct Args args = {
-		argv[1],
-		argv[2],
-		argv[3],
-		argv[4],
-	};
-
 	try
 	{
-		Replace(args.inputPath, args.outputPath, args.searchString, args.replacementString);
+		Replace(args->inputPath, args->outputPath, args->searchString, args->replacementString);
 	}
 	catch (std::exception& error)
 	{
