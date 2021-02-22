@@ -1,4 +1,4 @@
-@echo off
+
 
 set PROGRAM="%~1"
 if %PROGRAM%=="" (
@@ -39,7 +39,7 @@ fc %CD%\tests\notepad-middle.output.txt %OUT% > %TEMPTRASH% || goto err
 
 
 echo Test passed
-exit /B 1
+exit /B 0
 
 :err
 echo Test failed

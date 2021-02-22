@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 struct Args
@@ -8,11 +9,6 @@ struct Args
 	std::string outputPath;
 	std::string searchString;
 	std::string replacementString;
-};
-
-struct Error
-{
-	std::string message;
 };
 
 std::string ReplaceSubstring(const std::string& searchString, const std::string& replacementString, const std::string& line)
@@ -24,7 +20,7 @@ std::string ReplaceSubstring(const std::string& searchString, const std::string&
 	{
 		size_t substringPos = line.find(searchString, cursorPos);
 		replacedString.append(line, cursorPos, substringPos - cursorPos);
-		
+
 		if (substringPos == std::string::npos)
 		{
 			break;
@@ -47,45 +43,37 @@ void CopyFilesWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, c
 	}
 }
 
-int CopyFile(std::ifstream& inputFile, std::ofstream& outputFile, Error& error)
+void CopyFile(std::ifstream& inputFile, std::ofstream& outputFile)
 {
 	char ch;
 	while (inputFile.get(ch))
 	{
 		if (!outputFile.put(ch))
 		{
-			error.message = "Failed to save copy";
-			return 1;
+			throw std::exception("Failed to save copy");
 		}
 	}
 
 	if (!outputFile.flush())
 	{
-		error.message = "Failed to copy data";
-		return 1;
+		throw std::exception("Failed to copy data");
 	}
-
-	return 0;
 }
 
-int InitFiles(std::ifstream& inputFile, std::ofstream& outputFile, Error& error)
+void InitFiles(std::ifstream& inputFile, std::ofstream& outputFile)
 {
 	if (!inputFile.is_open())
 	{
-		error.message = "Input file does not opened";
-		return 1;
+		throw std::exception("Input file does not opened");
 	}
 
 	if (!outputFile.is_open())
 	{
-		error.message = "Output file does not opened";
-		return 1;
+		throw std::exception("Output file does not opened");
 	}
-
-	return 0;
 }
 
-int Replace(const std::string& inputPath, const std::string& outputPath, const std::string& searchString, const std::string& replacementString, Error& error)
+void Replace(const std::string& inputPath, const std::string& outputPath, const std::string& searchString, const std::string& replacementString)
 {
 	std::ifstream inputFile;
 	inputFile.open(inputPath);
@@ -93,26 +81,34 @@ int Replace(const std::string& inputPath, const std::string& outputPath, const s
 	std::ofstream outputFile;
 	outputFile.open(outputPath);
 
-	if (InitFiles(inputFile, outputFile, error))
+	try
 	{
-		return 1;
+		InitFiles(inputFile, outputFile);
+	}
+	catch (std::exception& error)
+	{
+		throw std::exception(error.what());
 	}
 
 	if (searchString.empty() || searchString == replacementString)
 	{
-		return CopyFile(inputFile, outputFile, error);
+		try
+		{
+			CopyFile(inputFile, outputFile);
+		}
+		catch (std::exception& error)
+		{
+			throw std::exception(error.what());
+		}
 	}
 
 	CopyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
 
 	if (!outputFile.flush())
 	{
-		return 1;
+		throw std::exception("Output file is flush");
 	}
-
-	return 0;
 }
-
 
 int main(int argc, char* argv[])
 {
@@ -129,11 +125,13 @@ int main(int argc, char* argv[])
 		argv[4],
 	};
 
-	Error error;
-
-	if (Replace(args.inputPath, args.outputPath, args.searchString, args.replacementString, error))
+	try
 	{
-		std::cout << error.message << std::endl;
+		Replace(args.inputPath, args.outputPath, args.searchString, args.replacementString);
+	}
+	catch (std::exception& error)
+	{
+		std::cout << error.what() << std::endl;
 		return 1;
 	}
 
