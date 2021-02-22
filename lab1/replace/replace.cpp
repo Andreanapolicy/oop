@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 
 	if (!args.has_value())
 	{
-		std::cout << "Wrond input. Params should be: copyfile.exe <input file name> <output file name> <search string> <replacement string>" << std::endl;
+		std::cout << "Wrond input. Params should be: replace.exe <input file name> <output file name> <search string> <replacement string>" << std::endl;
 		return 1;
 	}
 
