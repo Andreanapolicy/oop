@@ -37,7 +37,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		sourceNotation = StringToInt(argv[1], 10);
 		if (sourceNotation > MAX_RADIX || sourceNotation < MIN_RADIX)
 		{
-			throw std::exception("radix is out of range");
+			throw std::exception("Radix is out of range");
 		}
 	}
 	catch (std::exception& error)
@@ -52,7 +52,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		destinationNotation = StringToInt(argv[2], 10);
 		if (destinationNotation > MAX_RADIX || destinationNotation < MIN_RADIX)
 		{
-			throw std::exception("radix is out of range");
+			throw std::exception("Radix is out of range");
 		}
 	}
 	catch (std::exception& error)
@@ -67,7 +67,7 @@ int StringToInt(const std::string& value, int radix)
 {
 	if (value.length() < 0)
 	{
-		throw std::exception("value is not valid");
+		throw std::exception("Value is not valid");
 	}
 
 	bool isNegative = false;
@@ -88,7 +88,7 @@ int StringToInt(const std::string& value, int radix)
 			digit = CharToInt(value[i], radix);
 			if (convertedString > ((INT_MAX - digit) / radix))
 			{
-				throw std::runtime_error("error: overflow while converting");
+				throw std::exception("Number is out of range");
 			}
 		}
 		catch (std::exception& error)
@@ -108,7 +108,7 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - '0' >= radix)
 		{
-			throw std::runtime_error("Wrong number");
+			throw std::exception("Wrong number");
 		}
 
 		return ch - '0';
@@ -118,13 +118,13 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - 'A' + 10 >= radix)
 		{
-			throw std::runtime_error("Wrong number");
+			throw std::exception("Wrong number");
 		}
 
 		return ch - 'A' + 10;
 	}
 
-	throw std::runtime_error("Wrong number");
+	throw std::exception("Wrong number");
 }
 
 bool isDigit(const char ch)
@@ -139,11 +139,6 @@ bool isLetter(const char ch)
 
 std::string ConvertNumber(const int sourceNotation, const int destinationNotation, const std::string& value)
 {
-	if (sourceNotation == destinationNotation)
-	{
-		return value;
-	}
-
 	std::string convertedNumber;
 
 	try
@@ -202,7 +197,7 @@ char IntToChar(int number, const int radix)
 {
 	if (number >= radix)
 	{
-		throw std::runtime_error("wrong number1");
+		throw std::exception("Wrong number");
 	}
 
 	if ((number >= 0) && (number <= 9))
@@ -215,7 +210,7 @@ char IntToChar(int number, const int radix)
 		return static_cast<char>('A' + (number - 10));
 	}
 
-	throw std::runtime_error("wrong number2");
+	throw std::exception("Wrong number");
 }
 
 int main(int argc, char* argv[])
