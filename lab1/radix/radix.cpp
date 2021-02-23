@@ -9,8 +9,8 @@
 
 int StringToInt(const std::string& value, int radix);
 int CharToInt(const char ch, const int radix);
-bool isDigit(const char ch);
-bool isLetter(const char ch);
+bool IsDigit(const char ch);
+bool IsLetter(const char ch);
 std::string ConvertNumber(const int sourceNotationString, const int destinationNotationString, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
@@ -104,7 +104,7 @@ int StringToInt(const std::string& value, int radix)
 
 int CharToInt(const char ch, const int radix)
 {
-	if (isDigit(ch))
+	if (IsDigit(ch))
 	{
 		if (ch - '0' >= radix)
 		{
@@ -114,7 +114,7 @@ int CharToInt(const char ch, const int radix)
 		return ch - '0';
 	}
 
-	if (isLetter(ch))
+	if (IsLetter(ch))
 	{
 		if (ch - 'A' + 10 >= radix)
 		{
@@ -127,12 +127,12 @@ int CharToInt(const char ch, const int radix)
 	throw std::exception("Wrong number");
 }
 
-bool isDigit(const char ch)
+bool IsDigit(const char ch)
 {
 	return ch >= '0' && ch <= '9';
 }
 
-bool isLetter(const char ch)
+bool IsLetter(const char ch)
 {
 	return ch >= 'A' && ch <= 'Z';
 }
