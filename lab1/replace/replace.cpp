@@ -1,8 +1,8 @@
-#include <string>
 #include <fstream>
 #include <iostream>
 #include <optional>
 #include <stdexcept>
+#include <string>
 
 struct Args
 {
@@ -61,13 +61,13 @@ void CopyFile(std::ifstream& inputFile, std::ofstream& outputFile)
 	{
 		if (!outputFile.put(ch))
 		{
-			throw std::exception("Failed to save copy");
+			throw std::runtime_error("Failed to save copy");
 		}
 	}
 
 	if (!outputFile.flush())
 	{
-		throw std::exception("Failed to copy data");
+		throw std::runtime_error("Failed to copy data");
 	}
 }
 
@@ -75,12 +75,12 @@ void InitFiles(std::ifstream& inputFile, std::ofstream& outputFile)
 {
 	if (!inputFile.is_open())
 	{
-		throw std::exception("Input file does not opened");
+		throw std::runtime_error("Input file does not opened");
 	}
 
 	if (!outputFile.is_open())
 	{
-		throw std::exception("Output file does not opened");
+		throw std::runtime_error("Output file does not opened");
 	}
 }
 
@@ -92,32 +92,18 @@ void Replace(const std::string& inputPath, const std::string& outputPath, const 
 	std::ofstream outputFile;
 	outputFile.open(outputPath);
 
-	try
-	{
-		InitFiles(inputFile, outputFile);
-	}
-	catch (std::exception& error)
-	{
-		throw std::exception(error.what());
-	}
+	InitFiles(inputFile, outputFile);
 
 	if (searchString.empty() || searchString == replacementString)
 	{
-		try
-		{
-			CopyFile(inputFile, outputFile);
-		}
-		catch (std::exception& error)
-		{
-			throw std::exception(error.what());
-		}
+		CopyFile(inputFile, outputFile);
 	}
 
 	CopyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
 
 	if (!outputFile.flush())
 	{
-		throw std::exception("Output file is flush");
+		throw std::runtime_error("Output file is flush");
 	}
 }
 
@@ -135,7 +121,7 @@ int main(int argc, char* argv[])
 	{
 		Replace(args->inputPath, args->outputPath, args->searchString, args->replacementString);
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << error.what() << std::endl;
 		return 1;
