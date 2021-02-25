@@ -47,17 +47,10 @@ void GetMatrix(std::string& inputPath, Matrix& matrix)
 
 	if (!inputFile.is_open())
 	{
-		throw std::exception("Input file does not open");
+		throw std::runtime_error("Input file does not open");
 	}
 
-	try
-	{
-		ReadMatrix(inputFile, matrix);
-	}
-	catch (std::exception& error)
-	{
-		throw std::exception(error.what());
-	}
+	ReadMatrix(inputFile, matrix);
 }
 
 void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
@@ -69,7 +62,7 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 		{
 			if (!(inputFile >> number) && IsNumber(number))
 			{
-				throw std::exception("Wrong matrix");
+				throw std::runtime_error("Wrong matrix");
 			}
 
 			matrix[matrixRow][matrixColumn] = number;
@@ -95,7 +88,7 @@ void InvertMatrix(Matrix& matrix, Matrix& invertedMatrix)
 	double determinant = GetDeterminant(matrix);
 	if (determinant == 0)
 	{
-		throw std::exception("There is no inverse matrix. Determinant is 0");
+		throw std::runtime_error("There is no inverse matrix. Determinant is 0");
 	}
 
 	Matrix complementMatrix;
@@ -155,29 +148,21 @@ int main(int argc, char* argv[])
 	try
 	{
 		args = ParseArgs(argc, argv);
-	}
-	catch (std::exception& error)
-	{
-		std::cout << error.what() << std::endl;
-		return 1;
-	}
 
-	if (!args.has_value())
-	{
-		std::cout << "Wrond input. Params should be: radix.exe <matrix file>" << std::endl;
-		return 1;
-	}
+		if (!args.has_value())
+		{
+			std::cout << "Wrond input. Params should be: radix.exe <matrix file>" << std::endl;
+			return 1;
+		}
 
-	Matrix matrix;
-	Matrix invertedMatrix;
+		Matrix matrix;
+		Matrix invertedMatrix;
 
-	try
-	{
 		GetMatrix(args->inputPath, matrix);
 		InvertMatrix(matrix, invertedMatrix);
 		OutputMatrix(invertedMatrix);
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << error.what() << std::endl;
 		return 1;
