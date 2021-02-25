@@ -1,9 +1,9 @@
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include <iomanip>
 
 #define MATRIX_ROW 3
 #define MATRIX_COLUMN 3
@@ -110,12 +110,7 @@ void InvertMatrix(Matrix& matrix, Matrix& invertedMatrix)
 
 double GetDeterminant(Matrix& matrix)
 {
-	return matrix[0][0] * matrix[1][1] * matrix[2][2] + 
-		matrix[0][1] * matrix[1][2] * matrix[2][0] +
-		matrix[0][2] * matrix[1][0] * matrix[2][1] - 
-		matrix[0][2] * matrix[1][1] * matrix[2][0] - 
-		matrix[0][1] * matrix[1][0] * matrix[2][2] - 
-		matrix[0][0] * matrix[1][2] * matrix[2][1];
+	return matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0] - matrix[0][1] * matrix[1][0] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1];
 }
 
 void TransposeMatrix(Matrix& matrix, Matrix& transposedMatrix)
