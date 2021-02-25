@@ -76,7 +76,7 @@ int StringToInt(const std::string& value, int radix)
 		isNegative = true;
 	}
 
-	int convertedString = 0;
+	int convertedNumber = 0;
 
 	for (int i = isNegative ? 1 : 0; i < static_cast<int>(value.length()); i++)
 	{
@@ -85,7 +85,7 @@ int StringToInt(const std::string& value, int radix)
 		try
 		{
 			digit = CharToInt(value[i], radix);
-			if (convertedString > ((INT_MAX - digit) / radix))
+			if (convertedNumber > ((INT_MAX - digit) / radix))
 			{
 				throw std::exception("Number is out of range");
 			}
@@ -95,10 +95,10 @@ int StringToInt(const std::string& value, int radix)
 			throw std::exception(error.what());
 		}
 
-		convertedString = convertedString * radix + digit;
+		convertedNumber = convertedNumber * radix + digit;
 	}
 
-	return isNegative ? -convertedString : convertedString;
+	return isNegative ? -convertedNumber : convertedNumber;
 }
 
 int CharToInt(const char ch, const int radix)
@@ -166,13 +166,13 @@ std::string IntToString(int number, const int radix)
 		number = -number;
 	}
 
-	std::string convertedInt = "";
+	std::string convertedNumber = "";
 
 	while (number > 0)
 	{
 		try
 		{
-			convertedInt = convertedInt + IntToChar(number % radix, radix);
+			convertedNumber = convertedNumber + IntToChar(number % radix, radix);
 		}
 		catch (std::exception& error)
 		{
@@ -184,12 +184,12 @@ std::string IntToString(int number, const int radix)
 
 	if (isNegative)
 	{
-		convertedInt = convertedInt + '-';
+		convertedNumber = convertedNumber + '-';
 	}
 
-	std::reverse(convertedInt.begin(), convertedInt.end());
+	std::reverse(convertedNumber.begin(), convertedNumber.end());
 
-	return convertedInt;
+	return convertedNumber;
 }
 
 char IntToChar(int number, const int radix)
