@@ -15,7 +15,6 @@ std::string ConvertNumber(const int sourceNotationString, const int destinationN
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
 
-
 struct Args
 {
 	int sourceNotation;
@@ -233,7 +232,7 @@ int main(int argc, char* argv[])
 		std::cout << "Wrond input. Params should be: radix.exe <source notation> <destination notation> <value>" << std::endl;
 		return 1;
 	}
-	
+
 	try
 	{
 		convertedNumber = ConvertNumber(args->sourceNotation, args->destinationNotation, args->value);
