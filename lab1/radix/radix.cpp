@@ -44,7 +44,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	{
 		throw std::overflow_error("Radix is out of range");
 	}
-	
+
 	return { { sourceNotation, destinationNotation, argv[3] } };
 }
 
@@ -141,8 +141,8 @@ std::string IntToString(int number, const int radix)
 	std::string convertedNumber = "";
 
 	while (number > 0)
-	{		
-		convertedNumber = convertedNumber + IntToChar(number % radix, radix);		
+	{
+		convertedNumber = convertedNumber + IntToChar(number % radix, radix);
 		number = number / radix;
 	}
 
