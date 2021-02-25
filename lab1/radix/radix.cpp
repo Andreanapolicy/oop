@@ -31,34 +31,20 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	int sourceNotation;
 
-	try
+	sourceNotation = StringToInt(argv[1], 10);
+	if (sourceNotation > MAX_RADIX || sourceNotation < MIN_RADIX)
 	{
-		sourceNotation = StringToInt(argv[1], 10);
-		if (sourceNotation > MAX_RADIX || sourceNotation < MIN_RADIX)
-		{
-			throw std::exception("Radix is out of range");
-		}
-	}
-	catch (std::exception& error)
-	{
-		throw std::exception(error.what());
+		throw std::overflow_error("Radix is out of range");
 	}
 
 	int destinationNotation;
 
-	try
+	destinationNotation = StringToInt(argv[2], 10);
+	if (destinationNotation > MAX_RADIX || destinationNotation < MIN_RADIX)
 	{
-		destinationNotation = StringToInt(argv[2], 10);
-		if (destinationNotation > MAX_RADIX || destinationNotation < MIN_RADIX)
-		{
-			throw std::exception("Radix is out of range");
-		}
+		throw std::overflow_error("Radix is out of range");
 	}
-	catch (std::exception& error)
-	{
-		throw std::exception(error.what());
-	}
-
+	
 	return { { sourceNotation, destinationNotation, argv[3] } };
 }
 
@@ -66,7 +52,7 @@ int StringToInt(const std::string& value, int radix)
 {
 	if (value.length() < 0)
 	{
-		throw std::exception("Value is not valid");
+		throw std::overflow_error("Value is not valid");
 	}
 
 	bool isNegative = false;
@@ -82,17 +68,10 @@ int StringToInt(const std::string& value, int radix)
 	{
 		int digit = 0;
 
-		try
+		digit = CharToInt(value[i], radix);
+		if (convertedNumber > ((INT_MAX - digit + isNegative) / radix))
 		{
-			digit = CharToInt(value[i], radix);
-			if (convertedNumber > ((INT_MAX - digit) / radix))
-			{
-				throw std::exception("Number is out of range");
-			}
-		}
-		catch (std::exception& error)
-		{
-			throw std::exception(error.what());
+			throw std::overflow_error("Number is out of range");
 		}
 
 		convertedNumber = convertedNumber * radix + digit;
@@ -107,7 +86,7 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - '0' >= radix)
 		{
-			throw std::exception("Wrong number");
+			throw std::runtime_error("Wrong number");
 		}
 
 		return ch - '0';
@@ -117,13 +96,13 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - 'A' + 10 >= radix)
 		{
-			throw std::exception("Wrong number");
+			throw std::runtime_error("Wrong number");
 		}
 
 		return ch - 'A' + 10;
 	}
 
-	throw std::exception("Wrong number");
+	throw std::runtime_error("Wrong number");
 }
 
 bool IsDigit(const char ch)
@@ -140,14 +119,7 @@ std::string ConvertNumber(const int sourceNotation, const int destinationNotatio
 {
 	std::string convertedNumber;
 
-	try
-	{
-		convertedNumber = IntToString(StringToInt(value, sourceNotation), destinationNotation);
-	}
-	catch (std::exception& error)
-	{
-		throw std::exception(error.what());
-	}
+	convertedNumber = IntToString(StringToInt(value, sourceNotation), destinationNotation);
 
 	return convertedNumber;
 }
@@ -169,16 +141,8 @@ std::string IntToString(int number, const int radix)
 	std::string convertedNumber = "";
 
 	while (number > 0)
-	{
-		try
-		{
-			convertedNumber = convertedNumber + IntToChar(number % radix, radix);
-		}
-		catch (std::exception& error)
-		{
-			throw std::exception(error.what());
-		}
-
+	{		
+		convertedNumber = convertedNumber + IntToChar(number % radix, radix);		
 		number = number / radix;
 	}
 
@@ -196,7 +160,7 @@ char IntToChar(int number, const int radix)
 {
 	if (number >= radix)
 	{
-		throw std::exception("Wrong number");
+		throw std::runtime_error("Wrong number");
 	}
 
 	if ((number >= 0) && (number <= 9))
@@ -209,7 +173,7 @@ char IntToChar(int number, const int radix)
 		return static_cast<char>('A' + (number - 10));
 	}
 
-	throw std::exception("Wrong number");
+	throw std::runtime_error("Wrong number");
 }
 
 int main(int argc, char* argv[])
@@ -220,30 +184,22 @@ int main(int argc, char* argv[])
 	try
 	{
 		args = ParseArgs(argc, argv);
-	}
-	catch (std::exception& error)
-	{
-		std::cout << error.what() << std::endl;
-		return 1;
-	}
 
-	if (!args.has_value())
-	{
-		std::cout << "Wrond input. Params should be: radix.exe <source notation> <destination notation> <value>" << std::endl;
-		return 1;
-	}
+		if (!args.has_value())
+		{
+			std::cout << "Wrond input. Params should be: radix.exe <source notation> <destination notation> <value>" << std::endl;
+			return 1;
+		}
 
-	try
-	{
 		convertedNumber = ConvertNumber(args->sourceNotation, args->destinationNotation, args->value);
+
+		std::cout << convertedNumber << std::endl;
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << error.what() << std::endl;
 		return 1;
 	}
-
-	std::cout << convertedNumber << std::endl;
 
 	return 0;
 }
