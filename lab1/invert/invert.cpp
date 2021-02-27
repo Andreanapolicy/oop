@@ -47,7 +47,7 @@ void GetMatrix(std::string& inputPath, Matrix& matrix)
 
 	if (!inputFile.is_open())
 	{
-		throw std::runtime_error("Input file does not open");
+		throw std::invalid_argument("Input file does not open");
 	}
 
 	ReadMatrix(inputFile, matrix);
@@ -62,7 +62,7 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 		{
 			if (!(inputFile >> number) && IsNumber(number))
 			{
-				throw std::runtime_error("Wrong matrix");
+				throw std::invalid_argument("Wrong matrix");
 			}
 
 			matrix[matrixRow][matrixColumn] = number;

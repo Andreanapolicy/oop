@@ -2,6 +2,7 @@
 #include <iostream>
 #include <optional>
 #include <stdexcept>
+#include <stdlib.h>
 #include <string>
 
 #define MAX_RADIX 36
@@ -14,6 +15,8 @@ bool IsLetter(const char ch);
 std::string ConvertNumber(const int sourceNotationString, const int destinationNotationString, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
+int IncreaseDegitOfNegativeNumber(int convertedNumber, int digit, int radix);
+int IncreaseDegitOfPositivNumber(int convertedNumber, int digit, int radix);
 
 struct Args
 {
@@ -34,7 +37,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	sourceNotation = StringToInt(argv[1], 10);
 	if (sourceNotation > MAX_RADIX || sourceNotation < MIN_RADIX)
 	{
-		throw std::overflow_error("Radix is out of range");
+		throw std::invalid_argument("Radix is out of range");
 	}
 
 	int destinationNotation;
@@ -42,7 +45,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	destinationNotation = StringToInt(argv[2], 10);
 	if (destinationNotation > MAX_RADIX || destinationNotation < MIN_RADIX)
 	{
-		throw std::overflow_error("Radix is out of range");
+		throw std::invalid_argument("Radix is out of range");
 	}
 
 	return { { sourceNotation, destinationNotation, argv[3] } };
@@ -50,11 +53,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 int StringToInt(const std::string& value, int radix)
 {
-	if (value.length() < 0)
-	{
-		throw std::overflow_error("Value is not valid");
-	}
-
 	bool isNegative = false;
 
 	if (value[0] == '-')
@@ -69,15 +67,38 @@ int StringToInt(const std::string& value, int radix)
 		int digit = 0;
 
 		digit = CharToInt(value[i], radix);
-		if (convertedNumber > ((INT_MAX - digit + isNegative) / radix))
-		{
-			throw std::overflow_error("Number is out of range");
-		}
 
-		convertedNumber = convertedNumber * radix + digit;
+		if (isNegative)
+		{
+			convertedNumber = IncreaseDegitOfNegativeNumber(convertedNumber, digit, radix);
+		}
+		else
+		{
+			convertedNumber = IncreaseDegitOfPositivNumber(convertedNumber, digit, radix);
+		}
 	}
 
-	return isNegative ? -convertedNumber : convertedNumber;
+	return convertedNumber;
+}
+
+int IncreaseDegitOfPositivNumber(int convertedNumber, int digit, int radix)
+{
+	if (convertedNumber > ((INT_MAX - digit) / radix))
+	{
+		throw std::overflow_error("Number is out of range");
+	}
+
+	return convertedNumber * radix + digit;
+}
+
+int IncreaseDegitOfNegativeNumber(int convertedNumber, int digit, int radix)
+{
+	if (convertedNumber < ((INT_MIN + digit) / radix))
+	{
+		throw std::overflow_error("Number is out of range");
+	}
+
+	return convertedNumber * radix - digit;
 }
 
 int CharToInt(const char ch, const int radix)
@@ -86,7 +107,7 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - '0' >= radix)
 		{
-			throw std::runtime_error("Wrong number");
+			throw std::invalid_argument("Wrong number");
 		}
 
 		return ch - '0';
@@ -96,13 +117,13 @@ int CharToInt(const char ch, const int radix)
 	{
 		if (ch - 'A' + 10 >= radix)
 		{
-			throw std::runtime_error("Wrong number");
+			throw std::invalid_argument("Wrong number");
 		}
 
 		return ch - 'A' + 10;
 	}
 
-	throw std::runtime_error("Wrong number");
+	throw std::invalid_argument("Wrong number");
 }
 
 bool IsDigit(const char ch)
@@ -135,14 +156,13 @@ std::string IntToString(int number, const int radix)
 	if (number < 0)
 	{
 		isNegative = true;
-		number = -number;
 	}
 
-	std::string convertedNumber = "";
+	std::string convertedNumber;
 
-	while (number > 0)
+	while (number != 0)
 	{
-		convertedNumber = convertedNumber + IntToChar(number % radix, radix);
+		convertedNumber = convertedNumber + IntToChar(abs(number % radix), radix);
 		number = number / radix;
 	}
 
@@ -160,7 +180,7 @@ char IntToChar(int number, const int radix)
 {
 	if (number >= radix)
 	{
-		throw std::runtime_error("Wrong number");
+		throw std::invalid_argument("Wrong number");
 	}
 
 	if ((number >= 0) && (number <= 9))
@@ -173,7 +193,7 @@ char IntToChar(int number, const int radix)
 		return static_cast<char>('A' + (number - 10));
 	}
 
-	throw std::runtime_error("Wrong number");
+	throw std::invalid_argument("Wrong number");
 }
 
 int main(int argc, char* argv[])
