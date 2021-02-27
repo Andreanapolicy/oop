@@ -64,23 +64,18 @@ void CopyFile(std::ifstream& inputFile, std::ofstream& outputFile)
 			throw std::runtime_error("Failed to save copy");
 		}
 	}
-
-	if (!outputFile.flush())
-	{
-		throw std::runtime_error("Failed to copy data");
-	}
 }
 
 void InitFiles(std::ifstream& inputFile, std::ofstream& outputFile)
 {
 	if (!inputFile.is_open())
 	{
-		throw std::runtime_error("Input file does not opened");
+		throw std::invalid_argument("Input file does not opened");
 	}
 
 	if (!outputFile.is_open())
 	{
-		throw std::runtime_error("Output file does not opened");
+		throw std::invalid_argument("Output file does not opened");
 	}
 }
 
@@ -98,12 +93,14 @@ void Replace(const std::string& inputPath, const std::string& outputPath, const 
 	{
 		CopyFile(inputFile, outputFile);
 	}
-
-	CopyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
+	else
+	{
+		CopyFilesWithReplace(inputFile, outputFile, searchString, replacementString);
+	}
 
 	if (!outputFile.flush())
 	{
-		throw std::runtime_error("Output file is flush");
+		throw std::invalid_argument("Output file is flush");
 	}
 }
 
