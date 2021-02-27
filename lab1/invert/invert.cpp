@@ -145,16 +145,15 @@ int main(int argc, char* argv[])
 {
 	std::optional<Args> args;
 
+	args = ParseArgs(argc, argv);
+	if (!args.has_value())
+	{
+		std::cout << "Wrond input. Params should be: radix.exe <matrix file>" << std::endl;
+		return 1;
+	}
+
 	try
 	{
-		args = ParseArgs(argc, argv);
-
-		if (!args.has_value())
-		{
-			std::cout << "Wrond input. Params should be: radix.exe <matrix file>" << std::endl;
-			return 1;
-		}
-
 		Matrix matrix;
 		Matrix invertedMatrix;
 
