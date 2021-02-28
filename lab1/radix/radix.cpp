@@ -15,8 +15,8 @@ bool IsLetter(const char ch);
 std::string ConvertNumber(const int sourceNotationString, const int destinationNotationString, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
-int IncreaseDegitOfNegativeNumber(int convertedNumber, int digit, int radix);
-int IncreaseDegitOfPositivNumber(int convertedNumber, int digit, int radix);
+int IncreaseBitDepthOfNegativeNumber(int convertedNumber, int digit, int radix);
+int IncreaseBitDepthOfPositivNumber(int convertedNumber, int digit, int radix);
 
 struct Args
 {
@@ -32,17 +32,15 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		return std::nullopt;
 	}
 
-	int sourceNotation;
+	int sourceNotation = StringToInt(argv[1], 10);
 
-	sourceNotation = StringToInt(argv[1], 10);
 	if (sourceNotation > MAX_RADIX || sourceNotation < MIN_RADIX)
 	{
 		throw std::invalid_argument("Radix is out of range");
 	}
 
-	int destinationNotation;
+	int destinationNotation = StringToInt(argv[2], 10);
 
-	destinationNotation = StringToInt(argv[2], 10);
 	if (destinationNotation > MAX_RADIX || destinationNotation < MIN_RADIX)
 	{
 		throw std::invalid_argument("Radix is out of range");
@@ -61,27 +59,26 @@ int StringToInt(const std::string& value, int radix)
 	}
 
 	int convertedNumber = 0;
+	int digit = 0;
 
 	for (int i = isNegative ? 1 : 0; i < static_cast<int>(value.length()); i++)
 	{
-		int digit = 0;
-
 		digit = CharToInt(value[i], radix);
 
 		if (isNegative)
 		{
-			convertedNumber = IncreaseDegitOfNegativeNumber(convertedNumber, digit, radix);
+			convertedNumber = IncreaseBitDepthOfNegativeNumber(convertedNumber, digit, radix);
 		}
 		else
 		{
-			convertedNumber = IncreaseDegitOfPositivNumber(convertedNumber, digit, radix);
+			convertedNumber = IncreaseBitDepthOfPositivNumber(convertedNumber, digit, radix);
 		}
 	}
 
 	return convertedNumber;
 }
 
-int IncreaseDegitOfPositivNumber(int convertedNumber, int digit, int radix)
+int IncreaseBitDepthOfPositivNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber > ((INT_MAX - digit) / radix))
 	{
@@ -91,7 +88,7 @@ int IncreaseDegitOfPositivNumber(int convertedNumber, int digit, int radix)
 	return convertedNumber * radix + digit;
 }
 
-int IncreaseDegitOfNegativeNumber(int convertedNumber, int digit, int radix)
+int IncreaseBitDepthOfNegativeNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber < ((INT_MIN + digit) / radix))
 	{
@@ -138,9 +135,7 @@ bool IsLetter(const char ch)
 
 std::string ConvertNumber(const int sourceNotation, const int destinationNotation, const std::string& value)
 {
-	std::string convertedNumber;
-
-	convertedNumber = IntToString(StringToInt(value, sourceNotation), destinationNotation);
+	std::string convertedNumber = IntToString(StringToInt(value, sourceNotation), destinationNotation);
 
 	return convertedNumber;
 }

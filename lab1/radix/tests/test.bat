@@ -42,6 +42,12 @@ fc %CD%\tests\numbers.output.txt %OUT% > %TEMPTRASH% || goto err
                                                          
 %PROGRAM% 2 36 11011100000110 > %OUT%
 fc %CD%\tests\letters.output.txt %OUT% > %TEMPTRASH% || goto err
+
+%PROGRAM% 16 10 -80000000 > %OUT%
+fc %CD%\tests\int_min.output.txt %OUT% > %TEMPTRASH% || goto err
+
+%PROGRAM% 16 10 7FFFFFFF > %OUT%
+fc %CD%\tests\int_max.output.txt %OUT% > %TEMPTRASH% || goto err
                                                                
 echo Test passed
 exit /B 0
