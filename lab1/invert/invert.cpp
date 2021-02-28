@@ -12,12 +12,12 @@ typedef double Matrix[MATRIX_ROW][MATRIX_COLUMN];
 
 void GetMatrix(std::string& inputPath, Matrix& matrix);
 void ReadMatrix(std::ifstream& inputFile, Matrix& matrix);
-void OutputMatrix(Matrix& matrix);
-void InvertMatrix(Matrix& matrix, Matrix& invertedMatrix);
-double GetDeterminant(Matrix& matrix);
-void TransposeMatrix(Matrix& matrix, Matrix& transposedMatrix);
-void Get—omplementMatrix(Matrix& matrix, Matrix& complementMatrix);
-void MultiplyMatrixAndNumber(Matrix& matrix, double number, Matrix& resultMatrix);
+void OutputMatrix(const Matrix& matrix);
+void InvertMatrix(const Matrix& matrix, Matrix& invertedMatrix);
+double GetDeterminant(const Matrix& matrix);
+void TransposeMatrix(const Matrix& matrix, Matrix& transposedMatrix);
+void Get—omplementMatrix(const Matrix& matrix, Matrix& complementMatrix);
+void MultiplyMatrixAndNumber(const Matrix& matrix, double number, Matrix& resultMatrix);
 
 struct Args
 {
@@ -64,7 +64,7 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 	}
 }
 
-void OutputMatrix(Matrix& matrix)
+void OutputMatrix(const Matrix& matrix)
 {
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
@@ -77,7 +77,7 @@ void OutputMatrix(Matrix& matrix)
 	}
 }
 
-void InvertMatrix(Matrix& matrix, Matrix& invertedMatrix)
+void InvertMatrix(const Matrix& matrix, Matrix& invertedMatrix)
 {
 	double determinant = GetDeterminant(matrix);
 	if (determinant == 0)
@@ -95,12 +95,12 @@ void InvertMatrix(Matrix& matrix, Matrix& invertedMatrix)
 	MultiplyMatrixAndNumber(transposedMatrix, 1 / (determinant), invertedMatrix);
 }
 
-double GetDeterminant(Matrix& matrix)
+double GetDeterminant(const Matrix& matrix)
 {
 	return matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0] - matrix[0][1] * matrix[1][0] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1];
 }
 
-void TransposeMatrix(Matrix& matrix, Matrix& transposedMatrix)
+void TransposeMatrix(const Matrix& matrix, Matrix& transposedMatrix)
 {
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
@@ -111,7 +111,7 @@ void TransposeMatrix(Matrix& matrix, Matrix& transposedMatrix)
 	}
 }
 
-void Get—omplementMatrix(Matrix& matrix, Matrix& complementMatrix)
+void Get—omplementMatrix(const Matrix& matrix, Matrix& complementMatrix)
 {
 	double minor;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
@@ -124,7 +124,7 @@ void Get—omplementMatrix(Matrix& matrix, Matrix& complementMatrix)
 	}
 }
 
-void MultiplyMatrixAndNumber(Matrix& matrix, double number, Matrix& resultMatrix)
+void MultiplyMatrixAndNumber(const Matrix& matrix, double number, Matrix& resultMatrix)
 {
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
