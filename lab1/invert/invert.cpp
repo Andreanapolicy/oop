@@ -10,7 +10,6 @@
 
 typedef double Matrix[MATRIX_ROW][MATRIX_COLUMN];
 
-bool IsNumber(const double ch);
 void GetMatrix(std::string& inputPath, Matrix& matrix);
 void ReadMatrix(std::ifstream& inputFile, Matrix& matrix);
 void OutputMatrix(Matrix& matrix);
@@ -35,11 +34,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return { { argv[1] } };
 }
 
-bool IsNumber(const double ch)
-{
-	return ch >= 0 && ch <= 9;
-}
-
 void GetMatrix(std::string& inputPath, Matrix& matrix)
 {
 	std::ifstream inputFile;
@@ -52,7 +46,7 @@ void GetMatrix(std::string& inputPath, Matrix& matrix)
 
 	ReadMatrix(inputFile, matrix);
 }
-
+ 
 void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 {
 	double number;
@@ -60,7 +54,7 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
 		{
-			if (!(inputFile >> number) && IsNumber(number))
+			if (!(inputFile >> number))
 			{
 				throw std::invalid_argument("Wrong matrix");
 			}
@@ -154,8 +148,7 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		Matrix matrix;
-		Matrix invertedMatrix;
+		Matrix matrix, invertedMatrix;
 
 		GetMatrix(args->inputPath, matrix);
 		InvertMatrix(matrix, invertedMatrix);

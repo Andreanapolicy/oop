@@ -18,6 +18,9 @@ fc %CD%\tests\wrongCountParams.output.txt %OUT% > %TEMPTRASH% || goto err
 
 %PROGRAM% %CD%\tests\determinant0.input.txt > %OUT%
 fc %CD%\tests\determinant0.output.txt %OUT% > %TEMPTRASH% || goto err
+
+%PROGRAM% %CD%\tests\letters.input.txt > %OUT%
+fc %CD%\tests\wrongMatrix.output.txt %OUT% > %TEMPTRASH% || goto err
                                                                         
 %PROGRAM% %CD%\tests\usual.input.txt > %OUT%
 fc %CD%\tests\usual.output.txt %OUT% > %TEMPTRASH% || goto err
