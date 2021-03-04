@@ -16,7 +16,7 @@ std::string ConvertNumber(const int sourceNotationString, const int destinationN
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
 int IncreaseNegativeNumber(int convertedNumber, int digit, int radix);
-int IncreasePositivNumber(int convertedNumber, int digit, int radix);
+int IncreasePositiveNumber(int convertedNumber, int digit, int radix);
 
 struct Args
 {
@@ -71,14 +71,14 @@ int StringToInt(const std::string& value, int radix)
 		}
 		else
 		{
-			convertedNumber = IncreasePositivNumber(convertedNumber, digit, radix);
+			convertedNumber = IncreasePositiveNumber(convertedNumber, digit, radix);
 		}
 	}
 
 	return convertedNumber;
 }
 
-int IncreasePositivNumber(int convertedNumber, int digit, int radix)
+int IncreasePositiveNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber > ((INT_MAX - digit) / radix))
 	{
