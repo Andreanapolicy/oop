@@ -128,7 +128,7 @@ double GetDeterminant(const Matrix& matrix)
 
 std::optional<Matrix> TransposeMatrix(const Matrix& matrix)
 {
-	Matrix transposedMatrix = {};
+	Matrix transposedMatrix;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
@@ -142,7 +142,7 @@ std::optional<Matrix> TransposeMatrix(const Matrix& matrix)
 
 std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix)
 {
-	Matrix complementMatrix = {};
+	Matrix complementMatrix;
 	double minor;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
@@ -158,7 +158,7 @@ std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix)
 
 std::optional<Matrix> MultiplyMatrixAndNumber(const Matrix& matrix, double number)
 {
-	Matrix resultMatrix = {};
+	Matrix resultMatrix;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
