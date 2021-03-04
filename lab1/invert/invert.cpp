@@ -1,3 +1,4 @@
+#include <array>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -8,16 +9,16 @@
 #define MATRIX_ROW 3
 #define MATRIX_COLUMN 3
 
-typedef double Matrix[MATRIX_ROW][MATRIX_COLUMN];
+typedef std::array<std::array<double, MATRIX_ROW>, MATRIX_COLUMN> Matrix;
 
-void GetMatrix(std::string& inputPath, Matrix& matrix);
-void ReadMatrix(std::ifstream& inputFile, Matrix& matrix);
+std::optional<Matrix> GetMatrix(const std::string& inputPath);
+std::optional<Matrix> ReadMatrix(std::ifstream& inputFile);
 void OutputMatrix(const Matrix& matrix);
-void InvertMatrix(const Matrix& matrix, Matrix& invertedMatrix);
+std::optional<Matrix> InvertMatrix(const Matrix& matrix);
 double GetDeterminant(const Matrix& matrix);
-void TransposeMatrix(const Matrix& matrix, Matrix& transposedMatrix);
-void Get—omplementMatrix(const Matrix& matrix, Matrix& complementMatrix);
-void MultiplyMatrixAndNumber(const Matrix& matrix, double number, Matrix& resultMatrix);
+std::optional<Matrix> TransposeMatrix(const Matrix& matrix);
+std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix);
+std::optional<Matrix> MultiplyMatrixAndNumber(const Matrix& matrix, double number);
 
 struct Args
 {
@@ -34,7 +35,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return { { argv[1] } };
 }
 
-void GetMatrix(std::string& inputPath, Matrix& matrix)
+std::optional<Matrix> GetMatrix(const std::string& inputPath)
 {
 	std::ifstream inputFile;
 	inputFile.open(inputPath);
@@ -44,11 +45,20 @@ void GetMatrix(std::string& inputPath, Matrix& matrix)
 		throw std::invalid_argument("Input file does not open");
 	}
 
-	ReadMatrix(inputFile, matrix);
+	auto matrix = ReadMatrix(inputFile);
+
+	if (!matrix.has_value())
+	{
+		throw std::invalid_argument("There is no matrix");
+	}
+
+	return { matrix };
 }
  
-void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
+std::optional<Matrix> ReadMatrix(std::ifstream& inputFile)
 {
+	Matrix matrix;
+
 	double number;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
@@ -62,6 +72,8 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 			matrix[matrixRow][matrixColumn] = number;
 		}
 	}
+
+	return { matrix };
 }
 
 void OutputMatrix(const Matrix& matrix)
@@ -77,7 +89,7 @@ void OutputMatrix(const Matrix& matrix)
 	}
 }
 
-void InvertMatrix(const Matrix& matrix, Matrix& invertedMatrix)
+std::optional<Matrix> InvertMatrix(const Matrix& matrix)
 {
 	double determinant = GetDeterminant(matrix);
 	if (determinant == 0)
@@ -85,14 +97,28 @@ void InvertMatrix(const Matrix& matrix, Matrix& invertedMatrix)
 		throw std::runtime_error("There is no inverse matrix. Determinant is 0");
 	}
 
-	Matrix complementMatrix;
+	auto complementMatrix = Get—omplementMatrix(matrix);
 
-	Get—omplementMatrix(matrix, complementMatrix);
+	if (!complementMatrix.has_value())
+	{
+		throw std::runtime_error("There is no complement matrix.");
+	}
 
-	Matrix transposedMatrix;
-	TransposeMatrix(complementMatrix, transposedMatrix);
+	auto transposedMatrix = TransposeMatrix(complementMatrix.value());
 
-	MultiplyMatrixAndNumber(transposedMatrix, 1 / (determinant), invertedMatrix);
+	if (!transposedMatrix.has_value())
+	{
+		throw std::runtime_error("There is no transposed matrix.");
+	}
+
+	auto invertedMatrix = MultiplyMatrixAndNumber(transposedMatrix.value(), 1 / (determinant));
+
+	if (!invertedMatrix.has_value())
+	{
+		throw std::runtime_error("There is no inverted matrix.");
+	}
+
+	return { invertedMatrix };
 }
 
 double GetDeterminant(const Matrix& matrix)
@@ -100,8 +126,9 @@ double GetDeterminant(const Matrix& matrix)
 	return matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0] - matrix[0][1] * matrix[1][0] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1];
 }
 
-void TransposeMatrix(const Matrix& matrix, Matrix& transposedMatrix)
+std::optional<Matrix> TransposeMatrix(const Matrix& matrix)
 {
+	Matrix transposedMatrix = {};
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
@@ -109,10 +136,13 @@ void TransposeMatrix(const Matrix& matrix, Matrix& transposedMatrix)
 			transposedMatrix[matrixRow][matrixColumn] = matrix[matrixColumn][matrixRow];
 		}
 	}
+
+	return { transposedMatrix };
 }
 
-void Get—omplementMatrix(const Matrix& matrix, Matrix& complementMatrix)
+std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix)
 {
+	Matrix complementMatrix = {};
 	double minor;
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
@@ -122,10 +152,13 @@ void Get—omplementMatrix(const Matrix& matrix, Matrix& complementMatrix)
 			complementMatrix[(matrixRow + 2) % 3][(matrixColumn + 2) % 3] = minor;
 		}
 	}
+
+	return { complementMatrix };
 }
 
-void MultiplyMatrixAndNumber(const Matrix& matrix, double number, Matrix& resultMatrix)
+std::optional<Matrix> MultiplyMatrixAndNumber(const Matrix& matrix, double number)
 {
+	Matrix resultMatrix = {};
 	for (int matrixRow = 0; matrixRow < MATRIX_ROW; matrixRow++)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
@@ -133,6 +166,8 @@ void MultiplyMatrixAndNumber(const Matrix& matrix, double number, Matrix& result
 			resultMatrix[matrixRow][matrixColumn] = matrix[matrixRow][matrixColumn] * number;
 		}
 	}
+
+	return { resultMatrix };
 }
 
 int main(int argc, char* argv[])
@@ -142,17 +177,15 @@ int main(int argc, char* argv[])
 	args = ParseArgs(argc, argv);
 	if (!args.has_value())
 	{
-		std::cout << "Wrond input. Params should be: radix.exe <matrix file>" << std::endl;
+		std::cout << "Wrong input. Params should be: invert.exe <matrix file>" << std::endl;
 		return 1;
 	}
 
 	try
 	{
-		Matrix matrix, invertedMatrix;
-
-		GetMatrix(args->inputPath, matrix);
-		InvertMatrix(matrix, invertedMatrix);
-		OutputMatrix(invertedMatrix);
+		auto matrix = GetMatrix(args->inputPath);
+		auto invertedMatrix = InvertMatrix(matrix.value());
+		OutputMatrix(invertedMatrix.value());
 	}
 	catch (const std::exception& error)
 	{
