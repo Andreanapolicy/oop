@@ -15,8 +15,8 @@ bool IsLetter(const char ch);
 std::string ConvertNumber(const int sourceNotationString, const int destinationNotationString, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
-int IncreaseBitDepthOfNegativeNumber(int convertedNumber, int digit, int radix);
-int IncreaseBitDepthOfPositivNumber(int convertedNumber, int digit, int radix);
+int IncreaseNegativeNumber(int convertedNumber, int digit, int radix);
+int IncreasePositivNumber(int convertedNumber, int digit, int radix);
 
 struct Args
 {
@@ -67,18 +67,18 @@ int StringToInt(const std::string& value, int radix)
 
 		if (isNegative)
 		{
-			convertedNumber = IncreaseBitDepthOfNegativeNumber(convertedNumber, digit, radix);
+			convertedNumber = IncreaseNegativeNumber(convertedNumber, digit, radix);
 		}
 		else
 		{
-			convertedNumber = IncreaseBitDepthOfPositivNumber(convertedNumber, digit, radix);
+			convertedNumber = IncreasePositivNumber(convertedNumber, digit, radix);
 		}
 	}
 
 	return convertedNumber;
 }
 
-int IncreaseBitDepthOfPositivNumber(int convertedNumber, int digit, int radix)
+int IncreasePositivNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber > ((INT_MAX - digit) / radix))
 	{
@@ -88,7 +88,7 @@ int IncreaseBitDepthOfPositivNumber(int convertedNumber, int digit, int radix)
 	return convertedNumber * radix + digit;
 }
 
-int IncreaseBitDepthOfNegativeNumber(int convertedNumber, int digit, int radix)
+int IncreaseNegativeNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber < ((INT_MIN + digit) / radix))
 	{
