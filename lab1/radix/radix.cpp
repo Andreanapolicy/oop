@@ -12,7 +12,7 @@ int StringToInt(const std::string& value, int radix);
 int CharToInt(const char ch, const int radix);
 bool IsDigit(const char ch);
 bool IsLetter(const char ch);
-std::string ConvertNumber(const int sourceNotationString, const int destinationNotationString, const std::string& value);
+std::string ConvertNumber(const int sourceNotation, const int destinationNotation, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
 int IncreaseNegativeNumber(int convertedNumber, int digit, int radix);
