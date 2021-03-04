@@ -60,27 +60,35 @@ void ReadMatrix(std::ifstream& inputFile, Matrix& matrix)
 	bool wasStart = false;
 	while (inputFile >> std::noskipws >> symbol)
 	{
-		switch (symbol)
+		if (matrixColumn <= 99 && matrixRow <= 99)
 		{
-		case 'O':
-			wasStart = true;
-		case '#':
-		case ' ':
-			matrix[matrixRow][matrixColumn] = symbol;
-			matrixColumn++;
-			break;
-		case '\n':
-			matrixRow++;
-			matrixColumn = 0;
-			break;
-		default:
-			throw std::invalid_argument("Wrong contour");
-			break;
-		}
+			switch (symbol)
+			{
+			case 'O':
+				wasStart = true;
+			case '#':
+			case ' ':
+				matrix[matrixRow][matrixColumn] = symbol;
+				matrixColumn++;
+				break;
+			case '\n':
+				matrixRow++;
+				matrixColumn = 0;
+				break;
+			default:
+				throw std::invalid_argument("Wrong contour");
+				break;
+			}
 
-		if (inputFile.bad())
+			if (inputFile.bad())
+			{
+				throw std::runtime_error("Problem with reading file");
+			}
+		}
+		else
 		{
-			throw std::runtime_error("Problem with reading file");
+			matrixRow = matrixRow % 100;
+			matrixColumn = matrixColumn % 100;
 		}
 	}
 
@@ -125,10 +133,10 @@ void OutputMatrix(std::ofstream& outputFile, Matrix& matrix)
 	{
 		for (int matrixColumn = 0; matrixColumn < MATRIX_COLUMN; matrixColumn++)
 		{
-			std::cout << matrix[matrixRow][matrixColumn];
+			outputFile << matrix[matrixRow][matrixColumn];
 		}
 
-		std::cout << std::endl;
+		outputFile << std::endl;
 	}
 }
 
