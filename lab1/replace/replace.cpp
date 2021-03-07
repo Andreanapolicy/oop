@@ -44,7 +44,7 @@ std::string ReplaceSubstring(const std::string& searchString, const std::string&
 	return replacedString;
 }
 
-void CopyFilesWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, const std::string& searchString, const std::string& replacementString)
+void CopyFilesWithReplace(std::istream& inputFile, std::ostream& outputFile, const std::string& searchString, const std::string& replacementString)
 {
 	std::string line;
 
@@ -54,7 +54,7 @@ void CopyFilesWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, c
 	}
 }
 
-void CopyFile(std::ifstream& inputFile, std::ofstream& outputFile)
+void CopyFile(std::istream& inputFile, std::ostream& outputFile)
 {
 	char ch;
 	while (inputFile.get(ch))
@@ -66,14 +66,14 @@ void CopyFile(std::ifstream& inputFile, std::ofstream& outputFile)
 	}
 }
 
-void InitFiles(std::ifstream& inputFile, std::ofstream& outputFile)
+void InitFiles(std::istream& inputFile, std::ostream& outputFile)
 {
-	if (!inputFile.is_open())
+	if (inputFile.bad())
 	{
 		throw std::invalid_argument("Input file does not opened");
 	}
 
-	if (!outputFile.is_open())
+	if (outputFile.bad())
 	{
 		throw std::invalid_argument("Output file does not opened");
 	}

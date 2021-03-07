@@ -5,19 +5,20 @@
 #include <stdlib.h>
 #include <string>
 
-#define MAX_RADIX 36
-#define MIN_RADIX 2
+constexpr int MAX_RADIX = 36;
+constexpr int MIN_RADIX = 2;
 
 int StringToInt(const std::string& value, int radix);
+
 int CharToInt(const char ch, const int radix);
 bool IsDigit(const char ch);
 bool IsLetter(const char ch);
 std::string ConvertNumber(const int sourceNotation, const int destinationNotation, const std::string& value);
 std::string IntToString(int number, const int radix);
 char IntToChar(int number, const int radix);
-int IncreaseNegativeNumber(int convertedNumber, int digit, int radix);
-int IncreasePositiveNumber(int convertedNumber, int digit, int radix);
-
+int UpdateNegativeNumber(int convertedNumber, int digit, int radix);
+int UpdatePositiveNumber(int convertedNumber, int digit, int radix);
+ 
 struct Args
 {
 	int sourceNotation;
@@ -51,6 +52,16 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 int StringToInt(const std::string& value, int radix)
 {
+	if (radix < MIN_RADIX || radix > MAX_RADIX)
+	{
+		throw std::invalid_argument("Radix is out of range");
+	}
+
+	if (value.length() == 0)
+	{
+		throw std::invalid_argument("There is no number");
+	}
+
 	bool isNegative = false;
 
 	if (value[0] == '-')
@@ -67,18 +78,18 @@ int StringToInt(const std::string& value, int radix)
 
 		if (isNegative)
 		{
-			convertedNumber = IncreaseNegativeNumber(convertedNumber, digit, radix);
+			convertedNumber = UpdateNegativeNumber(convertedNumber, digit, radix);
 		}
 		else
 		{
-			convertedNumber = IncreasePositiveNumber(convertedNumber, digit, radix);
+			convertedNumber = UpdatePositiveNumber(convertedNumber, digit, radix);
 		}
 	}
 
 	return convertedNumber;
 }
 
-int IncreasePositiveNumber(int convertedNumber, int digit, int radix)
+int UpdatePositiveNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber > ((INT_MAX - digit) / radix))
 	{
@@ -88,7 +99,7 @@ int IncreasePositiveNumber(int convertedNumber, int digit, int radix)
 	return convertedNumber * radix + digit;
 }
 
-int IncreaseNegativeNumber(int convertedNumber, int digit, int radix)
+int UpdateNegativeNumber(int convertedNumber, int digit, int radix)
 {
 	if (convertedNumber < ((INT_MIN + digit) / radix))
 	{
@@ -145,6 +156,11 @@ std::string IntToString(int number, const int radix)
 	if (number == 0)
 	{
 		return "0";
+	}
+
+	if (radix < MIN_RADIX || radix > MAX_RADIX)
+	{
+		throw std::invalid_argument("Radix is out of range");
 	}
 
 	bool isNegative = false;

@@ -6,18 +6,18 @@
 #include <stdexcept>
 #include <string>
 
-#define MATRIX_ROW 3
-#define MATRIX_COLUMN 3
+constexpr int MATRIX_ROW = 3;
+constexpr int MATRIX_COLUMN = 3;
 
 typedef std::array<std::array<double, MATRIX_ROW>, MATRIX_COLUMN> Matrix;
 
 std::optional<Matrix> GetMatrix(const std::string& inputPath);
-std::optional<Matrix> ReadMatrix(std::ifstream& inputFile);
+std::optional<Matrix> ReadMatrix(std::istream& inputFile);
 void OutputMatrix(const Matrix& matrix);
 std::optional<Matrix> InvertMatrix(const Matrix& matrix);
 double GetDeterminant(const Matrix& matrix);
 std::optional<Matrix> TransposeMatrix(const Matrix& matrix);
-std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix);
+std::optional<Matrix> GetComplementMatrix(const Matrix& matrix);
 std::optional<Matrix> MultiplyMatrixAndNumber(const Matrix& matrix, double number);
 
 struct Args
@@ -55,7 +55,7 @@ std::optional<Matrix> GetMatrix(const std::string& inputPath)
 	return { matrix };
 }
  
-std::optional<Matrix> ReadMatrix(std::ifstream& inputFile)
+std::optional<Matrix> ReadMatrix(std::istream& inputFile)
 {
 	Matrix matrix;
 
@@ -97,7 +97,7 @@ std::optional<Matrix> InvertMatrix(const Matrix& matrix)
 		throw std::runtime_error("There is no inverse matrix. Determinant is 0");
 	}
 
-	auto complementMatrix = Get—omplementMatrix(matrix);
+	auto complementMatrix = GetComplementMatrix(matrix);
 
 	if (!complementMatrix.has_value())
 	{
@@ -140,7 +140,7 @@ std::optional<Matrix> TransposeMatrix(const Matrix& matrix)
 	return { transposedMatrix };
 }
 
-std::optional<Matrix> Get—omplementMatrix(const Matrix& matrix)
+std::optional<Matrix> GetComplementMatrix(const Matrix& matrix)
 {
 	Matrix complementMatrix;
 	double minor;
