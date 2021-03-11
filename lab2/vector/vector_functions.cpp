@@ -17,7 +17,7 @@ void ReadAndSplitArrayElementsByHalfOfMaximumElement(std::istream& inFile, std::
 		throw std::invalid_argument("Wrong input of numbers.");
 	}
 
-	ProcessVector(numbers.value());
+	SplitArrayElementsByHalfOfMaximumElement(numbers.value());
 
 	std::sort(numbers.value().begin(), numbers.value().end());
 	OutputNumbers(outFile, numbers.value());
@@ -52,7 +52,7 @@ void OutputNumbers(std::ostream& outFile, const std::vector<double>& vector)
 	outFile << std::endl;
 }
 
-void ProcessVector(std::vector<double>& vector)
+void SplitArrayElementsByHalfOfMaximumElement(std::vector<double>& vector)
 {
 	double maxElement = *std::max_element(vector.begin(), vector.end());
 
