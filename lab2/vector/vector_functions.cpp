@@ -12,7 +12,7 @@ void ReadAndSplitArrayElementsByHalfOfMaximumElement(std::istream& inFile, std::
 {
 	auto numbers = ReadNumbers(inFile);
 
-	if (!numbers.has_value() || !numbers.value().size())
+	if (!numbers.has_value())
 	{
 		throw std::invalid_argument("Wrong input of numbers.");
 	}
@@ -54,6 +54,11 @@ void OutputNumbers(std::ostream& outFile, const std::vector<double>& vector)
 
 void DivideArrayElementsByHalfOfMaximumElement(std::vector<double>& vector)
 {
+	if (!vector.size())
+	{
+		throw std::invalid_argument("Empty vector.");
+	}
+
 	double maxElement = *std::max_element(vector.begin(), vector.end());
 
 	std::transform(vector.begin(), vector.end(), vector.begin(), [maxElement](const double element) { return element * 2 / maxElement; });
