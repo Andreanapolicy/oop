@@ -1,6 +1,5 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../string_functions.cpp"
 #include "../string_functions.h"
 
 TEST_CASE("Unnecessarily decode text")
