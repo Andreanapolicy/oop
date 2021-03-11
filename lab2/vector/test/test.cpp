@@ -25,3 +25,11 @@ TEST_CASE("Reading wrong numbers vector")
 
 	REQUIRE_THROWS(ReadAndSplitArrayElementsByHalfOfMaximumElement(iss, oss));
 }
+
+TEST_CASE("Reading empty vector")
+{
+	std::istringstream iss("");
+	std::ostringstream oss;
+
+	REQUIRE_THROWS(ReadAndSplitArrayElementsByHalfOfMaximumElement(iss, oss));
+}

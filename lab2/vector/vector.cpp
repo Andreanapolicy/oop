@@ -1,9 +1,4 @@
-#include <algorithm>
 #include <iostream>
-#include <iterator>
-#include <optional>
-#include <vector>
-#include <numeric>
 
 #include "vector_functions.h"
 

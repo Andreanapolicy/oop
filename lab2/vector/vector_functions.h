@@ -8,4 +8,4 @@ void ReadAndSplitArrayElementsByHalfOfMaximumElement(std::istream& inFile, std::
 
 void OutputNumbers(std::ostream& outFile, const std::vector<double>& vector);
 
-void SplitArrayElementsByHalfOfMaximumElement(std::vector<double>& vector);
+void DivideArrayElementsByHalfOfMaximumElement(std::vector<double>& vector);
