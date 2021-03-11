@@ -56,7 +56,7 @@ void DivideArrayElementsByHalfOfMaximumElement(std::vector<double>& vector)
 {
 	if (!vector.size())
 	{
-		throw std::invalid_argument("Empty vector.");
+		return;
 	}
 
 	double maxElement = *std::max_element(vector.begin(), vector.end());

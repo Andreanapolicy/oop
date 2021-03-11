@@ -4,15 +4,6 @@
 
 int main(int argc, char* argv[])
 {
-	try
-	{
-		ReadAndSplitArrayElementsByHalfOfMaximumElement(std::cin, std::cout);
-	}
-	catch (std::exception& error)
-	{
-		std::cout << error.what() << std::endl;
-		return 1;
-	}
-
+	ReadAndSplitArrayElementsByHalfOfMaximumElement(std::cin, std::cout);
 	return 0;
 }
