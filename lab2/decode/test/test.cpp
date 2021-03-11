@@ -27,6 +27,15 @@ TEST_CASE("Text with first and last chars of html symbols")
 	REQUIRE(oss.str() == "Hello &&&&quo;;;&;&;&&;;&;\n");
 }
 
+TEST_CASE("Text with first fake and last chars of html symbols")
+{
+	std::istringstream iss("&quotHello &&&&quo;;;&;&;&&;;&;&lt;");
+	std::ostringstream oss;
+
+	DecodeText(iss, oss);
+	REQUIRE(oss.str() == "&quotHello &&&&quo;;;&;&;&&;;&;<\n");
+}
+
 TEST_CASE("Empty string")
 {
 	std::istringstream iss("");

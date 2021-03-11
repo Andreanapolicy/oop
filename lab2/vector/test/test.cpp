@@ -9,7 +9,7 @@ TEST_CASE("Reading not sorted numbers vector")
 	ReadAndSplitArrayElementsByHalfOfMaximumElement(iss, oss);
 	REQUIRE(oss.str() == "-1.692 0.037 0.037 0.085 0.185 2.000 \n");
 }
-
+	
 TEST_CASE("Reading sorted numbers vector")
 {
 	std::istringstream iss("1 2 3 4 5 6 7 8");
