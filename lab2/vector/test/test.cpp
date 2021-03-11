@@ -1,6 +1,5 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../vector_functions.cpp"
 #include "../vector_functions.h"
 
 TEST_CASE("Reading not sorted numbers vector")
