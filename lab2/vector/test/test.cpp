@@ -18,6 +18,14 @@ TEST_CASE("Reading sorted numbers vector")
 	REQUIRE(oss.str() == "0.250 0.500 0.750 1.000 1.250 1.500 1.750 2.000 \n");
 }
 
+TEST_CASE("Reading revert sorted numbers vector")
+{
+	std::istringstream iss("8 7 6 5 4 3 2 1");
+	std::ostringstream oss;
+	ReadAndSplitArrayElementsByHalfOfMaximumElement(iss, oss);
+	REQUIRE(oss.str() == "0.250 0.500 0.750 1.000 1.250 1.500 1.750 2.000 \n");
+}
+
 TEST_CASE("Reading wrong numbers vector")
 {
 	std::istringstream iss("1 2 test 3 4 5 6 7 8");
