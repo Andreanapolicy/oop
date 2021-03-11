@@ -8,16 +8,19 @@
 
 #include "string_functions.h"
 
+namespace
+{
+ReplaceList htmlSymbols = {
+	{ "&lt;", '<' },
+	{ "&gt;", '>' },
+	{ "&quot;", '\"' },
+	{ "&apos;", '\'' },
+	{ "&amp;", '&' },
+};
+}
+
 void DecodeText(std::istream& inFile, std::ostream& outFile)
 {
-	ReplaceList htmlSymbols = {
-		{ "&lt;", '<' },
-		{ "&gt;", '>' },
-		{ "&quot;", '\"' },
-		{ "&apos;", '\'' },
-		{ "&amp;", '&' },
-	};
-
 	int maxLenghtOfReplacement = GetMaxLenghtOfReplacements(htmlSymbols);
 
 	std::string line;
@@ -28,7 +31,7 @@ void DecodeText(std::istream& inFile, std::ostream& outFile)
 	}
 }
 
-std::string DecodeLine(std::string& line, const int maxLenghtOfReplacement, ReplaceList& chars)
+std::string DecodeLine(const std::string& line, const int maxLenghtOfReplacement, ReplaceList& chars)
 {
 	size_t cursorPos = 0;
 	std::string replacedString;
@@ -53,7 +56,7 @@ std::string DecodeLine(std::string& line, const int maxLenghtOfReplacement, Repl
 
 		replacementSubtring = line.substr(substringBeginPos, substringEndPos - substringBeginPos + 1);
 
-		if (static_cast<int>(substringEndPos) - static_cast<int>(substringBeginPos) <= maxLenghtOfReplacement && IsHtmlCode(replacementSubtring, chars))
+		if (static_cast<int>(substringEndPos - substringBeginPos) <= maxLenghtOfReplacement && IsHtmlCode(replacementSubtring, chars))
 		{
 			replacedString += chars[replacementSubtring];
 		}
@@ -87,7 +90,5 @@ int GetMaxLenghtOfReplacements(const ReplaceList& chars)
 
 bool IsHtmlCode(const std::string& code, const ReplaceList& chars)
 {
-	auto iterator = chars.find(code);
-
-	return iterator != chars.end();
+	return chars.find(code) != chars.end();
 }

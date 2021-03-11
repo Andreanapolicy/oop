@@ -6,7 +6,7 @@ typedef std::map<std::string, char> ReplaceList;
 
 void DecodeText(std::istream& inFile, std::ostream& outFile);
 
-std::string DecodeLine(std::string& line, const int maxLenghtOfReplacement, ReplaceList& chars);
+std::string DecodeLine(const std::string& line, const int maxLenghtOfReplacement, ReplaceList& chars);
 
 int GetMaxLenghtOfReplacements(const ReplaceList& chars);
 
