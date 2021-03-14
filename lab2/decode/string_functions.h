@@ -1,9 +1,7 @@
 #include <iostream>
-#include <map>
 #include <vector>
 #include <optional>
 
-typedef std::map<std::string, char> ReplaceList;
 typedef std::vector<std::string> ReplacementList;
 typedef std::vector<char> SubstituteList;
 
