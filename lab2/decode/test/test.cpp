@@ -10,6 +10,14 @@ TEST_CASE("Unnecessarily decode text")
 	REQUIRE(oss.str() == "Hello, i am text without any html symbols\n");
 }
 
+TEST_CASE("Unnecessarily decode text with &")
+{
+	std::istringstream iss("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&;;;;;;;;;;;&;&;&;&;&&&&;;");
+	std::ostringstream oss;
+	DecodeText(iss, oss);
+	REQUIRE(oss.str() == "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&;;;;;;;;;;;&;&;&;&;&&&&;;\n");
+}
+
 TEST_CASE("Text with simply html symbols")
 {
 	std::istringstream iss("Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s");
@@ -29,11 +37,20 @@ TEST_CASE("Text with first and last chars of html symbols")
 
 TEST_CASE("Text with first fake and last chars of html symbols")
 {
-	std::istringstream iss("&quotHello &&&&quo;;;&;&;&&;;&;&lt;");
+	std::istringstream iss("&quotHello &&&&quo;;;&;&;&&;;&&lt;");
 	std::ostringstream oss;
 
 	DecodeText(iss, oss);
-	REQUIRE(oss.str() == "&quotHello &&&&quo;;;&;&;&&;;&;<\n");
+	  REQUIRE(oss.str() == "&quotHello &&&&quo;;;&;&;&&;;&<\n");
+}
+
+TEST_CASE("Text with not max lenght of substitute substring")
+{
+	std::istringstream iss("&;&lt;");
+	std::ostringstream oss;
+
+	DecodeText(iss, oss);
+	  REQUIRE(oss.str() == "&;<\n");
 }
 
 TEST_CASE("Empty string")
