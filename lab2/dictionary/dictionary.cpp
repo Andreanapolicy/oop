@@ -1,6 +1,6 @@
-#include "map_functions.h"
+#include "dictionary_module.h"
 
-const std::string DICTIONARY_PATH_DEFAULT = "dictionary.txt";
+const std::string DICTIONARY_PATH_DEFAULT = "C:/dev/oop/lab2/dictionary/Debug/dictionary.txt";
 
 struct Args
 {

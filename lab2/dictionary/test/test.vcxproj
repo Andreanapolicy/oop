@@ -155,7 +155,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\map_functions.cpp" />
+    <ClCompile Include="..\dictionary_module.cpp" />
     <ClCompile Include="..\string_functions.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>

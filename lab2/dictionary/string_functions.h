@@ -15,7 +15,3 @@ std::optional<std::vector<std::string>> GetVectorFromString(const std::string& l
 void WriteVectorWithSeparator(std::ostream& outFile, const std::vector<std::string>& vector, const std::string& separator);
 
 std::string GetStringInLowerCase(const std::string& line);
-
-std::wstring StringToWstring(const std::string& line);
-
-std::string WstringToString(const std::wstring& line);

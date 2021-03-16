@@ -144,11 +144,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dictionary.cpp" />
-    <ClCompile Include="map_functions.cpp" />
+    <ClCompile Include="dictionary_module.cpp" />
     <ClCompile Include="string_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="map_functions.h" />
+    <ClInclude Include="dictionary_module.h" />
     <ClInclude Include="string_functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

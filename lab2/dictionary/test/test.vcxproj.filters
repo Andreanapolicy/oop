@@ -18,10 +18,10 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\map_functions.cpp">
+    <ClCompile Include="..\string_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\string_functions.cpp">
+    <ClCompile Include="..\dictionary_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

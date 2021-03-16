@@ -18,18 +18,18 @@
     <ClCompile Include="dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map_functions.cpp">
+    <ClCompile Include="string_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="string_functions.cpp">
+    <ClCompile Include="dictionary_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="map_functions.h">
+    <ClInclude Include="string_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="string_functions.h">
+    <ClInclude Include="dictionary_module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
