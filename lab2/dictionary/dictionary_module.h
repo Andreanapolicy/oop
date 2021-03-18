@@ -23,6 +23,7 @@ enum class States
 	NEW_TRANSLATION = 2,
 	END = 3,
 	END_SAVE = 4,
+	END_SAVE_SUCCESS = 5,
 };
 
 void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::string& dictionaryPath);

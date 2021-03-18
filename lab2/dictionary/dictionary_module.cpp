@@ -4,7 +4,7 @@ void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::strin
 {
 	std::ifstream dictionaryFile;
 	dictionaryFile.open(dictionaryPath);
-	Dictionary dictionary;
+	Dictionary dictionary = {};
 
 	if (dictionaryFile.is_open())
 	{
@@ -14,11 +14,6 @@ void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::strin
 	bool willSave = false;
 
 	RunChat(inFile, outFile, dictionary, willSave);
-
-	/*if (willSave)
-	{
-		SaveDictionary(dictionaryPath)
-	}*/
 }
 
 Dictionary ReadDictionary(std::istream& dictionaryFile)
@@ -40,7 +35,7 @@ Dictionary ReadDictionary(std::istream& dictionaryFile)
 			AddNewPosInDictionary(GetStringInLowerCase(word), GetStringInLowerCase(translations), dictionary);
 		}
 	}
-
+	
 	WriteDictionary(dictionary, std::cout);
 
 	return dictionary;
@@ -84,36 +79,48 @@ void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary
 	States state = States::START;
 	Translation translation;
 
-	while (inFile >> line)
+	while (getline(inFile, line))
 	{
-		if (state == States::END)
+		if (state == States::END || state == States::END_SAVE)
 		{
-			if (willSave)
+			if (GetStringInLowerCase(line) == "yes")
 			{
-				state = States::END_SAVE;
+				state = States::END_SAVE_SUCCESS;
+				WriteMessage(outFile, state);
 			}
-			WriteMessage(outFile, state);
-			//SaveDictionary if willSave
+			//SaveDictionary
+			WriteMessage(outFile, States::END);
+
 			break;
 		}
 
 		if (line == "...")
 		{
-			state = States::END;
+			state = willSave ? States::END_SAVE : States::END;
 			WriteMessage(outFile, state);
+
+			if (!willSave)
+			{
+				break;
+			}
 		}
 
 		if (state == States::START)
 		{
-			auto it = dictionary.find(line);
+			auto it = dictionary.find(GetStringInLowerCase(line));
 
-			if (dictionary.find(line) == dictionary.end())
+			if (it == dictionary.end())
 			{
 				state = States::NEW_WORD;
 				newWord = line;
+				WriteMessage(outFile, state);
+			}
+			else
+			{
+				WriteMessage(outFile, state, it->second);
 			}
 
-			WriteMessage(outFile, state, it->second);
+			continue;
 		}
 
 		if (state == States::NEW_WORD)
@@ -123,15 +130,14 @@ void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary
 			if (!line.empty())
 			{
 				willSave = true;
-				AddNewPosInDictionary(newWord, line, dictionary);
-				WriteMessage(outFile, state);
-				state = States::START;
+				AddNewPosInDictionary(GetStringInLowerCase(newWord), GetStringInLowerCase(line), dictionary);
+				AddNewPosInDictionary(GetStringInLowerCase(line), GetStringInLowerCase(newWord), dictionary);
+				WriteMessage(outFile, States::NEW_TRANSLATION);
 			}
-			else
-			{
-				newWord = "";
-				state = States::START;
-			}
+
+			state = States::START;
+
+			continue;
 		}
 	}
 }
@@ -156,16 +162,16 @@ void WriteMessage(std::ostream& outFile, States state, const Translation& transl
 		WriteTranslation(outFile, translation);
 		break;
 	case States::END_SAVE:
-		outFile << "There are some changes in your dictionary. Type <yes>, if you want save it, or smth else, if you dont want it.";
+		outFile << "There are some changes in your dictionary. Type <yes>, if you want save it, or smth else, if you dont want it." << std::endl;
 		break;
 	case States::END:
-		outFile << "Alright. See you later.";
+		outFile << "Alright. See you later." << std::endl;
 		break;
 	case States::NEW_WORD:
-		outFile << "There is no translation for that word. Type translation and dictionary will be changed, or just type empty string";
+		outFile << "There is no translation for that word. Type translation and dictionary will be changed, or just type empty string" << std::endl;
 		break;
 	case States::NEW_TRANSLATION:
-		outFile << "New word with translation were added in dictionary";
+		outFile << "New word with translation were added in dictionary" << std::endl;
 		break;
 	}
 }
@@ -176,4 +182,6 @@ void WriteTranslation(std::ostream& outFile, const Translation& translation)
 	{
 		outFile << element << ' ';
 	}
+
+	outFile << std::endl;
 }
