@@ -17,7 +17,7 @@ std::set<int> GetPrimeNumbers(const int upperBound)
 	{
 		if (sieve[index])
 		{
-			primeNumbers.insert(index);
+			primeNumbers.insert(primeNumbers.end(), index);
 			
 			if (index < sqrt(upperBound - 1))
 			{
