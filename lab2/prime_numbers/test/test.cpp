@@ -16,5 +16,8 @@ TEST_CASE("Check usual values")
 {
 	REQUIRE(GetPrimeNumbers(150).size() == 35);
 	REQUIRE(GetPrimeNumbers(151).size() == 36);
-	REQUIRE(GetPrimeNumbers(100000000).size() == 5761455);
+
+	#ifndef _DEBUG
+		REQUIRE(GetPrimeNumbers(100000000).size() == 5761455);
+	#endif // DEBUG
 }
