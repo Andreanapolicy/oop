@@ -16,6 +16,4 @@ std::string DecodeLine(const std::string& line, const int maxLengthOfReplacement
 
 int GetMaxLengthOfReplacements(const ReplacementList& chars);
 
-bool IsHtmlCode(const std::string& code, const ReplacementList& chars);
-
 std::string ReplaceCharsNearbyPos(const std::string& line, size_t& substringBeginPos, const ReplacementList& replacementChars, const SubstituteList& substituteChars);

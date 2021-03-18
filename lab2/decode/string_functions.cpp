@@ -55,11 +55,6 @@ int GetMaxLengthOfReplacements(const ReplacementList& chars)
 	return maxLength.size();
 }
 
-bool IsHtmlCode(const std::string& code, const ReplacementList& chars)
-{
-	return std::find(chars.begin(), chars.end(), code) != chars.end();
-}
-
 std::string ReplaceCharsNearbyPos(const std::string& line, size_t& substringBeginPos, const ReplacementList& replacementChars, const SubstituteList& substituteChars)
 {
 	std::string replacedString;
