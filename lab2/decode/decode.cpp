@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "string_functions.h"
 
 int main(int argc, char* argv[])

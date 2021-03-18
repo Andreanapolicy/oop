@@ -1,6 +1,11 @@
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
-#include <vector>
+#include <iterator>
+#include <numeric>
 #include <optional>
+#include <string>
+#include <vector>
 
 typedef std::vector<std::string> ReplacementList;
 typedef std::vector<char> SubstituteList;

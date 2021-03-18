@@ -1,11 +1,3 @@
-#include <algorithm>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <numeric>
-#include <optional>
-#include <string>
-
 #include "string_functions.h"
 
 namespace
