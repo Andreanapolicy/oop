@@ -5,8 +5,8 @@
 #include <numeric>
 #include <optional>
 #include <string>
-#include <vector>
 #include <string_view>
+#include <vector>
 
 typedef std::vector<std::string> ReplacementList;
 typedef std::vector<char> SubstituteList;
