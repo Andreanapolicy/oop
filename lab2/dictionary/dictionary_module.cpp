@@ -13,7 +13,7 @@ void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::strin
 
 	bool willSave = false;
 
-	RunChat(inFile, outFile, dictionary, willSave);
+	RunChat(inFile, outFile, dictionary, willSave, dictionaryPath);
 }
 
 Dictionary ReadDictionary(std::istream& dictionaryFile)
@@ -72,13 +72,14 @@ void WriteDictionary(Dictionary& dictionary, std::ostream& dictionaryFile)
 	}
 }
 
-void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, bool& willSave)
+void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, bool& willSave, const std::string& dictionaryPath)
 {
 	std::string line;
 	std::string newWord;
 	States state = States::START;
 	Translation translation;
 
+	outFile << "> ";
 	while (getline(inFile, line))
 	{
 		if (state == States::END || state == States::END_SAVE)
@@ -88,7 +89,8 @@ void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary
 				state = States::END_SAVE_SUCCESS;
 				WriteMessage(outFile, state);
 			}
-			//SaveDictionary
+			
+			SaveDictionary(dictionaryPath, dictionary);
 			WriteMessage(outFile, States::END);
 
 			break;
@@ -174,14 +176,34 @@ void WriteMessage(std::ostream& outFile, States state, const Translation& transl
 		outFile << "New word with translation were added in dictionary" << std::endl;
 		break;
 	}
+
+	outFile << "> ";
 }
 
 void WriteTranslation(std::ostream& outFile, const Translation& translation)
 {
 	for (auto element : translation)
 	{
-		outFile << element << ' ';
+		outFile << element << ', ';
 	}
 
 	outFile << std::endl;
+}
+
+void SaveDictionary(const std::string& outPath, const Dictionary& dictionary)
+{
+	std::ofstream outFile;
+
+	outFile.open(outPath);
+
+	if (outFile.is_open())
+	{
+		throw std::runtime_error("There are writing problems with your file.");
+	}
+
+	for (auto element : dictionary)
+	{
+		outFile << element.first << " : ";
+		WriteTranslation(outFile, element.second);
+	}
 }

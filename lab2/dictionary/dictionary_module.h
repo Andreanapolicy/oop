@@ -34,10 +34,12 @@ void AddNewPosInDictionary(const std::string& word, const std::string& translati
 
 void WriteDictionary(Dictionary& dictionary, std::ostream& dictionaryFile);
 
-void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, bool& willSave);
+void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, bool& willSave, const std::string& dictionaryPath);
 
 std::optional<Translation> findTranslation(const std::string& line, Dictionary& dictionary);
 
 void WriteMessage(std::ostream& outFile, States state, const Translation& translation = {});
 
 void WriteTranslation(std::ostream& outFile, const Translation& translation);
+
+void SaveDictionary(const std::string& outPath, const Dictionary& dictionary);
