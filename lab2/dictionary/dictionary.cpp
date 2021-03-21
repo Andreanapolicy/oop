@@ -1,12 +1,5 @@
 #include "dictionary_module.h"
 
-const std::string DICTIONARY_PATH_DEFAULT = "C:/dev/oop/lab2/dictionary/Debug/dictionary.txt";
-
-struct Args
-{
-	std::string DictionaryPath;
-};
-
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)

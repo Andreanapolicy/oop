@@ -8,13 +8,21 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <algorithm>
+#include <set>
 
 #include "string_functions.h"
 
-typedef std::vector<std::string> Translation;
+const std::string DICTIONARY_PATH_DEFAULT = "c:/dev/oop/lab2/dictionary/dictionary.txt";
 
-typedef std::map<std::string, Translation> Dictionary;
+struct Args
+{
+	std::string DictionaryPath;
+};
+
+typedef std::set<std::string> Translation;
+
+typedef std::multimap<std::string, Translation> Dictionary;
 
 enum class States
 {
@@ -32,14 +40,16 @@ Dictionary ReadDictionary(std::istream& dictionaryFile);
 
 void AddNewPosInDictionary(const std::string& word, const std::string& translations, Dictionary& dictionary);
 
-void WriteDictionary(Dictionary& dictionary, std::ostream& dictionaryFile);
+void AddPosInDictionary(const std::string& word, const Translation& translations, Dictionary& dictionary);
 
-void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, bool& willSave, const std::string& dictionaryPath);
+void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary);
 
-std::optional<Translation> findTranslation(const std::string& line, Dictionary& dictionary);
+void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, const std::string& dictionaryPath);
+
+std::optional<Translation> FindTranslation(const std::string& line, Dictionary& dictionary);
 
 void WriteMessage(std::ostream& outFile, States state, const Translation& translation = {});
 
 void WriteTranslation(std::ostream& outFile, const Translation& translation);
 
-void SaveDictionary(const std::string& outPath, const Dictionary& dictionary);
+void SaveDictionary(std::ostream& outFile, const std::string& dictPath, const Dictionary& dictionary);

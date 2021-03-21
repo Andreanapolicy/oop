@@ -1,27 +1,31 @@
 #include "string_functions.h"
-#include <algorithm>
 
-std::optional<std::vector<std::string>> GetVectorFromString(const std::string& line, const std::string& separator)
+std::optional<std::set<std::string>> GetSetFromString(const std::string_view& line, const std::string& separator)
 {
-	std::stringstream iss(line);
-	std::vector<std::string> words;
+	std::set<std::string> words;
 	std::string word;
 
-	while (iss.good())
+	size_t cursorPos = 0;
+
+	while (cursorPos < line.size())
 	{
-		std::getline(iss, word, ':');
-		words.push_back(word);
+		size_t substringBeginPos = line.find(separator, cursorPos);
+
+		if (substringBeginPos == std::string::npos)
+		{
+			word = line.substr(cursorPos, line.size() - cursorPos);
+			words.insert(word);
+
+			break;
+		}
+
+		word = line.substr(cursorPos, substringBeginPos - cursorPos);
+		words.insert(word);
+
+		cursorPos = substringBeginPos + separator.size();
 	}
 
 	return { words };
-}
-
-void WriteVectorWithSeparator(std::ostream& outFile, const std::vector<std::string>& vector, const std::string& separator)
-{
-	for (auto element: vector)
-	{
-		outFile << element << separator;
-	}
 }
 
 std::string GetStringInLowerCase(const std::string& line)
