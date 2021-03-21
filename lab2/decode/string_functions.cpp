@@ -1,28 +1,32 @@
 #include "string_functions.h"
 
-namespace
-{
-SubstituteList substituteList = { '<', '>', '\"', '\'', '&' };
-ReplacementList replacementList = { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" };
-}
-
 void DecodeText(std::istream& inFile, std::ostream& outFile)
 {
-	int maxLengthOfReplacement = GetMaxLengthOfReplacements(replacementList);
+	auto DecodeList = initHTMLDecodeList();
+
+	int maxLengthOfReplacement = GetMaxLengthOfReplacements(DecodeList.replacementList);
 
 	std::string line;
 
 	while (std::getline(inFile, line))
 	{
-		outFile << DecodeLine(line, maxLengthOfReplacement, replacementList, substituteList) << std::endl;
+		outFile << DecodeLine(line, maxLengthOfReplacement, DecodeList) << std::endl;
 	}
 }
 
-std::string DecodeLine(const std::string& line, const int maxLengthOfReplacement, const ReplacementList& replacementChars, const SubstituteList& substituteChars)
+HTMLDecodeList initHTMLDecodeList()
+{
+	HTMLDecodeList DecodeList;
+	DecodeList.replacementList = { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" };
+	DecodeList.substituteList = { '<', '>', '\"', '\'', '&' };
+
+	return DecodeList;
+}
+
+std::string DecodeLine(const std::string_view& line, const int maxLengthOfReplacement, const HTMLDecodeList& DecodeList)
 {
 	size_t cursorPos = 0;
 	std::string replacedString;
-	std::string replacementSubtring;
 	while (cursorPos < line.length())
 	{
 		size_t substringBeginPos = line.find('&', cursorPos);
@@ -33,9 +37,7 @@ std::string DecodeLine(const std::string& line, const int maxLengthOfReplacement
 			break;
 		}
 
-		replacementSubtring = ReplaceCharsNearbyPos(line.substr(substringBeginPos, maxLengthOfReplacement), substringBeginPos, replacementChars, substituteChars);
-
-		replacedString.append(replacementSubtring);
+		replacedString += ReplaceCharNearbyPos(line.substr(substringBeginPos, maxLengthOfReplacement), substringBeginPos, DecodeList);
 
 		cursorPos = substringBeginPos;
 	}
@@ -55,27 +57,22 @@ int GetMaxLengthOfReplacements(const ReplacementList& chars)
 	return maxLength.size();
 }
 
-std::string ReplaceCharsNearbyPos(const std::string& line, size_t& substringBeginPos, const ReplacementList& replacementChars, const SubstituteList& substituteChars)
+char ReplaceCharNearbyPos(const std::string_view& line, size_t& substringBeginPos, const HTMLDecodeList& DecodeList)
 {
-	std::string replacedString;
+	char replacedString = '&';
 
-	for (size_t index = 0; index < replacementChars.size(); index++)
+	for (size_t index = 0; index < DecodeList.replacementList.size(); index++)
 	{
-		auto findReplacement = line.find(replacementChars[index]);
-		if (findReplacement != std::string::npos)
+		auto findReplacement = line.find(DecodeList.replacementList[index]);
+		if (findReplacement != std::string::npos && findReplacement == 0)
 		{
-			replacedString.append(line, 0, findReplacement);
-			replacedString += substituteChars[index];
-			substringBeginPos += findReplacement + replacementChars[index].size();
+			replacedString = DecodeList.substituteList[index];
+			substringBeginPos += findReplacement + DecodeList.replacementList[index].size() - 1;
 			break;
 		}
 	}
 
-	if (replacedString.empty())
-	{
-		replacedString = "&";
-		substringBeginPos++;
-	}
+	substringBeginPos++;
 
 	return replacedString;
 }

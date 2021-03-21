@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 	{
 		DecodeText(std::cin, std::cout);
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << error.what() << std::endl;
 		return 1;

@@ -41,7 +41,7 @@ TEST_CASE("Text with first fake and last chars of html symbols")
 	std::ostringstream oss;
 
 	DecodeText(iss, oss);
-	  REQUIRE(oss.str() == "&quotHello &&&&quo;;;&;&;&&;;&<\n");
+	REQUIRE(oss.str() == "&quotHello &&&&quo;;;&;&;&&;;&<\n");
 }
 
 TEST_CASE("Text with not max lenght of substitute substring")
@@ -50,7 +50,7 @@ TEST_CASE("Text with not max lenght of substitute substring")
 	std::ostringstream oss;
 
 	DecodeText(iss, oss);
-	  REQUIRE(oss.str() == "&;<\n");
+	REQUIRE(oss.str() == "&;<\n");
 }
 
 TEST_CASE("Empty string")
