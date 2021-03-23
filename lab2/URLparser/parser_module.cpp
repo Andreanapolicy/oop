@@ -50,7 +50,8 @@ std::optional<URL> ParseUrl(const std::string& url)
 	std::regex protocol("^[\w+]*?(?=:\/\/)");
 	std::smatch result;
 
-	std::regex_match(url, result, protocol);
 
-	resultURL.protocol = result[0]
+	resultURL.protocol = std::regex_match(url, result, protocol) ? result[0].str() : "";
+
+	return { resultURL };
 }

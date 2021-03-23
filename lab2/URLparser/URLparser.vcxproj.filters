@@ -18,5 +18,13 @@
     <ClCompile Include="URLparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parser_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="parser_module.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
