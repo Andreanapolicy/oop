@@ -146,7 +146,7 @@ void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary
 	}
 }
 
-std::optional<Translation> FindTranslation(const std::string& line, Dictionary& dictionary)
+std::optional<Translation> FindTranslation(const std::string& line, const Dictionary& dictionary)
 {
 	auto translation = dictionary.find(GetStringInLowerCase(line));
 

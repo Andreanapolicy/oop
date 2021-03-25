@@ -46,7 +46,7 @@ void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary)
 
 void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, const std::string& dictionaryPath);
 
-std::optional<Translation> FindTranslation(const std::string& line, Dictionary& dictionary);
+std::optional<Translation> FindTranslation(const std::string& line, const Dictionary& dictionary);
 
 void WriteMessage(std::ostream& outFile, States state, const Translation& translation = {});
 
