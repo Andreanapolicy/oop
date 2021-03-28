@@ -1,10 +1,11 @@
 #include "dictionary_module.h"
 
-void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::string& dictionaryPath)
+void RunDictionary(std::istream& input, std::ostream& output, const std::string& dictionaryPath)
 {
 	std::ifstream dictionaryFile;
 	dictionaryFile.open(dictionaryPath);
 	Dictionary dictionary = {};
+	bool willSave = false;
 
 	if (dictionaryFile.is_open())
 	{
@@ -13,7 +14,12 @@ void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::strin
 
 	dictionaryFile.close();
 
-	RunChat(inFile, outFile, dictionary, dictionaryPath);
+	RunChat(input, output, dictionary, willSave);
+
+	if (willSave)
+	{
+		SaveDictionary(output, dictionaryPath, dictionary);
+	}
 }
 
 Dictionary ReadDictionary(std::istream& dictionaryFile)
@@ -31,14 +37,14 @@ Dictionary ReadDictionary(std::istream& dictionaryFile)
 
 		if (!word.empty() && !translations.empty())
 		{
-			AddNewPosInDictionary(word, translations, dictionary);
+			ProcessNewPosForDictionary(word, translations, dictionary);
 		}
 	}
 
 	return dictionary;
 }
 
-void AddNewPosInDictionary(const std::string& word, const std::string& translations, Dictionary& dictionary)
+void ProcessNewPosForDictionary(const std::string& word, const std::string& translations, Dictionary& dictionary)
 {
 	std::optional<Translation> translationsSet = GetSetFromString(GetStringInLowerCase(translations), ", ");
 
@@ -72,76 +78,65 @@ void AddPosInDictionary(const std::string& word, const Translation& translations
 	}
 }
 
-void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, const std::string& dictionaryPath)
+void RunChat(std::istream& input, std::ostream& output, Dictionary& dictionary, bool& willSave)
 {
-	bool willSave = false;
-
 	std::string line;
 	std::string newWord;
 	Translation translation;
-	States state = States::START;
+	States state = States::FIND_TRANSLATION;
 
-	outFile << "> ";
-	while (getline(inFile, line))
+	WriteDialogSymbol(output, state);
+	while (getline(input, line) && (state != States::END))
 	{
-		switch (state)
-		{
-		case States::END:
-		case States::END_SAVE: {
-			if (GetStringInLowerCase(line) == "yes")
-			{
-				state = States::END_SAVE_SUCCESS;
-				WriteMessage(outFile, state);
-				SaveDictionary(outFile, dictionaryPath, dictionary);
-			}
-
-			WriteMessage(outFile, States::END);
-
-			break;
-		}
-		case States::START: {
-			auto it = FindTranslation(line, dictionary);
-
-			if (!it.has_value())
-			{
-				state = States::NEW_WORD;
-				newWord = line;
-				WriteMessage(outFile, state);
-			}
-			else
-			{
-				WriteMessage(outFile, state, it.value());
-			}
-
-			break;
-		}
-		case States::NEW_WORD: {
-			if (!line.empty())
-			{
-				willSave = true;
-				AddNewPosInDictionary(newWord, line, dictionary);
-				WriteMessage(outFile, States::NEW_TRANSLATION);
-			}
-			else
-			{
-				outFile << "> ";
-			}
-
-			state = States::START;
-
-			break;
-		}
-		}
-
 		if (line == "...")
 		{
 			state = willSave ? States::END_SAVE : States::END;
-			WriteMessage(outFile, state);
+			WriteMessage(output, state);
 
+			state = States::END;
 			if (!willSave)
 			{
 				break;
 			}
+			else
+			{
+				continue;
+			}
+		}
+
+		switch (state)
+		{
+		case States::END:
+		case States::END_SAVE:
+			ProcessEndStateOfChat(output, line, state);
+			break;
+		case States::FIND_TRANSLATION:
+			ProcessFindTranslationStateOfChat(output, line, state, dictionary);
+			if (state == States::NEW_WORD)
+			{
+				newWord = line;
+			}
+			else
+			{
+				WriteTranslation(output, FindTranslation(line, dictionary).value());
+				WriteDialogSymbol(output, state);
+			}
+
+			break;
+		case States::NEW_WORD:
+			if (!line.empty())
+			{
+				willSave = true;
+				ProcessNewWordStateOfChat(output, line, dictionary, newWord);
+			}
+			else
+			{
+				WriteDialogSymbol(output, state);
+			}
+
+			state = States::FIND_TRANSLATION;
+
+			break;
 		}
 	}
 }
@@ -158,47 +153,45 @@ std::optional<Translation> FindTranslation(const std::string& line, const Dictio
 	return { translation->second };
 }
 
-void WriteMessage(std::ostream& outFile, States state, const Translation& translation)
+void WriteMessage(std::ostream& output, States state, const Translation& translation)
 {
 	switch (state)
 	{
-	case States::START:
-		WriteTranslation(outFile, translation);
-		outFile << "> ";
+	case States::FIND_TRANSLATION:
+		WriteTranslation(output, translation);
 		break;
 	case States::END_SAVE:
-		outFile << "There are some changes in your dictionary. Type <yes>, if you want save it, or smth else, if you dont want it." << std::endl;
-		outFile << "> ";
+		output << "There are some changes in your dictionary. Type <yes>, if you want save it, or smth else, if you dont want it." << std::endl;
 		break;
 	case States::END:
-		outFile << "Alright. See you later." << std::endl;
+		output << "Alright. See you later." << std::endl;
 		break;
 	case States::NEW_WORD:
-		outFile << "There is no translation for that word. Type translation(with delimiter \", \") and dictionary will be changed, or just type empty string" << std::endl;
-		outFile << "> ";
+		output << "There is no translation for that word. Type translation(with delimiter \", \") and dictionary will be changed, or just type empty string" << std::endl;
 		break;
 	case States::NEW_TRANSLATION:
-		outFile << "New word with translation were added in dictionary" << std::endl;
-		outFile << "> ";
+		output << "New word with translation were added in dictionary" << std::endl;
 		break;
 	}
+
+	WriteDialogSymbol(output, state);
 }
 
-void WriteTranslation(std::ostream& outFile, const Translation& translation)
+void WriteTranslation(std::ostream& output, const Translation& translation)
 {
 	for (auto element : translation)
 	{
 		auto it = translation.end();
 		it--;
-		outFile << element << (element != *it ? ", " : "");
+		output << element << (element != *it ? ", " : "");
 	}
 
-	outFile << std::endl;
+	output << std::endl;
 }
 
-void SaveDictionary(std::ostream& outFile, const std::string& dictPath, const Dictionary& dictionary)
+void SaveDictionary(std::ostream& output, const std::string& dictPath, const Dictionary& dictionary)
 {
-	outFile << "Dictionary will be overwritten in " << dictPath << std::endl;
+	output << "Dictionary will be overwritten in " << dictPath << std::endl;
 	std::ofstream dictFile;
 
 	dictFile.open(dictPath);
@@ -219,4 +212,41 @@ void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary)
 		WriteTranslation(dictionaryFile, element.second);
 		dictionaryFile << std::endl;
 	}
+}
+
+void WriteDialogSymbol(std::ostream& output, const States& state)
+{
+	if (state != States::END)
+	{
+		output << "> ";
+	}
+}
+
+void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state)
+{
+	if (GetStringInLowerCase(line) == "yes")
+	{
+		WriteMessage(output, States::END_SAVE_SUCCESS);
+	}
+
+	state = States::END;
+
+	WriteMessage(output, state);
+}
+
+void ProcessFindTranslationStateOfChat(std::ostream& output, const std::string& line, States& state, const Dictionary& dictionary)
+{
+	auto it = FindTranslation(line, dictionary);
+
+	if (!it.has_value() && line != "...")
+	{
+		state = States::NEW_WORD;
+		WriteMessage(output, state);
+	}
+}
+
+void ProcessNewWordStateOfChat(std::ostream& output, const std::string& line, Dictionary& dictionary, const std::string& newWord)
+{
+	ProcessNewPosForDictionary(newWord, line, dictionary);
+	WriteMessage(output, States::NEW_TRANSLATION);
 }

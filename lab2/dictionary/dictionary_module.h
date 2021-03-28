@@ -13,7 +13,7 @@
 
 #include "string_functions.h"
 
-const std::string DICTIONARY_PATH_DEFAULT = "c:/dev/oop/lab2/dictionary/dictionary.txt";
+const std::string DICTIONARY_PATH_DEFAULT = "../dictionary.txt";
 
 struct Args
 {
@@ -26,7 +26,7 @@ typedef std::multimap<std::string, Translation> Dictionary;
 
 enum class States
 {
-	START = 0,
+	FIND_TRANSLATION = 0,
 	NEW_WORD = 1,
 	NEW_TRANSLATION = 2,
 	END = 3,
@@ -34,22 +34,31 @@ enum class States
 	END_SAVE_SUCCESS = 5,
 };
 
-void RunDictionary(std::istream& inFile, std::ostream& outFile, const std::string& dictionaryPath);
+void RunDictionary(std::istream& input, std::ostream& output, const std::string& dictionaryPath);
 
 Dictionary ReadDictionary(std::istream& dictionaryFile);
 
-void AddNewPosInDictionary(const std::string& word, const std::string& translations, Dictionary& dictionary);
+void ProcessNewPosForDictionary(const std::string& word, const std::string& translations, Dictionary& dictionary);
 
 void AddPosInDictionary(const std::string& word, const Translation& translations, Dictionary& dictionary);
 
-void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary);
-
-void RunChat(std::istream& inFile, std::ostream& outFile, Dictionary& dictionary, const std::string& dictionaryPath);
+void RunChat(std::istream& input, std::ostream& output, Dictionary& dictionary, bool& willSave);
 
 std::optional<Translation> FindTranslation(const std::string& line, const Dictionary& dictionary);
 
-void WriteMessage(std::ostream& outFile, States state, const Translation& translation = {});
+void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary);
 
-void WriteTranslation(std::ostream& outFile, const Translation& translation);
+void WriteMessage(std::ostream& output, States state, const Translation& translation = {});
 
-void SaveDictionary(std::ostream& outFile, const std::string& dictPath, const Dictionary& dictionary);
+void WriteDialogSymbol(std::ostream& output, const States& state);
+
+void WriteTranslation(std::ostream& output, const Translation& translation);
+
+void SaveDictionary(std::ostream& output, const std::string& dictPath, const Dictionary& dictionary);
+
+
+void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state);
+
+void ProcessFindTranslationStateOfChat(std::ostream& output, const std::string& line, States& state, const Dictionary& dictionary);
+
+void ProcessNewWordStateOfChat(std::ostream& output, const std::string& line, Dictionary& dictionary, const std::string& newWord);
