@@ -57,7 +57,7 @@ void WriteTranslation(std::ostream& output, const Translation& translation);
 void SaveDictionary(std::ostream& output, const std::string& dictPath, const Dictionary& dictionary);
 
 
-void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state);
+void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state, bool& willSave);
 
 void ProcessFindTranslationStateOfChat(std::ostream& output, const std::string& line, States& state, const Dictionary& dictionary);
 

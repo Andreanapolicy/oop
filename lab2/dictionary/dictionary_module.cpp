@@ -57,7 +57,7 @@ void ProcessNewPosForDictionary(const std::string& word, const std::string& tran
 
 	for (auto element : translationsSet.value())
 	{
-		AddPosInDictionary(element, GetSetFromString(GetStringInLowerCase(word), " ").value(), dictionary);
+		AddPosInDictionary(element, GetSetFromString(GetStringInLowerCase(word), ", ").value(), dictionary);
 	}
 }
 
@@ -86,21 +86,16 @@ void RunChat(std::istream& input, std::ostream& output, Dictionary& dictionary, 
 	States state = States::FIND_TRANSLATION;
 
 	WriteDialogSymbol(output, state);
-	while (getline(input, line) && (state != States::END))
+	while ((state != States::END) && getline(input, line))
 	{
 		if (line == "...")
 		{
 			state = willSave ? States::END_SAVE : States::END;
 			WriteMessage(output, state);
 
-			state = States::END;
-			if (!willSave)
+			if (state == States::END)
 			{
 				break;
-			}
-			else
-			{
-				continue;
 			}
 		}
 
@@ -108,7 +103,8 @@ void RunChat(std::istream& input, std::ostream& output, Dictionary& dictionary, 
 		{
 		case States::END:
 		case States::END_SAVE:
-			ProcessEndStateOfChat(output, line, state);
+			getline(input, line);
+			ProcessEndStateOfChat(output, line, state, willSave);
 			break;
 		case States::FIND_TRANSLATION:
 			ProcessFindTranslationStateOfChat(output, line, state, dictionary);
@@ -222,10 +218,12 @@ void WriteDialogSymbol(std::ostream& output, const States& state)
 	}
 }
 
-void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state)
+void ProcessEndStateOfChat(std::ostream& output, const std::string& line, States& state, bool& willSave)
 {
+	willSave = false;
 	if (GetStringInLowerCase(line) == "yes")
 	{
+		willSave = true;
 		WriteMessage(output, States::END_SAVE_SUCCESS);
 	}
 
