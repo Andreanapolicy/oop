@@ -242,7 +242,7 @@ TEST_CASE("Test car's remote controller")
 {
 	CCar car;
 
-	SECTION("Test car's remote controller on 0 speed and 0 gear")
+	SECTION("Test car's remote controller. Command <Info>")
 	{
 		std::istringstream iss("Info");
 		std::ostringstream oss;
@@ -251,6 +251,78 @@ TEST_CASE("Test car's remote controller")
 		remoteController.HandleCommand();
 		
 		REQUIRE(oss.str() == "Engine is: off\nSpeed: 0\nGear: 0\nDirection: on the spot\n");	
+	}
+
+	SECTION("Test car's remote controller. Command <EngineOn>")
+	{
+		std::istringstream iss("EngineOn\nEngineOn");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\n");	
+
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\nEngine is turn on\n");	
+
+	}
+
+	SECTION("Test car's remote controller. Command <EngineOff>")
+	{
+		std::istringstream iss("EngineOff\nEngineOff");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+
+		REQUIRE(oss.str() == "Engine is turn off\n");
+
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn off\nEngine is turn off\n");	
+	}
+
+	SECTION("Test car's remote controller. Command <SetGear>")
+	{
+		std::istringstream iss("SetGear -1\nSetGear 2");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+		
+		REQUIRE(oss.str() == "Set gear -1 succeed\n");
+		remoteController.HandleCommand();
+		
+		REQUIRE(oss.str() == "Set gear -1 succeed\nThere is some problems with setting new gear\n");	
+	}
+
+	SECTION("Test car's remote controller. Command <SetSpeed>")
+	{
+		std::istringstream iss("EngineOn\nSetGear 1\nSetSpeed 31\nSetSpeed 21");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\n");	
+
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\n");	
+
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\n");	
+
+		remoteController.HandleCommand();
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\nSet speed 21 succeed\n");	
+	}
+
+	SECTION("Test car's remote controller. Command <IncomprehensibleNonsense>")
+	{
+		std::istringstream iss("IncomprehensibleNonsense");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+		
+		REQUIRE(oss.str() == "");	
 	}
 
 }
