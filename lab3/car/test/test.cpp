@@ -2,6 +2,7 @@
 #include "../../../catch2/catch.hpp"
 #include "../common_libs.h"
 #include "../CCar.h"
+#include "../RemoteControl.h"
 
 TEST_CASE("Test get info on car level")
 {
@@ -194,7 +195,7 @@ TEST_CASE("Test car on gear upper than 1")
 	CCar car;
 	car.TurnOnEngine();
 
-	SECTION("Test car on gear 1 with limit speed")
+	SECTION("Test car switch from 1 to 5 gear and limited transition")
 	{
 		car.SetGear(1);
 		REQUIRE(car.SetSpeed(30) == true);
@@ -234,4 +235,22 @@ TEST_CASE("Test car on gear upper than 1")
 		REQUIRE(car.SetSpeed(31) == false);
 		REQUIRE(car.SetSpeed(0) == true);
 	}
+}
+
+
+TEST_CASE("Test car's remote controller")
+{
+	CCar car;
+
+	SECTION("Test car's remote controller on 0 speed and 0 gear")
+	{
+		std::istringstream iss("Info");
+		std::ostringstream oss;
+
+		RemoteControl remoteController(car, iss, oss);
+		remoteController.HandleCommand();
+		
+		REQUIRE(oss.str() == "Engine is: off\nSpeed: 0\nGear: 0\nDirection: on the spot\n");	
+	}
+
 }

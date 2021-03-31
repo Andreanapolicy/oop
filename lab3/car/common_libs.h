@@ -1,14 +1,18 @@
 #pragma once
 
+#include <functional>
+#include <iomanip>
 #include <iostream>
+#include <map>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <map>
 
 typedef std::vector<int> SpeedInterval;
 typedef std::map<int, SpeedInterval> SpeedIntervalForGears;
 
-enum class Direction {
+enum class Direction
+{
 	FORWARD,
 	BACKWARD,
 	ON_THE_SPOT,

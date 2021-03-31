@@ -24,12 +24,18 @@
     <ClCompile Include="CCar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RemoteControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
