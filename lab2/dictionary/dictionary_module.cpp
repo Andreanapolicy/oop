@@ -149,7 +149,7 @@ std::optional<Translation> FindTranslation(const std::string& line, const Dictio
 	return { translation->second };
 }
 
-void WriteMessage(std::ostream& output, States state)
+void WriteMessage(std::ostream& output, const States state)
 {
 	switch (state)
 	{
