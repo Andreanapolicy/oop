@@ -9,11 +9,11 @@ public:
 	bool HandleCommand();
 
 private:
-	bool EngineOn(int args);
-	bool EngineOff(int args);
-	bool SetGear(int args);
-	bool SetSpeed(int args);
-	bool Info(int args) const;
+	bool EngineOn(const int args);
+	bool EngineOff(const int args);
+	bool SetGear(const int args);
+	bool SetSpeed(const int args);
+	bool Info(const int args) const;
 
 private:
 	using Handler = std::function<bool(int args)>;

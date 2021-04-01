@@ -17,34 +17,34 @@ bool CCar::TurnOffEngine()
 	return !m_isEngineTurn;
 }
 
-bool CCar::SetSpeed(int newSpeed)
+bool CCar::SetSpeed(const int newSpeed)
 {
 	std::vector speedInterval = GetSpeedIntervalForGear(m_gear);
 	int currentGear = GetGear();
 	int minSpeed = speedInterval[0];
 	int maxSpeed = speedInterval[1];
-	newSpeed = abs(newSpeed);
+	int absNewSpeed = abs(newSpeed);
 
 	if (!m_isEngineTurn)
 	{
 		return false;
 	}
 
-	if (newSpeed == 0 && currentGear == 0)
+	if (absNewSpeed == 0 && currentGear == 0)
 	{
 		m_needStop = false;
 	}
 
-	if (currentGear == 0 && newSpeed <= m_speed)
+	if (currentGear == 0 && absNewSpeed <= m_speed)
 	{
-		m_speed = newSpeed;
+		m_speed = absNewSpeed;
 		SetDirection();
 		return true;
 	}
 
-	if (currentGear != 0 && minSpeed <= newSpeed && newSpeed <= maxSpeed)
+	if (currentGear != 0 && minSpeed <= absNewSpeed && absNewSpeed <= maxSpeed)
 	{
-		m_speed = newSpeed;
+		m_speed = absNewSpeed;
 		SetDirection();
 		return true;
 	}
@@ -52,7 +52,7 @@ bool CCar::SetSpeed(int newSpeed)
 	return false;
 }
 
-bool CCar::SetGear(int newGear)
+bool CCar::SetGear(const int newGear)
 {
 	if (newGear < -1 || newGear > 5)
 	{
@@ -164,7 +164,7 @@ CCar::SpeedIntervalForGears CCar::InitSpeedIntervalForGears() const
 	return speedIntervalForGears;
 }
 
-CCar::SpeedInterval CCar::GetSpeedIntervalForGear(int gear) const
+CCar::SpeedInterval CCar::GetSpeedIntervalForGear(const int gear) const
 {
 	return m_speedIntervalForGears.find(gear)->second;
 }

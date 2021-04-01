@@ -6,11 +6,11 @@ CRemoteControl::CRemoteControl(CCar& car, std::istream& input, std::ostream& out
 	, m_input(input)
 	, m_output(output)
 	, m_actionMap({ 
-		{ "EngineOn", [this](int args) { return EngineOn(args); } },  
-		{ "EngineOff", [this](int args) { return EngineOff(args); } },
-		{ "SetGear", [this](int args) { return SetGear(args); } },
-		{ "SetSpeed", [this](int args) { return SetSpeed(args); } },
-		{ "Info", [this](int args) { return Info(args); } } })
+		{ "EngineOn", [this](const int args) { return EngineOn(args); } },  
+		{ "EngineOff", [this](const int args) { return EngineOff(args); } },
+		  { "SetGear", [this](const int args) { return SetGear(args); } },
+		  { "SetSpeed", [this](const int args) { return SetSpeed(args); } },
+		  { "Info", [this](const int args) { return Info(args); } } })
 {
 }
 
@@ -35,7 +35,7 @@ bool CRemoteControl::HandleCommand()
 	return false;
 }
 
-bool CRemoteControl::EngineOn(int /*args*/)
+bool CRemoteControl::EngineOn(const int /*args*/)
 {
 	m_car.TurnOnEngine();
 	m_output << "Engine is turn on" << std::endl;
@@ -43,7 +43,7 @@ bool CRemoteControl::EngineOn(int /*args*/)
 	return true;
 }
 
-bool CRemoteControl::EngineOff(int /*args*/)
+bool CRemoteControl::EngineOff(const int /*args*/)
 {
 	m_car.TurnOffEngine();
 	m_output << "Engine is turn off" << std::endl;
@@ -51,7 +51,7 @@ bool CRemoteControl::EngineOff(int /*args*/)
 	return true;
 }
 
-bool CRemoteControl::SetGear(int args)
+bool CRemoteControl::SetGear(const int args)
 {
 	if (!m_car.SetGear(args))
 	{
@@ -64,7 +64,7 @@ bool CRemoteControl::SetGear(int args)
 	return true;
 }
 
-bool CRemoteControl::SetSpeed(int args)
+bool CRemoteControl::SetSpeed(const int args)
 {
 	if (!m_car.SetSpeed(args))
 	{
@@ -77,7 +77,7 @@ bool CRemoteControl::SetSpeed(int args)
 	return true;
 }
 
-bool CRemoteControl::Info(int /*args*/) const
+bool CRemoteControl::Info(const int /*args*/) const
 {
 	std::string engineState = m_car.IsEngineTurn() ? "on" : "off";
 	m_output << "Engine is: " << engineState << std::endl;

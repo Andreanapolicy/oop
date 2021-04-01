@@ -12,8 +12,8 @@ public:
 	};
 	bool TurnOnEngine();
 	bool TurnOffEngine();
-	bool SetGear(int newGear);
-	bool SetSpeed(int newSpeed);
+	bool SetGear(const int newGear);
+	bool SetSpeed(const int newSpeed);
 
 	bool IsEngineTurn() const;
 	int GetGear() const;
@@ -27,7 +27,7 @@ private:
 
 	using SpeedInterval = std::vector<int>;
 	using SpeedIntervalForGears = std::map<int, SpeedInterval>;
-	SpeedInterval GetSpeedIntervalForGear(int gear) const;
+	SpeedInterval GetSpeedIntervalForGear(const int gear) const;
 	SpeedIntervalForGears InitSpeedIntervalForGears() const;
 	
 	Direction m_direction = Direction::ON_THE_SPOT;
