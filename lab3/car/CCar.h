@@ -4,7 +4,7 @@
 class CCar
 {
 public:
-	enum Direction
+	enum class Direction
 	{
 		FORWARD,
 		BACKWARD,
