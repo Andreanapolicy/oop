@@ -9,7 +9,8 @@ CRemoteControl::CRemoteControl(CCar& car, std::istream& input, std::ostream& out
 		  { "EngineOff", [this](const int args) { return EngineOff(args); } },
 		  { "SetGear", [this](const int args) { return SetGear(args); } },
 		  { "SetSpeed", [this](const int args) { return SetSpeed(args); } },
-		  { "Info", [this](const int args) { return Info(args); } } })
+		  { "Info", [this](const int args) { return Info(args); } },
+		  { "Help", [this](const int args) { return Help(args); } } })
 {
 }
 
@@ -46,6 +47,17 @@ bool CRemoteControl::EngineOff(const int /*args*/)
 {
 	m_car.TurnOffEngine();
 	m_output << "Engine is turn off" << std::endl;
+
+	return true;
+}
+
+bool CRemoteControl::Help(const int /*args*/) const
+{
+	m_output << "EngineOn - turn on engine" << std::endl;
+	m_output << "EngineOff - turn off engine" << std::endl;
+	m_output << "SetSpeed <number> - set speed" << std::endl;
+	m_output << "SetGear <number> - set gear" << std::endl;
+	m_output << "Info - get info about car" << std::endl;
 
 	return true;
 }
