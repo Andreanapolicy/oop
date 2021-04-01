@@ -48,7 +48,7 @@ std::optional<Translation> FindTranslation(const std::string& line, const Dictio
 
 void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary);
 
-void WriteMessage(std::ostream& output, States state, const Translation& translation = {});
+void WriteMessage(std::ostream& output, States state);
 
 void WriteDialogSymbol(std::ostream& output, const States& state);
 

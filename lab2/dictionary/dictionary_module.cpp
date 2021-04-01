@@ -149,13 +149,10 @@ std::optional<Translation> FindTranslation(const std::string& line, const Dictio
 	return { translation->second };
 }
 
-void WriteMessage(std::ostream& output, States state, const Translation& translation)
+void WriteMessage(std::ostream& output, States state)
 {
 	switch (state)
 	{
-	case States::FIND_TRANSLATION:
-		WriteTranslation(output, translation);
-		break;
 	case States::END_SAVE:
 		output << "There are some changes in your dictionary. Type <yes>, if you want save it, or smth else, if you dont want it." << std::endl;
 		break;
