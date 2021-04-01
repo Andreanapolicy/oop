@@ -102,6 +102,7 @@ TEST_CASE("Test car on gear -1")
 	SECTION("Test car on gear -1 with limit speed")
 	{
 		car.SetGear(-1);
+		REQUIRE(car.SetGear(-1) == false);
 		REQUIRE(car.SetSpeed(30) == false);
 		car.SetSpeed(20);
 		REQUIRE(car.GetSpeed() == 20);

@@ -61,12 +61,12 @@ bool CCar::SetGear(int newGear)
 
 	int currentGear = GetGear();
 
-	if (newGear == currentGear)
+	if (newGear == currentGear && newGear != -1)
 	{
 		return true;
 	}
 
-	if (newGear == -1)
+	if (newGear == -1 && newGear != currentGear)
 	{
 		if (m_speed == 0)
 		{
