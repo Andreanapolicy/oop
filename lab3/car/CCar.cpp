@@ -13,7 +13,7 @@ bool CCar::TurnOffEngine()
 	{
 		m_isEngineTurn = false;
 	}
-	
+
 	return !m_isEngineTurn;
 }
 

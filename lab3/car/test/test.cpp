@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../common_libs.h"
 #include "../CCar.h"
 #include "../CRemoteControl.h"
+#include "../common_libs.h"
 
 TEST_CASE("Test get info on car level")
 {
@@ -167,10 +167,10 @@ TEST_CASE("Test car on gear 1")
 
 		REQUIRE(car.SetGear(2) == true);
 		REQUIRE(car.GetGear() == 2);
-		
+
 		REQUIRE(car.SetGear(3) == true);
 		REQUIRE(car.GetGear() == 3);
-		
+
 		car.SetGear(1);
 		car.SetSpeed(15);
 		REQUIRE(car.SetGear(-1) == false);
@@ -238,7 +238,6 @@ TEST_CASE("Test car on gear upper than 1")
 	}
 }
 
-
 TEST_CASE("Test car's remote controller")
 {
 	CCar car;
@@ -250,8 +249,8 @@ TEST_CASE("Test car's remote controller")
 
 		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
-		
-		REQUIRE(oss.str() == "Engine is: off\nSpeed: 0\nGear: 0\nDirection: on the spot\n");	
+
+		REQUIRE(oss.str() == "Engine is: off\nSpeed: 0\nGear: 0\nDirection: on the spot\n");
 	}
 
 	SECTION("Test car's remote controller. Command <EngineOn>")
@@ -261,11 +260,10 @@ TEST_CASE("Test car's remote controller")
 
 		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\n");	
+		REQUIRE(oss.str() == "Engine is turn on\n");
 
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\nEngine is turn on\n");	
-
+		REQUIRE(oss.str() == "Engine is turn on\nEngine is turn on\n");
 	}
 
 	SECTION("Test car's remote controller. Command <EngineOff>")
@@ -279,7 +277,7 @@ TEST_CASE("Test car's remote controller")
 		REQUIRE(oss.str() == "Engine is turn off\n");
 
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn off\nEngine is turn off\n");	
+		REQUIRE(oss.str() == "Engine is turn off\nEngine is turn off\n");
 	}
 
 	SECTION("Test car's remote controller. Command <SetGear>")
@@ -289,11 +287,11 @@ TEST_CASE("Test car's remote controller")
 
 		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
-		
+
 		REQUIRE(oss.str() == "Set gear -1 succeed\n");
 		remoteController.HandleCommand();
-		
-		REQUIRE(oss.str() == "Set gear -1 succeed\nThere is some problems with setting new gear\n");	
+
+		REQUIRE(oss.str() == "Set gear -1 succeed\nThere is some problems with setting new gear\n");
 	}
 
 	SECTION("Test car's remote controller. Command <SetSpeed>")
@@ -303,16 +301,16 @@ TEST_CASE("Test car's remote controller")
 
 		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\n");	
+		REQUIRE(oss.str() == "Engine is turn on\n");
 
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\n");	
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\n");
 
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\n");	
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\n");
 
 		remoteController.HandleCommand();
-		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\nSet speed 21 succeed\n");	
+		REQUIRE(oss.str() == "Engine is turn on\nSet gear 1 succeed\nThere is some problems with setting new speed\nSet speed 21 succeed\n");
 	}
 
 	SECTION("Test car's remote controller. Command <IncomprehensibleNonsense>")
@@ -322,8 +320,7 @@ TEST_CASE("Test car's remote controller")
 
 		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
-		
-		REQUIRE(oss.str() == "");	
-	}
 
+		REQUIRE(oss.str() == "");
+	}
 }

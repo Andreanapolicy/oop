@@ -5,9 +5,8 @@ CRemoteControl::CRemoteControl(CCar& car, std::istream& input, std::ostream& out
 	: m_car(car)
 	, m_input(input)
 	, m_output(output)
-	, m_actionMap({ 
-		{ "EngineOn", [this](const int args) { return EngineOn(args); } },  
-		{ "EngineOff", [this](const int args) { return EngineOff(args); } },
+	, m_actionMap({ { "EngineOn", [this](const int args) { return EngineOn(args); } },
+		  { "EngineOff", [this](const int args) { return EngineOff(args); } },
 		  { "SetGear", [this](const int args) { return SetGear(args); } },
 		  { "SetSpeed", [this](const int args) { return SetSpeed(args); } },
 		  { "Info", [this](const int args) { return Info(args); } } })
