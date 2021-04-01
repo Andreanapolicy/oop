@@ -209,7 +209,7 @@ void WriteDictionary(std::ostream& dictionaryFile, const Dictionary& dictionary)
 
 void WriteDialogSymbol(std::ostream& output, const States& state)
 {
-	if (state != States::END)
+	if (state != States::END && state != States::END_SAVE_SUCCESS)
 	{
 		output << "> ";
 	}
