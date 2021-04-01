@@ -81,7 +81,6 @@ bool CCar::SetGear(const int newGear)
 	if (currentGear == -1 && newGear == 0)
 	{
 		m_gear = newGear;
-		SetDirection();
 		m_needStop = m_speed != 0;
 		return true;
 	}
