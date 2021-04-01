@@ -87,13 +87,13 @@ bool CRemoteControl::Info(int /*args*/) const
 	std::string convertedDirection;
 	switch (m_car.GetDirection())
 	{
-	case Direction::FORWARD:
+	case CCar::Direction::FORWARD:
 		convertedDirection = "forward";
 		break;
-	case Direction::BACKWARD:
+	case CCar::Direction::BACKWARD:
 		convertedDirection = "backward";
 		break;
-	case Direction::ON_THE_SPOT:
+	case CCar::Direction::ON_THE_SPOT:
 		convertedDirection = "on the spot";
 		break;
 	}

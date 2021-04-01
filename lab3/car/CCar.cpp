@@ -111,19 +111,19 @@ void CCar::SetDirection()
 {
 	if (m_speed == 0)
 	{
-		m_direction = Direction::ON_THE_SPOT;
+		m_direction = CCar::Direction::ON_THE_SPOT;
 		return;
 	}
 
 	if (m_gear >= 0)
 	{
-		m_direction = Direction::FORWARD;
+		m_direction = CCar::Direction::FORWARD;
 		return;
 	}
 
 	if (m_gear == -1)
 	{
-		m_direction = Direction::BACKWARD;
+		m_direction = CCar::Direction::BACKWARD;
 		return;
 	}
 
@@ -145,12 +145,12 @@ int CCar::GetSpeed() const
 	return m_speed;
 }
 
-Direction CCar::GetDirection() const
+CCar::Direction CCar::GetDirection() const
 {
 	return m_direction;
 }
 
-SpeedIntervalForGears CCar::InitSpeedIntervalForGears() const
+CCar::SpeedIntervalForGears CCar::InitSpeedIntervalForGears() const
 {
 	SpeedIntervalForGears speedIntervalForGears;
 	speedIntervalForGears[-1] = { 0, 20 };
@@ -164,7 +164,7 @@ SpeedIntervalForGears CCar::InitSpeedIntervalForGears() const
 	return speedIntervalForGears;
 }
 
-SpeedInterval CCar::GetSpeedIntervalForGear(int gear) const
+CCar::SpeedInterval CCar::GetSpeedIntervalForGear(int gear) const
 {
 	return m_speedIntervalForGears.find(gear)->second;
 }

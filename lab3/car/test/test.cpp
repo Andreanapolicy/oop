@@ -52,7 +52,7 @@ TEST_CASE("Test car on gear 0")
 		REQUIRE(car.SetSpeed(12) == false);
 		REQUIRE(car.SetGear(0) == true);
 		REQUIRE(car.GetGear() == 0);
-		REQUIRE(car.GetDirection() == Direction::ON_THE_SPOT);
+		REQUIRE(car.GetDirection() == CCar::Direction::ON_THE_SPOT);
 	}
 
 	SECTION("Test car on transition from 0 to -1 gear")
@@ -60,7 +60,7 @@ TEST_CASE("Test car on gear 0")
 		car.SetGear(-1);
 		REQUIRE(car.GetGear() == -1);
 		REQUIRE(car.GetSpeed() == 0);
-		REQUIRE(car.GetDirection() == Direction::ON_THE_SPOT);
+		REQUIRE(car.GetDirection() == CCar::Direction::ON_THE_SPOT);
 	}
 
 	SECTION("Test car on transition from 0 to 1 gear")
@@ -70,7 +70,7 @@ TEST_CASE("Test car on gear 0")
 		car.SetSpeed(12);
 		REQUIRE(car.GetGear() == 1);
 		REQUIRE(car.GetSpeed() == 12);
-		REQUIRE(car.GetDirection() == Direction::FORWARD);
+		REQUIRE(car.GetDirection() == CCar::Direction::FORWARD);
 	}
 
 	SECTION("Test car on decrease speed on 0 gear")
@@ -96,7 +96,7 @@ TEST_CASE("Test car on gear -1")
 		car.SetGear(-1);
 		REQUIRE(car.GetGear() == -1);
 		REQUIRE(car.GetSpeed() == 0);
-		REQUIRE(car.GetDirection() == Direction::ON_THE_SPOT);
+		REQUIRE(car.GetDirection() == CCar::Direction::ON_THE_SPOT);
 	}
 
 	SECTION("Test car on gear -1 with limit speed")
@@ -105,7 +105,7 @@ TEST_CASE("Test car on gear -1")
 		REQUIRE(car.SetSpeed(30) == false);
 		car.SetSpeed(20);
 		REQUIRE(car.GetSpeed() == 20);
-		REQUIRE(car.GetDirection() == Direction::BACKWARD);
+		REQUIRE(car.GetDirection() == CCar::Direction::BACKWARD);
 	}
 
 	SECTION("Test car on transition from gear -1 to gear 1")
@@ -144,7 +144,7 @@ TEST_CASE("Test car on gear 1")
 		car.SetGear(1);
 		REQUIRE(car.GetGear() == 1);
 		REQUIRE(car.GetSpeed() == 0);
-		REQUIRE(car.GetDirection() == Direction::ON_THE_SPOT);
+		REQUIRE(car.GetDirection() == CCar::Direction::ON_THE_SPOT);
 	}
 
 	SECTION("Test car on gear 1 with limit speed")
@@ -153,10 +153,10 @@ TEST_CASE("Test car on gear 1")
 		REQUIRE(car.SetSpeed(40) == false);
 		car.SetSpeed(30);
 		REQUIRE(car.GetSpeed() == 30);
-		REQUIRE(car.GetDirection() == Direction::FORWARD);
+		REQUIRE(car.GetDirection() == CCar::Direction::FORWARD);
 		car.SetSpeed(0);
 		REQUIRE(car.GetSpeed() == 0);
-		REQUIRE(car.GetDirection() == Direction::ON_THE_SPOT);
+		REQUIRE(car.GetDirection() == CCar::Direction::ON_THE_SPOT);
 	}
 
 	SECTION("Test car on transition gears")

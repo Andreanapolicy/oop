@@ -4,6 +4,12 @@
 class CCar
 {
 public:
+	enum Direction
+	{
+		FORWARD,
+		BACKWARD,
+		ON_THE_SPOT,
+	};
 	bool TurnOnEngine();
 	bool TurnOffEngine();
 	bool SetGear(int newGear);
@@ -18,6 +24,9 @@ private:
 	void SetDirection();
 
 private:
+
+	using SpeedInterval = std::vector<int>;
+	using SpeedIntervalForGears = std::map<int, SpeedInterval>;
 	SpeedInterval GetSpeedIntervalForGear(int gear) const;
 	SpeedIntervalForGears InitSpeedIntervalForGears() const;
 	
