@@ -2,7 +2,7 @@
 #include "../../../catch2/catch.hpp"
 #include "../common_libs.h"
 #include "../CCar.h"
-#include "../RemoteControl.h"
+#include "../CRemoteControl.h"
 
 TEST_CASE("Test get info on car level")
 {
@@ -247,7 +247,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("Info");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 		
 		REQUIRE(oss.str() == "Engine is: off\nSpeed: 0\nGear: 0\nDirection: on the spot\n");	
@@ -258,7 +258,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("EngineOn\nEngineOn");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 		REQUIRE(oss.str() == "Engine is turn on\n");	
 
@@ -272,7 +272,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("EngineOff\nEngineOff");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 
 		REQUIRE(oss.str() == "Engine is turn off\n");
@@ -286,7 +286,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("SetGear -1\nSetGear 2");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 		
 		REQUIRE(oss.str() == "Set gear -1 succeed\n");
@@ -300,7 +300,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("EngineOn\nSetGear 1\nSetSpeed 31\nSetSpeed 21");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 		REQUIRE(oss.str() == "Engine is turn on\n");	
 
@@ -319,7 +319,7 @@ TEST_CASE("Test car's remote controller")
 		std::istringstream iss("IncomprehensibleNonsense");
 		std::ostringstream oss;
 
-		RemoteControl remoteController(car, iss, oss);
+		CRemoteControl remoteController(car, iss, oss);
 		remoteController.HandleCommand();
 		
 		REQUIRE(oss.str() == "");	

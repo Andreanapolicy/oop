@@ -2,10 +2,10 @@
 #include "common_libs.h"
 #include "CCar.h"
 
-class RemoteControl
+class CRemoteControl
 {
 public:
-	RemoteControl(CCar& car, std::istream& input, std::ostream& output);
+	CRemoteControl(CCar& car, std::istream& input, std::ostream& output);
 	bool HandleCommand();
 
 private:
@@ -13,7 +13,7 @@ private:
 	bool EngineOff(int args);
 	bool SetGear(int args);
 	bool SetSpeed(int args);
-	bool Info(int args);
+	bool Info(int args) const;
 
 private:
 	using Handler = std::function<bool(int args)>;

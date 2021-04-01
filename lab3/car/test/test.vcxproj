@@ -157,7 +157,7 @@
   <ItemGroup>
     <ClCompile Include="..\CCar.cpp" />
     <ClCompile Include="..\common_libs.cpp" />
-    <ClCompile Include="..\RemoteControl.cpp" />
+    <ClCompile Include="..\CRemoteControl.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>

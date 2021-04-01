@@ -17,13 +17,15 @@ public:
 private:
 	void SetDirection();
 
+private:
 	SpeedInterval GetSpeedIntervalForGear(int gear) const;
 	SpeedIntervalForGears InitSpeedIntervalForGears() const;
+	
+	Direction m_direction = Direction::ON_THE_SPOT;
+	SpeedIntervalForGears m_speedIntervalForGears = InitSpeedIntervalForGears();
+	
 	bool m_isEngineTurn = false;
 	int m_speed = 0;
 	int m_gear = 0;
 	bool m_needStop = false;
-	Direction m_direction = Direction::ON_THE_SPOT;
-
-	SpeedIntervalForGears m_speedIntervalForGears = InitSpeedIntervalForGears();
 };

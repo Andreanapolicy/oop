@@ -1,7 +1,7 @@
-#include "RemoteControl.h"
+#include "CRemoteControl.h"
 #include "common_libs.h"
 
-RemoteControl::RemoteControl(CCar& car, std::istream& input, std::ostream& output)
+CRemoteControl::CRemoteControl(CCar& car, std::istream& input, std::ostream& output)
 	: m_car(car)
 	, m_input(input)
 	, m_output(output)
@@ -14,7 +14,7 @@ RemoteControl::RemoteControl(CCar& car, std::istream& input, std::ostream& outpu
 {
 }
 
-bool RemoteControl::HandleCommand()
+bool CRemoteControl::HandleCommand()
 {
 	std::string commandLine;
 	std::getline(m_input, commandLine);
@@ -35,7 +35,7 @@ bool RemoteControl::HandleCommand()
 	return false;
 }
 
-bool RemoteControl::EngineOn(int /*args*/)
+bool CRemoteControl::EngineOn(int /*args*/)
 {
 	m_car.TurnOnEngine();
 	m_output << "Engine is turn on" << std::endl;
@@ -43,7 +43,7 @@ bool RemoteControl::EngineOn(int /*args*/)
 	return true;
 }
 
-bool RemoteControl::EngineOff(int /*args*/)
+bool CRemoteControl::EngineOff(int /*args*/)
 {
 	m_car.TurnOffEngine();
 	m_output << "Engine is turn off" << std::endl;
@@ -51,7 +51,7 @@ bool RemoteControl::EngineOff(int /*args*/)
 	return true;
 }
 
-bool RemoteControl::SetGear(int args)
+bool CRemoteControl::SetGear(int args)
 {
 	if (!m_car.SetGear(args))
 	{
@@ -64,7 +64,7 @@ bool RemoteControl::SetGear(int args)
 	return true;
 }
 
-bool RemoteControl::SetSpeed(int args)
+bool CRemoteControl::SetSpeed(int args)
 {
 	if (!m_car.SetSpeed(args))
 	{
@@ -77,7 +77,7 @@ bool RemoteControl::SetSpeed(int args)
 	return true;
 }
 
-bool RemoteControl::Info(int /*args*/)
+bool CRemoteControl::Info(int /*args*/) const
 {
 	std::string engineState = m_car.IsEngineTurn() ? "on" : "off";
 	m_output << "Engine is: " << engineState << std::endl;

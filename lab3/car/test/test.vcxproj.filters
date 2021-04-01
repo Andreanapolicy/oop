@@ -24,7 +24,7 @@
     <ClCompile Include="..\common_libs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\RemoteControl.cpp">
+    <ClCompile Include="..\CRemoteControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,11 +1,11 @@
 #include "common_libs.h"
 #include "CCar.h"
-#include "RemoteControl.h"
+#include "CRemoteControl.h"
 
 int main()
 {
 	CCar car;
-	RemoteControl remoteController(car, std::cin, std::cout);
+	CRemoteControl remoteController(car, std::cin, std::cout);
 	while (!std::cin.eof() && !std::cin.fail())
 	{
 		std::cout << "> ";
