@@ -192,7 +192,6 @@ TEST_CASE("Test car on gear -1")
 			{
 				REQUIRE(ExpectValues(car, 20, -1, CCar::Direction::BACKWARD));
 				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetGear(1); }, 20, 1, CCar::Direction::BACKWARD));
-
 			}
 		}
 
@@ -207,7 +206,6 @@ TEST_CASE("Test car on gear -1")
 				REQUIRE(ExpectValues(car, 20, -1, CCar::Direction::BACKWARD));
 				REQUIRE(ExpectedModify(car, [](CCar& car) { car.SetGear(0); }, 20, 0, CCar::Direction::BACKWARD));
 				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetGear(1); }, 20, 1, CCar::Direction::FORWARD));
-
 			}
 
 			THEN("change on 1 after stopping")
@@ -215,6 +213,13 @@ TEST_CASE("Test car on gear -1")
 				REQUIRE(ExpectValues(car, 20, -1, CCar::Direction::BACKWARD));
 				REQUIRE(ExpectedModify(car, [](CCar& car) { car.SetSpeed(0); }, 0, -1, CCar::Direction::ON_THE_SPOT));
 				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetGear(1); }, 0, 1, CCar::Direction::FORWARD));
+			}
+
+			THEN("after switching to 0 gear and decrease speed, direction have not be changed")
+			{
+				REQUIRE(ExpectValues(car, 20, -1, CCar::Direction::BACKWARD));
+				REQUIRE(ExpectedModify(car, [](CCar& car) { car.SetGear(0); }, 20, 0, CCar::Direction::BACKWARD));
+				REQUIRE(ExpectedModify(car, [](CCar& car) { car.SetSpeed(15); }, 15, 0, CCar::Direction::BACKWARD));
 			}
 		}
 	}
@@ -313,6 +318,7 @@ TEST_CASE("Ñar on gear upper than 1")
 				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetSpeed(49); }, 49, 5, CCar::Direction::FORWARD));
 				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetSpeed(151); }, 151, 5, CCar::Direction::FORWARD));
 				REQUIRE(ExpectedModify(car, [](CCar& car) { car.SetSpeed(150); }, 150, 5, CCar::Direction::FORWARD));
+				REQUIRE(!ExpectedModify(car, [](CCar& car) { car.SetSpeed(-10); }, -10, 5, CCar::Direction::BACKWARD));
 			}
 		}
 

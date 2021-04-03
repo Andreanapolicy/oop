@@ -20,7 +20,6 @@ bool CCar::TurnOffEngine()
 bool CCar::SetSpeed(const int newSpeed)
 {
 	std::vector speedInterval = GetSpeedIntervalForGear(m_gear);
-	int currentGear = GetGear();
 	int minSpeed = speedInterval[0];
 	int maxSpeed = speedInterval[1];
 	int absNewSpeed = abs(newSpeed);
@@ -30,21 +29,21 @@ bool CCar::SetSpeed(const int newSpeed)
 		return false;
 	}
 
-	if (absNewSpeed == 0 && currentGear == 0)
+	if (absNewSpeed == 0 && m_gear == 0)
 	{
 		m_needStop = false;
 	}
 
-	if (currentGear == 0 && absNewSpeed <= m_speed)
+	if (m_gear == 0 && absNewSpeed <= abs(m_speed))
 	{
 		m_speed = absNewSpeed;
-		SetDirection();
+		//SetDirection();
 		return true;
 	}
 
-	if (currentGear != 0 && minSpeed <= absNewSpeed && absNewSpeed <= maxSpeed)
+	if (m_gear != 0 && minSpeed <= absNewSpeed && absNewSpeed <= maxSpeed)
 	{
-		m_speed = absNewSpeed;
+		m_speed = (m_gear == -1) ? ((-1) * absNewSpeed) : absNewSpeed;
 		SetDirection();
 		return true;
 	}
@@ -59,36 +58,32 @@ bool CCar::SetGear(const int newGear)
 		return false;
 	}
 
-	int currentGear = GetGear();
-
-	if (newGear == currentGear && newGear != -1)
+	if (newGear == m_gear && newGear != -1)
 	{
 		return true;
 	}
 
-	if (newGear == -1 && newGear != currentGear)
+	if (newGear == -1 && newGear != m_gear)
 	{
 		if (m_speed == 0)
 		{
 			m_gear = newGear;
-			SetDirection();
 			return true;
 		}
 
 		return false;
 	}
 
-	if (currentGear == -1 && newGear == 0)
+	if (m_gear == -1 && newGear == 0)
 	{
 		m_gear = newGear;
 		m_needStop = m_speed != 0;
 		return true;
 	}
 
-	if (currentGear == -1 && newGear == 1 && m_speed == 0)
+	if (m_gear == -1 && newGear == 1 && m_speed == 0)
 	{
 		m_gear = newGear;
-		SetDirection();
 		return true;
 	}
 
@@ -96,7 +91,7 @@ bool CCar::SetGear(const int newGear)
 	int minSpeed = speedInterval[0];
 	int maxSpeed = speedInterval[1];
 
-	if (currentGear != -1 && minSpeed <= m_speed && m_speed <= maxSpeed && !m_needStop)
+	if (m_gear != -1 && minSpeed <= m_speed && m_speed <= maxSpeed && !m_needStop)
 	{
 		m_gear = newGear;
 		SetDirection();
@@ -108,24 +103,19 @@ bool CCar::SetGear(const int newGear)
 
 void CCar::SetDirection()
 {
-	if (m_speed == 0)
-	{
-		m_direction = CCar::Direction::ON_THE_SPOT;
-		return;
-	}
-
-	if (m_gear >= 0)
+	if (m_speed > 0)
 	{
 		m_direction = CCar::Direction::FORWARD;
 		return;
 	}
 
-	if (m_gear == -1)
+	if (m_speed < 0)
 	{
 		m_direction = CCar::Direction::BACKWARD;
 		return;
 	}
 
+	m_direction = CCar::Direction::ON_THE_SPOT;
 	return;
 }
 
@@ -141,7 +131,7 @@ int CCar::GetGear() const
 
 int CCar::GetSpeed() const
 {
-	return m_speed;
+	return abs(m_speed);
 }
 
 CCar::Direction CCar::GetDirection() const
