@@ -2,28 +2,27 @@
 
 void DecodeText(std::istream& inFile, std::ostream& outFile)
 {
-	auto DecodeList = initHTMLDecodeList();
+	auto decodeList = initHTMLDecodeList();
 
-	int maxLengthOfReplacement = GetMaxLengthOfReplacements(DecodeList.replacementList);
+	int maxLengthOfReplacement = GetMaxLengthOfReplacements(decodeList);
 
 	std::string line;
 
 	while (std::getline(inFile, line))
 	{
-		outFile << DecodeLine(line, maxLengthOfReplacement, DecodeList) << std::endl;
+		outFile << DecodeLine(line, maxLengthOfReplacement, decodeList) << std::endl;
 	}
 }
 
 HTMLDecodeList initHTMLDecodeList()
 {
-	HTMLDecodeList DecodeList;
-	DecodeList.replacementList = { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" };
-	DecodeList.substituteList = { '<', '>', '\"', '\'', '&' };
+	HTMLDecodeList decodeList;
+	decodeList = { { "&lt;", '<' }, { "&gt;", '>' }, { "&quot;", '\"' }, { "&apos;", '\'' }, { "&amp;", '&' } };
 
-	return DecodeList;
+	return decodeList;
 }
 
-std::string DecodeLine(const std::string_view& line, const int maxLengthOfReplacement, const HTMLDecodeList& DecodeList)
+std::string DecodeLine(const std::string_view& line, const int maxLengthOfReplacement, const HTMLDecodeList& decodeList)
 {
 	size_t cursorPos = 0;
 	std::string replacedString;
@@ -37,7 +36,7 @@ std::string DecodeLine(const std::string_view& line, const int maxLengthOfReplac
 			break;
 		}
 
-		replacedString += ReplaceCharNearbyPos(line.substr(substringBeginPos, maxLengthOfReplacement), substringBeginPos, DecodeList);
+		replacedString += ReplaceCharNearbyPos(line.substr(substringBeginPos, maxLengthOfReplacement), substringBeginPos, decodeList);
 
 		cursorPos = substringBeginPos;
 	}
@@ -45,29 +44,33 @@ std::string DecodeLine(const std::string_view& line, const int maxLengthOfReplac
 	return replacedString;
 }
 
-int GetMaxLengthOfReplacements(const ReplacementList& chars)
+int GetMaxLengthOfReplacements(const HTMLDecodeList& decodeList)
 {
-	if (chars.empty())
+	if (decodeList.empty())
 	{
 		throw std::runtime_error("Replacement dictionary is empty");
 	}
 
-	auto maxLength = *std::max_element(chars.begin(), chars.end());
+	size_t maxLength = 0;
+	for (auto element : decodeList)
+	{
+		maxLength = element.first.size() > maxLength ? element.first.size() : maxLength; 
+	}
 
-	return maxLength.size();
+	return maxLength;
 }
 
-char ReplaceCharNearbyPos(const std::string_view& line, size_t& substringBeginPos, const HTMLDecodeList& DecodeList)
+char ReplaceCharNearbyPos(const std::string_view& line, size_t& substringBeginPos, const HTMLDecodeList& decodeList)
 {
 	char replacedString = '&';
 
-	for (size_t index = 0; index < DecodeList.replacementList.size(); index++)
+	for (size_t index = 0; index < decodeList.size(); index++)
 	{
-		auto findReplacement = line.find(DecodeList.replacementList[index]);
+		auto findReplacement = line.find(decodeList[index].first);
 		if (findReplacement != std::string::npos && findReplacement == 0)
 		{
-			replacedString = DecodeList.substituteList[index];
-			substringBeginPos += findReplacement + DecodeList.replacementList[index].size() - 1;
+			replacedString = decodeList[index].second;
+			substringBeginPos += findReplacement + decodeList[index].first.size() - 1;
 			break;
 		}
 	}
