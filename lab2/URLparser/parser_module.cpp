@@ -47,11 +47,17 @@ std::optional<URL> ParseUrl(const std::string& url)
 	URL resultURL = { "" };
 
 	resultURL.url = url;
-	std::regex protocol("^[\w+]*?(?=:\/\/)");
+	std::regex protocol(R"\w+");
 	std::smatch result;
 
+	resultURL.protocol = std::regex_search(url, result, protocol) ? result.str(0) : "";
 
-	resultURL.protocol = std::regex_match(url, result, protocol) ? result[0].str() : "";
+	std::cout << result.str(0) << std::endl;
 
 	return { resultURL };
+}
+
+bool ValidUrl(const URL& url)
+{
+	return true;
 }
