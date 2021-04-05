@@ -15,7 +15,7 @@ TEST_CASE("Incorrect name of variable")
 
 			THEN("value of new var is NaN")
 			{
-				REQUIRE(std::isnan(calc.GetVarValue("123x")));
+				REQUIRE(std::isnan(calc.GetIdentifierValue("123x")));
 			}
 		}
 
@@ -25,7 +25,7 @@ TEST_CASE("Incorrect name of variable")
 
 			THEN("value of new var is 1")
 			{
-				REQUIRE(calc.GetVarValue("_123x") == 1);
+				REQUIRE(calc.GetIdentifierValue("_123x") == 1);
 			}
 		}
 	}
@@ -46,10 +46,23 @@ TEST_CASE("Creating vars with values of different vars")
 
 			THEN("value of new var is NaN")
 			{
-				REQUIRE(calc.GetVarValue("x") == 1);
-				REQUIRE(calc.GetVarValue("y") == 1);
+				REQUIRE(calc.GetIdentifierValue("x") == 1);
+				REQUIRE(calc.GetIdentifierValue("y") == 1);
 				REQUIRE(calc.GetAllVars().size() == 2);
 				REQUIRE(calc.GetAllVars() == std::map<std::string, double>{ { "x", 1 }, { "y", 1 } });
+			}
+		}
+
+		WHEN("create var y with value of var x(NaN)")
+		{
+			calc.CreateNewVar("x");
+			calc.SetVarValue("y", "x");
+
+			THEN("value of new var is NaN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("x")));
+				REQUIRE(std::isnan(calc.GetIdentifierValue("y")));
+				REQUIRE(calc.GetAllVars().size() == 2);
 			}
 		}
 
@@ -59,7 +72,7 @@ TEST_CASE("Creating vars with values of different vars")
 
 			THEN("value of new var is 1")
 			{
-				REQUIRE(calc.GetVarValue("x") == 1);
+				REQUIRE(calc.GetIdentifierValue("x") == 1);
 
 				REQUIRE(calc.GetAllVars().size() == 1);
 			}
@@ -73,8 +86,8 @@ TEST_CASE("Creating vars with values of different vars")
 
 			THEN("value of new var is 1")
 			{
-				REQUIRE(calc.GetVarValue("x") == 1);
-				REQUIRE(calc.GetVarValue("y") == 2);
+				REQUIRE(calc.GetIdentifierValue("x") == 1);
+				REQUIRE(calc.GetIdentifierValue("y") == 2);
 
 				REQUIRE(calc.GetAllVars().size() == 2);
 				REQUIRE(calc.GetAllVars() == std::map<std::string, double>{ { "x", 1 }, { "y", 2 } });
@@ -95,7 +108,7 @@ TEST_CASE("Creating vars with or without values")
 
 			THEN("value of new var is NaN")
 			{
-				REQUIRE(std::isnan(calc.GetVarValue("x")));
+				REQUIRE(std::isnan(calc.GetIdentifierValue("x")));
 				REQUIRE(calc.GetAllVars().size() == 1);
 			}
 		}
@@ -106,7 +119,7 @@ TEST_CASE("Creating vars with or without values")
 
 			THEN("value of new var is 1")
 			{
-				REQUIRE(calc.GetVarValue("x") == 1);
+				REQUIRE(calc.GetIdentifierValue("x") == 1);
 
 				REQUIRE(calc.GetAllVars().size() == 1);
 			}
@@ -120,11 +133,33 @@ TEST_CASE("Creating vars with or without values")
 
 			THEN("value of new var is 1")
 			{
-				REQUIRE(calc.GetVarValue("x") == 1);
-				REQUIRE(calc.GetVarValue("y") == 2);
+				REQUIRE(calc.GetIdentifierValue("x") == 1);
+				REQUIRE(calc.GetIdentifierValue("y") == 2);
 
 				REQUIRE(calc.GetAllVars().size() == 2);
 				REQUIRE(calc.GetAllVars() == std::map<std::string, double>{ { "x", 1 }, { "y", 2 } });
+			}
+		}
+	}
+}
+
+TEST_CASE("Creating functions")
+{
+	GIVEN("A calculator")
+	{
+		CCalculator calc;
+
+		WHEN("create new function fn = x and fn1 = fn + x, where x = NaN")
+		{
+			calc.CreateNewVar("x");
+
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>(' ', { "x" })));
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn1", std::pair<char, std::vector<std::string>>('+', { "x", "fn" })));
+
+			THEN("add fn = x and fn1 = fn + x")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("x")));
+				REQUIRE(calc.GetAllFunctions().size() == 2);
 			}
 		}
 	}

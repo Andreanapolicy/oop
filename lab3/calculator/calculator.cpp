@@ -1,9 +1,10 @@
 #include "common_libs.h"
+#include "CCalculator.h"
 
 int main()
 {
-	//CCar car;
-	//CRemoteControl remoteController(car, std::cin, std::cout);
+	CCalculator calculator;
+	//CRemoteControl remoteController(calculator, std::cin, std::cout);
 	//while (!std::cin.eof() && !std::cin.fail())
 	//{
 	//	std::cout << "> ";

@@ -4,16 +4,25 @@
 class CCalculator
 {
 public:
+	using Expression = std::pair<char, std::vector<std::string>>;
+	using Function = std::pair<std::string, Expression>;
+
 	bool CreateNewVar(const std::string& varName);
 	bool SetVarValue(const std::string& varName, const std::string& value);
-	double GetVarValue(const std::string& varName) const;
+	bool SetFunctionValue(const Function& function);
+	double GetIdentifierValue(const std::string& identifierName) const;
 	std::map<std::string, double> GetAllVars() const;
+	std::map<std::string, Expression> GetAllFunctions() const;
 
 private:
-	using Expression = std::pair<char, std::vector<std::string>>;
+	std::vector<char> m_operators = { '+', '-', '*', '/' };
+
 	std::map<std::string, double> m_memory;
 	std::map<std::string, Expression> m_memoryFn;
 
 	bool IsVarAlreadyExist(const std::string& varName) const;
-	bool IsValidVar(const std::string& varName) const;
+	bool IsValidName(const std::string& varName) const;
+	double CalculateFunctionValue(const Expression& expression) const;
+	bool IsValidFunction(const Function& function) const;
+	bool isValidOperands(const std::string& functionName, const std::vector<std::string>& operands) const;
 };

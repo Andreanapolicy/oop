@@ -3,7 +3,7 @@
 
 bool CCalculator::CreateNewVar(const std::string& varName)
 {
-	if (!IsValidVar(varName) || IsVarAlreadyExist(varName))
+	if (!IsValidName(varName) || IsVarAlreadyExist(varName))
 	{
 		return false;
 	}
@@ -12,11 +12,11 @@ bool CCalculator::CreateNewVar(const std::string& varName)
 	return true;
 }
 
-double CCalculator::GetVarValue(const std::string& varName) const
+double CCalculator::GetIdentifierValue(const std::string& identifierName) const
 {
-	if (IsVarAlreadyExist(varName))
+	if (IsVarAlreadyExist(identifierName))
 	{
-		return m_memory.find(varName)->second;
+		return m_memory.find(identifierName) != m_memory.end() ? m_memory.find(identifierName)->second : CalculateFunctionValue(m_memoryFn.find(identifierName)->second);
 	}
 
 	return NAN;
@@ -25,6 +25,11 @@ double CCalculator::GetVarValue(const std::string& varName) const
 std::map<std::string, double> CCalculator::GetAllVars() const
 {
 	return m_memory;
+}
+
+std::map<std::string, CCalculator::Expression> CCalculator::GetAllFunctions() const
+{
+	return m_memoryFn;
 }
 
 bool CCalculator::SetVarValue(const std::string& varName, const std::string& value)
@@ -51,12 +56,97 @@ bool CCalculator::SetVarValue(const std::string& varName, const std::string& val
 
 	return false;
 }
+
+bool CCalculator::SetFunctionValue(const Function& function)
+{
+	if (IsVarAlreadyExist(function.first))
+	{
+		return false;
+	}
+
+	if (!IsValidName(function.first))
+	{
+		return false;
+	}
 	
+	if (IsValidFunction(function))
+	{
+		m_memoryFn.insert(function);
+		
+		return true;
+	}
+
+	return false;
+}
+	
+bool CCalculator::IsValidFunction(const Function& function) const
+{
+	auto functionName = function.first;
+	auto expression = function.second;
+
+	if (expression.second.size() == 0 || expression.second.size() > 2)
+	{
+		return false;
+	}
+
+	if (expression.first == ' ')
+	{
+		if (expression.second.size() > 1)
+		{
+			return false;
+		}
+
+		if (isValidOperands(functionName, expression.second))
+		{
+			return true;
+		}
+
+		return true;
+	}
+
+	auto it = std::find(m_operators.begin(), m_operators.end(), expression.first);
+
+	if (it == m_operators.end() || expression.second.size() != 2)
+	{
+		return false;
+	}
+	
+	if (isValidOperands(functionName, expression.second))
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+bool CCalculator::isValidOperands(const std::string& functionName, const std::vector<std::string>& operands) const
+{
+	if (operands.size() == 1)
+	{
+		return (operands[0] != functionName) && IsVarAlreadyExist(operands[0]);
+	}
+
+	if (operands.size() == 2)
+	{
+		return (operands[0] != functionName || operands[1] != functionName) && IsVarAlreadyExist(operands[0]) && IsVarAlreadyExist(operands[1]);
+	}
+
+	return false;
+}
+
+
 bool CCalculator::IsVarAlreadyExist(const std::string& varName) const
 {
-	auto it = m_memory.find(varName);
+	auto itVars = m_memory.find(varName);
 
-	if (it != m_memory.end())
+	if (itVars != m_memory.end())
+	{
+		return true;
+	}
+
+	auto itFn = m_memoryFn.find(varName);
+
+	if (itFn != m_memoryFn.end())
 	{
 		return true;
 	}
@@ -64,7 +154,7 @@ bool CCalculator::IsVarAlreadyExist(const std::string& varName) const
 	return false;
 }
 
-bool CCalculator::IsValidVar(const std::string& varName) const
+bool CCalculator::IsValidName(const std::string& varName) const
 {
 	if (varName.empty())
 	{
@@ -79,4 +169,9 @@ bool CCalculator::IsValidVar(const std::string& varName) const
     std::regex regex{ R"(\w+)" };
 
 	return std::regex_match(varName, regex);
+}
+
+double CCalculator::CalculateFunctionValue(const Expression& expression) const
+{
+	return NAN;
 }
