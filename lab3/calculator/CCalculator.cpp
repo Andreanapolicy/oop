@@ -29,6 +29,11 @@ std::map<std::string, double> CCalculator::GetAllVars() const
 
 std::map<std::string, CCalculator::Expression> CCalculator::GetAllFunctions() const
 {
+	//std::map<std::string, double> resultMap;
+	//for (auto element : m_memoryFn)
+	//{
+	//	
+	//}
 	return m_memoryFn;
 }
 
