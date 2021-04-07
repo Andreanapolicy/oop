@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 #include "../CCalculator.h"
+#include "../CRemoteController.h"
 #include "../common_libs.h"
 
 TEST_CASE("Incorrect name of identifier")
@@ -275,6 +276,41 @@ TEST_CASE("Value functions output")
 			}
 		}
 
+		WHEN("x = 1; y = 2; fn = fn + y")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetVarValue("y", "2");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "fn", "y" })));
+
+			THEN("fn = NaN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = 1; y = 2; fn = x + fn")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetVarValue("y", "2");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "fn" })));
+
+			THEN("fn = NaN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = 1; fn = fn")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "fn" })));
+
+			THEN("fn = NaN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
 		WHEN("x = 1; y = 2;")
 		{
 			calc.SetVarValue("x", "1");
@@ -396,6 +432,108 @@ TEST_CASE("Value functions output")
 			THEN("fn = 3")
 			{
 				REQUIRE(calc.GetIdentifierValue("fn") == 3);
+			}
+		}
+	}
+}
+
+TEST_CASE("Arguments parsing test")
+{
+	GIVEN("A calculator")
+	{
+		CCalculator calc;
+		std::istringstream iss;
+		std::ostringstream oss;
+		CRemoteController remoteController(calc, iss, oss);
+
+		WHEN("x = 3")
+		{
+			auto arguments = remoteController.ParseArguments("x = 3");
+
+			THEN("x = 3")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "3");
+				REQUIRE(arguments.operationSymbol == ' ');
+				REQUIRE(arguments.secondOperand.empty());
+			}
+		}
+
+		WHEN("x = y")
+		{
+			auto arguments = remoteController.ParseArguments("x = y");
+
+			THEN("x = y")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "y");
+				REQUIRE(arguments.operationSymbol == ' ');
+				REQUIRE(arguments.secondOperand.empty());
+			}
+		}
+
+		WHEN("x")
+		{
+			auto arguments = remoteController.ParseArguments("x");
+
+			THEN("x")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "");
+				REQUIRE(arguments.operationSymbol == ' ');
+				REQUIRE(arguments.secondOperand.empty());
+			}
+		}
+
+		WHEN("")
+		{
+			auto arguments = remoteController.ParseArguments("");
+
+			THEN("")
+			{
+				REQUIRE(arguments.identifierName == "");
+				REQUIRE(arguments.firstOperand == "");
+				REQUIRE(arguments.operationSymbol == ' ');
+				REQUIRE(arguments.secondOperand.empty());
+			}
+		}
+
+		WHEN("x = y + z")
+		{
+			auto arguments = remoteController.ParseArguments("x = y + z");
+
+			THEN("x = y + z")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "y");
+				REQUIRE(arguments.operationSymbol == '+');
+				REQUIRE(arguments.secondOperand == "z");
+			}
+		}
+
+		WHEN("x = y + z")
+		{
+			auto arguments = remoteController.ParseArguments("x = y + z");
+
+			THEN("x = y + z")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "y");
+				REQUIRE(arguments.operationSymbol == '+');
+				REQUIRE(arguments.secondOperand == "z");
+			}
+		}
+
+		WHEN("x = y * z")
+		{
+			auto arguments = remoteController.ParseArguments("x = y * z");
+
+			THEN("x = y * z")
+			{
+				REQUIRE(arguments.identifierName == "x");
+				REQUIRE(arguments.firstOperand == "y");
+				REQUIRE(arguments.operationSymbol == '*');
+				REQUIRE(arguments.secondOperand == "z");
 			}
 		}
 	}

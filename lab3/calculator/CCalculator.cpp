@@ -27,9 +27,15 @@ std::map<std::string, double> CCalculator::GetAllVars() const
 	return m_memory;
 }
 
-std::map<std::string, CCalculator::Expression> CCalculator::GetAllFunctions() const
+std::map<std::string, double> CCalculator::GetAllFunctions() const
 {
-	return m_memoryFn;
+	std::map<std::string, double> mapFunction;
+	for (const auto element : m_memoryFn)
+	{
+		mapFunction.insert(std::pair<std::string, double>(element.first, CalculateFunctionValue(element.first)));
+	}
+
+	return mapFunction;
 }
 
 bool CCalculator::SetVarValue(const std::string& varName, const std::string& value)

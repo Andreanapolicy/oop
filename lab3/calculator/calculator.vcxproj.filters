@@ -24,12 +24,18 @@
     <ClCompile Include="CCalculator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CRemoteController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CCalculator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CRemoteController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
