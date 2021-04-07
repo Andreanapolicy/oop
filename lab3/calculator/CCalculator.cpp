@@ -16,7 +16,7 @@ double CCalculator::GetIdentifierValue(const std::string& identifierName) const
 {
 	if (IsVarAlreadyExist(identifierName))
 	{
-		return m_memory.find(identifierName) != m_memory.end() ? m_memory.find(identifierName)->second : CalculateFunctionValue(m_memoryFn.find(identifierName)->second);
+		return m_memory.find(identifierName) != m_memory.end() ? m_memory.find(identifierName)->second : CalculateFunctionValue(identifierName);
 	}
 
 	return NAN;
@@ -29,11 +29,6 @@ std::map<std::string, double> CCalculator::GetAllVars() const
 
 std::map<std::string, CCalculator::Expression> CCalculator::GetAllFunctions() const
 {
-	//std::map<std::string, double> resultMap;
-	//for (auto element : m_memoryFn)
-	//{
-	//	
-	//}
 	return m_memoryFn;
 }
 
@@ -176,7 +171,49 @@ bool CCalculator::IsValidName(const std::string& varName) const
 	return std::regex_match(varName, regex);
 }
 
-double CCalculator::CalculateFunctionValue(const Expression& expression) const
+double CCalculator::CalculateFunctionValue(const std::string& functionName) const
 {
-	return NAN;
+	if (m_memoryFn.find(functionName) == m_memoryFn.end())
+	{
+		return NAN;
+	}
+
+	Expression expression = m_memoryFn.find(functionName)->second;
+
+	char operationSymbol = expression.first;
+	
+	if (operationSymbol == ' ')
+	{
+		return GetIdentifierValue(expression.second[0]);
+	}
+	
+	std::vector<std::string> operandsVector = expression.second;
+	
+	double firstOperand = GetIdentifierValue(operandsVector[0]);
+	double secondOperand = GetIdentifierValue(operandsVector[1]);
+
+	double result;
+
+	if (std::isnan(firstOperand) || std::isnan(secondOperand))
+	{
+		return NAN;
+	}
+
+	switch (operationSymbol)
+	{
+	case '+':
+		result = GetIdentifierValue(operandsVector[0]) + GetIdentifierValue(operandsVector[1]);
+		break;
+	case '-':
+		result = GetIdentifierValue(operandsVector[0]) - GetIdentifierValue(operandsVector[1]);
+		break;
+	case '*':
+		result = GetIdentifierValue(operandsVector[0]) * GetIdentifierValue(operandsVector[1]);
+		break;
+	case '/':
+		result = GetIdentifierValue(operandsVector[1]) != 0 ? GetIdentifierValue(operandsVector[0]) / GetIdentifierValue(operandsVector[1]) : NAN;
+		break;
+	}
+
+	return result;
 }

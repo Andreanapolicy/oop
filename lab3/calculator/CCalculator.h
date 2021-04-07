@@ -22,7 +22,7 @@ private:
 
 	bool IsVarAlreadyExist(const std::string& varName) const;
 	bool IsValidName(const std::string& varName) const;
-	double CalculateFunctionValue(const Expression& expression) const;
+	double CalculateFunctionValue(const std::string& functionName) const;
 	bool IsValidFunction(const Function& function) const;
 	bool isValidOperands(const std::string& functionName, const std::vector<std::string>& operands) const;
 };

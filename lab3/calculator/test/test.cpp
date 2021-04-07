@@ -239,5 +239,164 @@ TEST_CASE("Creating functions")
 				REQUIRE(calc.GetAllFunctions().size() == 1);
 			}
 		}
+
+		WHEN("x = NaN; y = NaN; function without identifier = x + y")
+		{
+			calc.CreateNewVar("x");
+			calc.CreateNewVar("y");
+
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("", std::pair<char, std::vector<std::string>>('+', { "x", "y" })));
+
+			THEN("functions memory is empty")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("x")));
+				REQUIRE(std::isnan(calc.GetIdentifierValue("y")));
+				REQUIRE(calc.GetAllFunctions().size() == 0);
+			}
+		}
+	}
+}
+
+TEST_CASE("Value functions output")
+{
+	GIVEN("A calculator")
+	{
+		CCalculator calc;
+
+		WHEN("x = 1; y = 2; fn = x + y")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetVarValue("y", "2");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "y" })));
+
+			THEN("fn = 3")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 3);
+			}
+		}
+
+		WHEN("x = 1; y = 2;")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetVarValue("y", "2");
+
+			THEN("fn = NaN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = 2; y = 2; fn = x - y")
+		{
+			calc.SetVarValue("x", "2");
+			calc.SetVarValue("y", "2");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('-', { "x", "y" })));
+
+			THEN("fn = 0")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 0);
+			}
+		}
+
+		WHEN("x = 2; y = 2; fn = x / y")
+		{
+			calc.SetVarValue("x", "2");
+			calc.SetVarValue("y", "2");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('/', { "x", "y" })));
+
+			THEN("fn = 1")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 1);
+			}
+		}
+
+		WHEN("x = 2; y = 0; fn = x / y")
+		{
+			calc.SetVarValue("x", "2");
+			calc.SetVarValue("y", "0");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('/', { "x", "y" })));
+
+			THEN("fn = NAN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = nan; y = 0; fn = x + y")
+		{
+			calc.CreateNewVar("x");
+			calc.SetVarValue("y", "0");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "y" })));
+
+			THEN("fn = NAN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = nan; fn = x")
+		{
+			calc.CreateNewVar("x");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>(' ', { "x" })));
+
+			THEN("fn = NAN")
+			{
+				REQUIRE(std::isnan(calc.GetIdentifierValue("fn")));
+			}
+		}
+
+		WHEN("x = 1; fn = x")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>(' ', { "x" })));
+
+			THEN("fn = 1")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 1);
+			}
+		}
+
+		WHEN("x = 1; fn = x + x")
+		{
+			calc.SetVarValue("x", "1");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "x" })));
+
+			THEN("fn = 2")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 2);
+			}
+		}
+
+		WHEN("x = 2; y = 3; z = 1; fn = x + y; fn1 = z * fn; fn2 = fn / fn1")
+		{
+			calc.SetVarValue("x", "2");
+			calc.SetVarValue("z", "4");
+			calc.SetVarValue("y", "3");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "y" })));
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn1", std::pair<char, std::vector<std::string>>('*', { "z", "fn" })));
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn2", std::pair<char, std::vector<std::string>>('/', { "fn", "fn1" })));
+
+			THEN("fn = 5; fn1 = 20; fn2 = 0.25")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 5);
+				REQUIRE(calc.GetIdentifierValue("fn1") == 20);
+				REQUIRE(calc.GetIdentifierValue("fn2") == 0.25);
+			}
+		}
+
+		WHEN("x = nan; y = 0; fn = x + y; x = 1; y = 2")
+		{
+			calc.CreateNewVar("x");
+			calc.SetVarValue("y", "0");
+			calc.SetFunctionValue(std::pair<std::string, CCalculator::Expression>("fn", std::pair<char, std::vector<std::string>>('+', { "x", "y" })));
+
+			calc.SetVarValue("x", "1");
+			calc.SetVarValue("y", "2");
+
+			THEN("fn = 3")
+			{
+				REQUIRE(calc.GetIdentifierValue("fn") == 3);
+			}
+		}
 	}
 }
