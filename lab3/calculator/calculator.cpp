@@ -11,7 +11,7 @@ int main()
 		std::cout << "> ";
 		if (!remoteController.HandleCommand())
 		{
-			std::cout << "Unknown command!" << std::endl;
+			std::cout << "There are some problems with your command. Please, run command <help>" << std::endl;
 		}
 	}
 

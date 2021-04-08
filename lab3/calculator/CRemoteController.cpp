@@ -56,8 +56,7 @@ bool CRemoteController::CreateVar(const std::string& args)
 		return false;
 	}
 
-	m_calculator.CreateNewVar(arguments.identifierName);
-	return true;
+	return m_calculator.CreateNewVar(arguments.identifierName);
 }
 
 bool CRemoteController::SetVarValue(const std::string& args)
@@ -68,8 +67,7 @@ bool CRemoteController::SetVarValue(const std::string& args)
 		return false;
 	}
 
-	m_calculator.SetVarValue(arguments.identifierName, arguments.firstOperand);
-	return true;
+	return m_calculator.SetVarValue(arguments.identifierName, arguments.firstOperand);
 }
 
 bool CRemoteController::CreateFunctionWithValue(const std::string& args)
@@ -86,9 +84,7 @@ bool CRemoteController::CreateFunctionWithValue(const std::string& args)
 		expression.push_back(arguments.secondOperand);
 	}
 
-	m_calculator.SetFunctionValue(std::pair<std::string, CCalculator::Expression>(arguments.identifierName, std::pair<char, std::vector<std::string>>(arguments.operationSymbol, expression)));
-
-	return true;
+	return m_calculator.SetFunctionValue(std::pair<std::string, CCalculator::Expression>(arguments.identifierName, std::pair<char, std::vector<std::string>>(arguments.operationSymbol, expression)));
 }
 
 bool CRemoteController::PrintAllFunctions(const std::string& /*args*/)
