@@ -75,13 +75,23 @@ bool CRemoteController::SetVarValue(const std::string& args)
 bool CRemoteController::CreateFunctionWithValue(const std::string& args)
 {
 	auto arguments = ParseArguments(args);
+	std::vector<std::string> expression;
+	if (!arguments.firstOperand.empty())
+	{
+		expression.push_back(arguments.firstOperand);
+	}
+	
+	if (!arguments.secondOperand.empty())
+	{
+		expression.push_back(arguments.secondOperand);
+	}
 
-	m_calculator.SetFunctionValue(std::pair<std::string, CCalculator::Expression>(arguments.identifierName, std::pair<char, std::vector<std::string>>(arguments.operationSymbol, { arguments.firstOperand, arguments.secondOperand })));
+	m_calculator.SetFunctionValue(std::pair<std::string, CCalculator::Expression>(arguments.identifierName, std::pair<char, std::vector<std::string>>(arguments.operationSymbol, expression)));
 
 	return true;
 }
 
-bool CRemoteController::PrintAllFunctions(const std::string& args)
+bool CRemoteController::PrintAllFunctions(const std::string& /*args*/)
 {
 	auto functionMap = m_calculator.GetAllFunctions();
 	if (functionMap.empty())
