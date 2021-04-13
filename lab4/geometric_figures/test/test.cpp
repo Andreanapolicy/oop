@@ -3,6 +3,7 @@
 #include "../common_libs.h"
 #include "../CPoint.h"
 #include "../CLineSegment.h"
+#include "../CTriangle.h"
 
 TEST_CASE("Test class CPoint")
 {
@@ -120,6 +121,85 @@ TEST_CASE("Test class CLineSegment")
 			REQUIRE(line.GetOutlineColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(line.GetStartPoint(), firstPoint));
 			REQUIRE(CPoint::Equal(line.GetEndPoint(), secondPoint));
+		}
+	}
+}
+
+TEST_CASE("Test class CTriangle")
+{
+	WHEN("Triangle (1, 1)(1, 4)(5, 4) 'right triangle'")
+	{
+		CPoint firstPoint(1, 1);
+		CPoint secondPoint(1, 4);
+		CPoint thirdPoint(5, 4);
+
+		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
+		{
+			REQUIRE(triangle.GetArea() == 6);
+			REQUIRE(triangle.GetPerimeter() == 12);
+			REQUIRE(triangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(triangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(triangle.GetVertex1(), firstPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
+		}
+	}
+
+	WHEN("Triangle (1, 1)(1, 4)(3, 3) 'acute-angled triangle'")
+	{
+		CPoint firstPoint(1, 1);
+		CPoint secondPoint(1, 4);
+		CPoint thirdPoint(3, 3);
+
+		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+		THEN("area = 3; perimeter = sqrt(8) + sqrt(5) + 3; fill color = white, outline color = white")
+		{
+			REQUIRE(triangle.GetArea() > 0);
+			REQUIRE(triangle.GetPerimeter() == sqrt(8) + sqrt(5) + 3);
+			REQUIRE(triangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(triangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(triangle.GetVertex1(), firstPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
+		}
+	}
+
+	WHEN("Triangle (-1, 2)(2, 0)(4, 2) 'obtuse triangle'")
+	{
+		CPoint firstPoint(-1, 2);
+		CPoint secondPoint(2, 0);
+		CPoint thirdPoint(4, 2);
+
+		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+		THEN("area = 5; perimeter = sqrt(8) + sqrt(13) + 5; fill color = white, outline color = white")
+		{
+			REQUIRE(triangle.GetArea() > 0);
+			REQUIRE(triangle.GetPerimeter() == sqrt(8) + sqrt(13) + 5);
+			REQUIRE(triangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(triangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(triangle.GetVertex1(), firstPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
+		}
+	}
+
+	WHEN("Triangle (-1, 2)(-1, 2)(-1, 2) 'wrong triangle, dot'")
+	{
+		CPoint firstPoint(-1, 2);
+		CPoint secondPoint(-1, 2);
+		CPoint thirdPoint(-1, 2);
+
+		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+		THEN("area = 0; perimeter = 0; fill color = white, outline color = white")
+		{
+			REQUIRE(triangle.GetArea() == 0);
+			REQUIRE(triangle.GetPerimeter() == 0);
+			REQUIRE(triangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(triangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(triangle.GetVertex1(), firstPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
+			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
 		}
 	}
 }

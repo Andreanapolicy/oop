@@ -146,14 +146,18 @@
     <ClCompile Include="CLineSegment.cpp" />
     <ClCompile Include="common_libs.cpp" />
     <ClCompile Include="CPoint.cpp" />
+    <ClCompile Include="CTriangle.cpp" />
     <ClCompile Include="geometric_figures.cpp" />
     <ClCompile Include="IShape.cpp" />
+    <ClCompile Include="ISolidShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLineSegment.h" />
     <ClInclude Include="common_libs.h" />
     <ClInclude Include="CPoint.h" />
+    <ClInclude Include="CTriangle.h" />
     <ClInclude Include="IShape.h" />
+    <ClInclude Include="ISolidShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
