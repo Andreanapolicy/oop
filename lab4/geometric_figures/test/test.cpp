@@ -4,6 +4,7 @@
 #include "../CPoint.h"
 #include "../CLineSegment.h"
 #include "../CTriangle.h"
+#include "../CRectangle.h"
 
 TEST_CASE("Test class CPoint")
 {
@@ -200,6 +201,60 @@ TEST_CASE("Test class CTriangle")
 			REQUIRE(CPoint::Equal(triangle.GetVertex1(), firstPoint));
 			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
 			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
+		}
+	}
+}
+
+TEST_CASE("Test class CRectangle")
+{
+	WHEN("Rectangle (5, 5)  width = 5 height = 5")
+	{
+		CPoint topLeftPoint(5, 5);
+		CPoint bottomRightPoint(10, 0);
+
+		CRectangle rectangle(topLeftPoint, 5, 5, 0xffffff, 0xffffff);
+		THEN("area = 25; perimeter = 20; fill color = white, outline color = white")
+		{
+			REQUIRE(rectangle.GetArea() == 25);
+			REQUIRE(rectangle.GetPerimeter() == 20);
+			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(rectangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
+			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
+		}
+	}
+
+	WHEN("Rectangle (10, 10)  width = 5.5 height = 10")
+	{
+		CPoint topLeftPoint(10, 10);
+		CPoint bottomRightPoint(15.5, 0);
+
+		CRectangle rectangle(topLeftPoint, 5.5, 10, 0xffffff, 0xffffff);
+		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
+		{
+			REQUIRE(rectangle.GetArea() == 55);
+			REQUIRE(rectangle.GetPerimeter() == 31);
+			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(rectangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
+			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
+		}
+	}
+
+	WHEN("Rectangle (10, 10)  width = 0 height = 0")
+	{
+		CPoint topLeftPoint(10, 10);
+		CPoint bottomRightPoint(10, 10);
+
+		CRectangle rectangle(topLeftPoint, 0, 0, 0xffffff, 0xffffff);
+		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
+		{
+			REQUIRE(rectangle.GetArea() == 0);
+			REQUIRE(rectangle.GetPerimeter() == 0);
+			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
+			REQUIRE(rectangle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
+			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
 		}
 	}
 }
