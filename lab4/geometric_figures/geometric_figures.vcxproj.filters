@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{7c41baa4-7d93-469f-afa1-b2e57e19decb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shapes">
+      <UniqueIdentifier>{412c1e1d-79b3-40e4-9ec9-cfdbfdd1d5b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="geometric_figures.cpp">
@@ -42,12 +45,12 @@
     <ClCompile Include="CRectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CCircle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_libs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CLineSegment.h">
@@ -59,10 +62,16 @@
     <ClInclude Include="ISolidShape.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="CRectangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
     <ClInclude Include="CTriangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="CPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CRectangle.h">
+    <ClInclude Include="CCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

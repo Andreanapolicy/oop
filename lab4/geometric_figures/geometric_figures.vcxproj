@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CCircle.cpp" />
     <ClCompile Include="CLineSegment.cpp" />
     <ClCompile Include="common_libs.cpp" />
     <ClCompile Include="CPoint.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="ISolidShape.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CCircle.h" />
     <ClInclude Include="CLineSegment.h" />
     <ClInclude Include="common_libs.h" />
     <ClInclude Include="CPoint.h" />

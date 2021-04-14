@@ -5,6 +5,7 @@
 #include "../CLineSegment.h"
 #include "../CTriangle.h"
 #include "../CRectangle.h"
+#include "../CCircle.h"
 
 TEST_CASE("Test class CPoint")
 {
@@ -255,6 +256,39 @@ TEST_CASE("Test class CRectangle")
 			REQUIRE(rectangle.GetFillColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
 			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
+		}
+	}
+}
+
+TEST_CASE("Test class CCircle")
+{
+	WHEN("Circle (5, 5) raduis = 4")
+	{
+		CPoint centralPoint(5, 5);
+
+		CCircle circle(centralPoint, 4, 0xffffff, 0xffffff);
+		THEN("area = 50.24; perimeter = 25.12; fill color = white, outline color = white")
+		{
+			REQUIRE(circle.GetArea() == 50.24);
+			REQUIRE(circle.GetPerimeter() == 25.12);
+			REQUIRE(circle.GetOutlineColor() == 0xffffff);
+			REQUIRE(circle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));
+		}
+	}
+
+	WHEN("Circle (5, 5) raduis = 0")
+	{
+		CPoint centralPoint(5, 5);
+
+		CCircle circle(centralPoint, 0, 0xffffff, 0xffffff);
+		THEN("area = 50.24; perimeter = 25.12; fill color = white, outline color = white")
+		{
+			REQUIRE(circle.GetArea() == 0);
+			REQUIRE(circle.GetPerimeter() == 0);
+			REQUIRE(circle.GetOutlineColor() == 0xffffff);
+			REQUIRE(circle.GetFillColor() == 0xffffff);
+			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));
 		}
 	}
 }
