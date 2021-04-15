@@ -19,8 +19,8 @@ private:
 	//IShape GetShapeWithMaxArea() const;
 	//IShape GetShapeWithMinPerimeter() const;
 
-	using ShapesList = std::vector<IShape>;
-	using Handler = std::function<void(const std::string&  args)>;
+	using ShapesList = std::vector<IShape&>;
+	using Handler = std::function<void(const std::string& args)>;
 	using ActionMap = std::map<std::string, Handler>;
 
 	std::istream& m_input;

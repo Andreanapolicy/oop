@@ -68,9 +68,7 @@ void CController::GetRectangle(const std::string& args)
 	CPoint topLeftPoint(topPointX, topPointY);
 
 	CRectangle rectangle(topLeftPoint, width, height, ParseColor(outlineColor), ParseColor(fillColor));
-	
-	auto pointer = std::make_unique<IShape>(rectangle);
-	
+		
 	m_shapesList.push_back(rectangle);
 }
 
@@ -106,8 +104,6 @@ void CController::GetTriangle(const std::string& args)
 
 	CTriangle triangle(firstVertex, secondVertex, thirdVertex, ParseColor(outlineColor), ParseColor(fillColor));
 
-	auto pointer = std::make_unique<IShape>(triangle);
-
 	m_shapesList.push_back(triangle);
 }
 
@@ -132,8 +128,6 @@ void CController::GetCircle(const std::string& args)
 	CPoint centralPoint(centralPointX, centralPointY);
 
 	CCircle circle(centralPoint, radius, ParseColor(outlineColor), ParseColor(fillColor));
-
-	auto pointer = std::make_unique<IShape>(circle);
 
 	m_shapesList.push_back(circle);
 }
@@ -161,7 +155,6 @@ void CController::GetLine(const std::string& args)
 	CPoint secondPoint(secondPointX, secondPointY);
 
 	CLineSegment line(firstPoint, secondPoint, ParseColor(outlineColor));
-	auto pointer = std::make_unique<IShape>(line);
 
 	m_shapesList.push_back(line);
 }
