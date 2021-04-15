@@ -3,7 +3,7 @@
 #include "ISolidShape.h"
 #include "common_libs.h"
 
-class CTriangle: ISolidShape
+class CTriangle : public ISolidShape
 {
 public:
 	CTriangle(const CPoint& firstVertex, const CPoint& secondVertex, const CPoint& thirdVertex, const uint32_t outlineColor, const uint32_t fillColor);
@@ -11,6 +11,7 @@ public:
 	double GetPerimeter() const override;
 	uint32_t GetOutlineColor() const override;
 	uint32_t GetFillColor() const override;
+	std::string ToString() const override;
 
 	CPoint GetVertex1() const;
 	CPoint GetVertex2() const;

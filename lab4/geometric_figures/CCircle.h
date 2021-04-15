@@ -3,7 +3,7 @@
 #include "ISolidShape.h"
 #include "common_libs.h"
 
-class CCircle: ISolidShape
+class CCircle : public ISolidShape
 {
 public:
 	CCircle(const CPoint& centralPoint, const double raduis, const uint32_t outlineColor, const uint32_t fillColor);
@@ -11,6 +11,7 @@ public:
 	double GetPerimeter() const override;
 	uint32_t GetOutlineColor() const override;
 	uint32_t GetFillColor() const override;
+	std::string ToString() const override;
 
 	CPoint GetCentralPoint() const;
 	double GetRadius() const;

@@ -3,7 +3,7 @@
 #include "ISolidShape.h"
 #include "common_libs.h"
 
-class CRectangle : ISolidShape
+class CRectangle : public ISolidShape
 {
 public:
 	CRectangle(const CPoint& topLeftPoint, const double width, const double height, const uint32_t outlineColor, const uint32_t fillColor);
@@ -11,6 +11,7 @@ public:
 	double GetPerimeter() const override;
 	uint32_t GetOutlineColor() const override;
 	uint32_t GetFillColor() const override;
+	std::string ToString() const override;
 
 	CPoint GetTopLeftPoint() const;
 	CPoint GetBottomRightPoint() const;

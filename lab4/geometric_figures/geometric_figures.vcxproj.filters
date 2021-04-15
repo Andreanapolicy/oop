@@ -48,12 +48,12 @@
     <ClCompile Include="CCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_libs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLineSegment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IShape.h">
@@ -72,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CCircle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="CLineSegment.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="CController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,13 @@ double CRectangle::GetPerimeter() const
 	return 2 * (m_width + m_height);
 }
 
+std::string CRectangle::ToString() const
+{
+	std::string text = "rectangle with top left point (" + std::to_string(m_topLeftPoint.x) + ", " + std::to_string(m_topLeftPoint.y) + "), width " + std::to_string(m_width) + " and height " + std::to_string(m_height) + ", outline color: " + std::to_string(m_outlineColor) + " and fill color: " + std::to_string(m_fillColor);
+
+	return text;
+}
+
 CPoint CRectangle::GetTopLeftPoint() const
 {
 	return m_topLeftPoint;
