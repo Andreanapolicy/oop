@@ -3,7 +3,7 @@
 #include "ISolidShape.h"
 #include "common_libs.h"
 
-class CCircle : public ISolidShape
+class CCircle final : public ISolidShape
 {
 public:
 	CCircle(const CPoint& centralPoint, const double raduis, const uint32_t outlineColor, const uint32_t fillColor);
@@ -17,7 +17,7 @@ public:
 	double GetRadius() const;
 
 private:
-	double const m_pi = 3.14; 
+	double const M_PI = 3.14; 
 
 	CPoint m_centralPoint;
 	double m_raduis;

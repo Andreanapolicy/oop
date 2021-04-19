@@ -13,13 +13,14 @@ public:
 	void GetLine(const std::string& args);
 	void GetTriangle(const std::string& args);
 	void GetCircle(const std::string& args);
+	void GetHelp(const std::string& args);
 
 private:
 	uint32_t ParseColor(const std::string& color);
-	//IShape GetShapeWithMaxArea() const;
-	//IShape GetShapeWithMinPerimeter() const;
+	const std::unique_ptr<IShape>& GetShapeWithMaxArea() const;
+	const std::unique_ptr<IShape>& GetShapeWithMinPerimeter() const;
 
-	using ShapesList = std::vector<IShape&>;
+	using ShapesList = std::vector<std::unique_ptr<IShape>>;
 	using Handler = std::function<void(const std::string& args)>;
 	using ActionMap = std::map<std::string, Handler>;
 

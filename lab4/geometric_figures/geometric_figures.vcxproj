@@ -151,8 +151,6 @@
     <ClCompile Include="CRectangle.cpp" />
     <ClCompile Include="CTriangle.cpp" />
     <ClCompile Include="geometric_figures.cpp" />
-    <ClCompile Include="IShape.cpp" />
-    <ClCompile Include="ISolidShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCircle.h" />

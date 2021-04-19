@@ -1,13 +1,14 @@
 #include "common_libs.h"
+#include "CController.h"
 
 int main()
 {
-	//CController controller(iss, oss);
-	//while (!iss.eof())
-	//{
-	//	controller.GetShapes();
-	//}
+	CController controller(std::cin, std::cout);
+	while (!std::cin.eof())
+	{
+		controller.GetShape();
+	}
 
-	//controller.WriteInfo();
+	controller.WriteAllInfoAboutShapes();
 	return 0;
 }

@@ -30,13 +30,7 @@
     <ClCompile Include="CPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CLineSegment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ISolidShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CTriangle.cpp">

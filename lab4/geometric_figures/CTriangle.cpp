@@ -24,9 +24,16 @@ CPoint CTriangle::GetVertex1() const
 
 std::string CTriangle::ToString() const
 {
-	std::string text = "triangle with vertices (" + std::to_string(m_firstVertex.x) + ", " + std::to_string(m_firstVertex.y) + ") (" + std::to_string(m_secondVertex.x) + ", " + std::to_string(m_secondVertex.y) + ") (" + std::to_string(m_thirdVertex.x) + ", " + std::to_string(m_thirdVertex.y) + "), outline color: " + std::to_string(m_outlineColor) + " and fill color: " + std::to_string(m_fillColor);
+	std::ostringstream oss;
 
-	return text;
+	oss << std::fixed << std::setprecision(1);
+	oss << "triangle with points ";
+	oss << "(" << m_firstVertex.x << ", " << m_firstVertex.y << "), ";
+	oss << "(" << m_secondVertex.x << ", " << m_secondVertex.y << "), ";
+	oss << "(" << m_thirdVertex.x << ", " << m_thirdVertex.y << "), ";
+	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
+
+	return oss.str();
 }
 
 CPoint CTriangle::GetVertex2() const

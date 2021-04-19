@@ -26,9 +26,15 @@ uint32_t CLineSegment::GetOutlineColor() const
 
 std::string CLineSegment::ToString() const
 {
-	std::string text = "line with points (" + std::to_string(m_startPoint.x) + ", " + std::to_string(m_startPoint.y) + ") (" + std::to_string(m_endPoint.x) + ", " + std::to_string(m_startPoint.y) + ") and with outline color: " + std::to_string(m_outlineColor);
+	std::ostringstream oss;
 
-	return text;
+	oss << std::fixed << std::setprecision(1);
+	oss << "line with points ";
+	oss << "(" << m_startPoint.x << ", " << m_startPoint.y << "), ";
+	oss << "(" << m_endPoint.x << ", " << m_endPoint.y << "), ";
+	oss << "outline color: #" << std::hex << m_outlineColor;
+
+	return oss.str();
 }
 
 CPoint CLineSegment::GetStartPoint() const

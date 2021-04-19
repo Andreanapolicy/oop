@@ -13,19 +13,25 @@ CCircle::CCircle(const CPoint& centralPoint, const double raduis, const uint32_t
 
 double CCircle::GetArea() const
 {
-	return m_pi * pow(m_raduis, 2);
+	return M_PI * pow(m_raduis, 2);
 }
 
 double CCircle::GetPerimeter() const
 {
-	return m_pi * m_raduis * 2;
+	return M_PI * m_raduis * 2;
 }
 
 std::string CCircle::ToString() const
 {
-	std::string text = "circle with center (" + std::to_string(m_centralPoint.x) + ", " + std::to_string(m_centralPoint.y) + "), radius " + std::to_string(m_raduis) + ", outline color: " + std::to_string(m_outlineColor) + " and fill color: " + std::to_string(m_fillColor);
+	std::ostringstream oss;
 
-	return text;
+	oss << std::fixed << std::setprecision(1);
+	oss << "circle with center ";
+	oss << "(" << m_centralPoint.x << ", " << m_centralPoint.y << "), ";
+	oss << "radius: " << m_raduis << ", ";
+	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
+
+	return oss.str();
 }
 
 uint32_t CCircle::GetOutlineColor() const
