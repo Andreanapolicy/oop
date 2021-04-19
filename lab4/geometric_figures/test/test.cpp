@@ -6,6 +6,7 @@
 #include "../CTriangle.h"
 #include "../CRectangle.h"
 #include "../CCircle.h"
+#include "../CController.h"
 
 TEST_CASE("Test class CPoint")
 {
@@ -220,6 +221,8 @@ TEST_CASE("Test class CRectangle")
 			REQUIRE(rectangle.GetPerimeter() == 20);
 			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
 			REQUIRE(rectangle.GetFillColor() == 0xffffff);
+			REQUIRE(rectangle.GetWidth() == 5);
+			REQUIRE(rectangle.GetHeight() == 5);
 			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
 			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
 		}
@@ -235,6 +238,8 @@ TEST_CASE("Test class CRectangle")
 		{
 			REQUIRE(rectangle.GetArea() == 55);
 			REQUIRE(rectangle.GetPerimeter() == 31);
+			REQUIRE(rectangle.GetWidth() == 5.5);
+			REQUIRE(rectangle.GetHeight() == 10);
 			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
 			REQUIRE(rectangle.GetFillColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
@@ -252,6 +257,8 @@ TEST_CASE("Test class CRectangle")
 		{
 			REQUIRE(rectangle.GetArea() == 0);
 			REQUIRE(rectangle.GetPerimeter() == 0);
+			REQUIRE(rectangle.GetWidth() == 0);
+			REQUIRE(rectangle.GetHeight() == 0);
 			REQUIRE(rectangle.GetOutlineColor() == 0xffffff);
 			REQUIRE(rectangle.GetFillColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
@@ -273,6 +280,7 @@ TEST_CASE("Test class CCircle")
 			REQUIRE(circle.GetPerimeter() == 25.12);
 			REQUIRE(circle.GetOutlineColor() == 0xffffff);
 			REQUIRE(circle.GetFillColor() == 0xffffff);
+			REQUIRE(circle.GetRadius() == 4);
 			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));
 		}
 	}
@@ -286,6 +294,7 @@ TEST_CASE("Test class CCircle")
 		{
 			REQUIRE(circle.GetArea() == 0);
 			REQUIRE(circle.GetPerimeter() == 0);
+			REQUIRE(circle.GetRadius() == 0);
 			REQUIRE(circle.GetOutlineColor() == 0xffffff);
 			REQUIRE(circle.GetFillColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));

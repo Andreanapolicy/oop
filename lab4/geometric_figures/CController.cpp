@@ -35,6 +35,10 @@ void CController::GetShape()
 	{
 		it->second(args);
 	}
+	else
+	{
+		m_output << "Wrong input. Please, use command < help >" << std::endl;
+	}
 }
 
 void CController::WriteAllInfoAboutShapes() const

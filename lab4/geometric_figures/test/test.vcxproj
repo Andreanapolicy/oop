@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\CCircle.cpp" />
+    <ClCompile Include="..\CController.cpp" />
     <ClCompile Include="..\CLineSegment.cpp" />
     <ClCompile Include="..\common_libs.cpp" />
     <ClCompile Include="..\CPoint.cpp" />
