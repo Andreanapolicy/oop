@@ -29,7 +29,7 @@ std::string CRectangle::ToString() const
 	oss << std::fixed << std::setprecision(1);
 	oss << "rectangle with top left point ";
 	oss << "(" << m_topLeftPoint.x << ", " << m_topLeftPoint.y << "), ";
-	oss << "width: " << m_width << " and height: " << m_height;
+	oss << "width: " << m_width << " and height: " << m_height << " ";
 	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
 
 	return oss.str();

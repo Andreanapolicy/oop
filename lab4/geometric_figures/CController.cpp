@@ -50,7 +50,7 @@ void CController::WriteAllInfoAboutShapes() const
 void CController::GetHelp(const std::string& args)
 {
 	m_output << "line x1 y1 x2 y2 line color" << std::endl;
-	m_output << "rectangle x1 y1 x2 y2 outline color fill color" << std::endl;
+	m_output << "rectangle x1 y1 width height outline color fill color" << std::endl;
 	m_output << "circle x1 y1 radius outline color fill color" << std::endl;
 	m_output << "triangle x1 y1 x2 y2 x3 y3 outline color fill color" << std::endl;
 	m_output << "Example: line 250 1 2 4 bbe4ff" << std::endl;
