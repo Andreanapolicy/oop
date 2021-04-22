@@ -9,10 +9,10 @@ public:
 	void GetShape();
 	void WriteAllInfoAboutShapes() const;
 
-	void GetRectangle(const std::string& args);
-	void GetLine(const std::string& args);
-	void GetTriangle(const std::string& args);
-	void GetCircle(const std::string& args);
+	void SetRectangle(const std::string& args);
+	void SetLine(const std::string& args);
+	void SetTriangle(const std::string& args);
+	void SetCircle(const std::string& args);
 	void GetHelp(const std::string& args);
 
 private:
@@ -28,6 +28,5 @@ private:
 	std::ostream& m_output;
 	ShapesList m_shapesList;
 
-	
 	const ActionMap m_actionMap;
 };

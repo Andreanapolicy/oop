@@ -18,8 +18,6 @@ public:
 	CPoint GetVertex2() const;
 	CPoint GetVertex3() const;
 
-	double static IsValidTriangle(const CPoint& firstVertex, const CPoint& secondVertex, const CPoint& thirdVertex);
-
 private:
 	CPoint m_firstVertex;
 	CPoint m_secondVertex;

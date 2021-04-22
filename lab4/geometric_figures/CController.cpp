@@ -9,10 +9,10 @@
 CController::CController(std::istream& input, std::ostream& output)
 	: m_input(input)
 	, m_output(output)
-	, m_actionMap({ { "rectangle", [this](const std::string& args) { return GetRectangle(args); } },
-		  { "line", [this](const std::string& args) { return GetLine(args); } },
-		  { "circle", [this](const std::string& args) { return GetCircle(args); } },
-		  { "triangle", [this](const std::string& args) { return GetTriangle(args); } },
+	, m_actionMap({ { "rectangle", [this](const std::string& args) { return SetRectangle(args); } },
+		  { "line", [this](const std::string& args) { return SetLine(args); } },
+		  { "circle", [this](const std::string& args) { return SetCircle(args); } },
+		  { "triangle", [this](const std::string& args) { return SetTriangle(args); } },
 		  { "help", [this](const std::string& args) { return GetHelp(args); } },
 		})
 {
@@ -56,7 +56,7 @@ void CController::GetHelp(const std::string& args)
 	m_output << "Example: line 250 1 2 4 bbe4ff" << std::endl;
 }
 
-void CController::GetRectangle(const std::string& args)
+void CController::SetRectangle(const std::string& args)
 {
 	std::string commandLine;
 
@@ -83,7 +83,7 @@ void CController::GetRectangle(const std::string& args)
 	m_shapesList.push_back(std::make_unique<CRectangle>(rectangle));
 }
 
-void CController::GetTriangle(const std::string& args)
+void CController::SetTriangle(const std::string& args)
 {
 	std::string commandLine;
 
@@ -118,7 +118,7 @@ void CController::GetTriangle(const std::string& args)
 	m_shapesList.push_back(std::make_unique<CTriangle>(triangle));
 }
 
-void CController::GetCircle(const std::string& args)
+void CController::SetCircle(const std::string& args)
 {
 	std::string commandLine;
 
@@ -143,7 +143,7 @@ void CController::GetCircle(const std::string& args)
 	m_shapesList.push_back(std::make_unique<CCircle>(circle));
 }
 
-void CController::GetLine(const std::string& args)
+void CController::SetLine(const std::string& args)
 {
 	std::string commandLine;
 

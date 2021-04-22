@@ -14,7 +14,23 @@ CTriangle::CTriangle(const CPoint& firstVertex, const CPoint& secondVertex, cons
 
 double CTriangle::GetArea() const
 {
-	return CTriangle::IsValidTriangle(m_firstVertex, m_secondVertex, m_thirdVertex);
+	CLineSegment firstLine(m_firstVertex, m_secondVertex, 0xffffff);
+	double firstLineLenght = firstLine.GetPerimeter();
+
+	CLineSegment secondLine(m_firstVertex, m_thirdVertex, 0xffffff);
+	double secondLineLenght = secondLine.GetPerimeter();
+
+	CLineSegment thirdLine(m_thirdVertex, m_secondVertex, 0xffffff);
+	double thirdLineLenght = thirdLine.GetPerimeter();
+
+	if (firstLineLenght == 0 || secondLineLenght == 0 || thirdLineLenght == 0)
+	{
+		return 0;
+	}
+
+	double halfPerimeter = (firstLineLenght + secondLineLenght + thirdLineLenght) / 2;
+
+	return sqrt(halfPerimeter * (halfPerimeter - firstLineLenght) * (halfPerimeter - secondLineLenght) * (halfPerimeter - thirdLineLenght));
 }
 
 CPoint CTriangle::GetVertex1() const
@@ -68,25 +84,4 @@ double CTriangle::GetPerimeter() const
 	double thirdLineLenght = thirdLine.GetPerimeter();
 
 	return firstLineLenght + secondLineLenght + thirdLineLenght;
-}
-
-double CTriangle::IsValidTriangle(const CPoint& firstVertex, const CPoint& secondVertex, const CPoint& thirdVertex)
-{
-	CLineSegment firstLine(firstVertex, secondVertex, 0xffffff);
-	double firstLineLenght = firstLine.GetPerimeter();
-
-	CLineSegment secondLine(firstVertex, thirdVertex, 0xffffff);
-	double secondLineLenght = secondLine.GetPerimeter();
-
-	CLineSegment thirdLine(thirdVertex, secondVertex, 0xffffff);
-	double thirdLineLenght = thirdLine.GetPerimeter();
-
-	if (firstLineLenght == 0 || secondLineLenght == 0 || thirdLineLenght == 0)
-	{
-		return 0;
-	}
-
-	double halfPerimeter = (firstLineLenght + secondLineLenght + thirdLineLenght) / 2;
-
-	return sqrt(halfPerimeter * (halfPerimeter - firstLineLenght) * (halfPerimeter - secondLineLenght) * (halfPerimeter - thirdLineLenght));
 }
