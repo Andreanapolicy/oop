@@ -576,3 +576,30 @@ TEST_CASE("Test functional binary / and * (with and without assign)")
 		}
 	}
 }
+
+TEST_CASE("Test functional == and !=")
+{
+	GIVEN("rational numbers (1/3) and (1/2)")
+	{
+		CRational number1(1, 3);
+		CRational number2(1, 2);
+
+		THEN("(1/3) != (1/2)")
+		{
+			REQUIRE(number1 != number2);
+			REQUIRE_FALSE(number1 == number2);
+		}
+	}
+
+	GIVEN("rational numbers (3/1) and (6/2)")
+	{
+		CRational number1(3, 1);
+		CRational number2(6, 2);
+
+		THEN("(3/1) == (6/2)")
+		{
+			REQUIRE(number1 == number2);
+			REQUIRE_FALSE(number1 != number2);
+		}
+	}
+}

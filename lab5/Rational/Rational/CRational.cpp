@@ -118,6 +118,16 @@ CRational const operator/(const CRational& firstFraction, const CRational& secon
 	return firstFraction * invertedFraction;
 }
 
+bool const operator==(const CRational& firstFraction, const CRational& secondFraction)
+{
+	return firstFraction.m_numerator == secondFraction.m_numerator && firstFraction.m_denominator == secondFraction.m_denominator;
+}
+
+bool const operator!=(const CRational& firstFraction, const CRational& secondFraction)
+{
+	return !(firstFraction == secondFraction);
+}
+
 std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 {
 	oss << fraction.m_numerator << '/' << fraction.m_denominator;
