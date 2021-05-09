@@ -676,3 +676,78 @@ TEST_CASE("Test functional >, <, >=, <=")
 		}
 	}
 }
+
+TEST_CASE("Test functional get compound fraction")
+{
+	GIVEN("rational number (1/3)")
+	{
+		CRational number(1, 3);
+
+		THEN("0 and (1/3) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == 0);
+			REQUIRE(compoundFraction.second == number);
+		}
+	}
+
+	GIVEN("rational number (-1/3)")
+	{
+		CRational number(-1, 3);
+
+		THEN("0 and (-1/3) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == 0);
+			REQUIRE(compoundFraction.second == number);
+		}
+	}
+
+	GIVEN("rational number (8/3)")
+	{
+		CRational number(8, 3);
+
+		THEN("2 and (2/3) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == 2);
+			REQUIRE(compoundFraction.second == CRational(2, 3));
+		}
+	}
+
+	GIVEN("rational number (-8/3)")
+	{
+		CRational number(-8, 3);
+
+		THEN("-2 and (-2/3) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == -2);
+			REQUIRE(compoundFraction.second == CRational(-2, 3));
+		}
+	}
+
+	GIVEN("rational number (-9/3)")
+	{
+		CRational number(-9, 3);
+
+		THEN("-3 and (-1/1) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == -3);
+			REQUIRE(compoundFraction.second == 0);
+		}
+	}
+
+	GIVEN("rational number (9/3)")
+	{
+		CRational number(9, 3);
+
+		THEN("3 and (1/1) is compound fraction")
+		{
+			std::pair<int, CRational> compoundFraction = number.ToCompoundFraction();
+			REQUIRE(compoundFraction.first == 3);
+			REQUIRE(compoundFraction.second == 0);
+		}
+	}
+}

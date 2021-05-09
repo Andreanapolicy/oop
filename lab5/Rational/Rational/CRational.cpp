@@ -43,6 +43,13 @@ void CRational::Normalize()
 	m_denominator /= GCD;
 }
 
+std::pair<int, CRational> CRational::ToCompoundFraction() const
+{
+	int integerPart = m_numerator / m_denominator;
+
+	return std::pair<int, CRational>(integerPart, CRational(m_numerator - integerPart * m_denominator, m_denominator));
+}
+
 CRational const CRational::operator+() const
 {
 	return *this;

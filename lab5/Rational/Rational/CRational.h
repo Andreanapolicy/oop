@@ -12,6 +12,8 @@ public:
 
 	double ToDouble() const;
 
+	std::pair<int, CRational> ToCompoundFraction() const;
+
 	CRational const operator+() const;
 
 	CRational const operator-() const;
