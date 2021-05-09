@@ -19,6 +19,5 @@ public:
 private:
 	CPoint m_startPoint;
 	CPoint m_endPoint;
-
 	uint32_t m_outlineColor;
 };

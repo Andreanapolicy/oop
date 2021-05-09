@@ -45,6 +45,9 @@
     <ClCompile Include="CController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_libs.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="CController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

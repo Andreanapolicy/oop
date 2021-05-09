@@ -1,20 +1,21 @@
 #include "CController.h"
+#include "CCircle.h"
+#include "CLineSegment.h"
 #include "CPoint.h"
 #include "CRectangle.h"
-#include "CLineSegment.h"
 #include "CTriangle.h"
-#include "CCircle.h"
 #include "common_libs.h"
 
 CController::CController(std::istream& input, std::ostream& output)
 	: m_input(input)
 	, m_output(output)
-	, m_actionMap({ { "rectangle", [this](const std::string& args) { return SetRectangle(args); } },
+	, m_actionMap({
+		  { "rectangle", [this](const std::string& args) { return SetRectangle(args); } },
 		  { "line", [this](const std::string& args) { return SetLine(args); } },
 		  { "circle", [this](const std::string& args) { return SetCircle(args); } },
 		  { "triangle", [this](const std::string& args) { return SetTriangle(args); } },
 		  { "help", [this](const std::string& args) { return GetHelp(args); } },
-		})
+	  })
 {
 }
 
@@ -31,13 +32,16 @@ void CController::GetShape()
 	args = std::getline(stream, args) ? args : "";
 
 	auto it = m_actionMap.find(action);
-	if (it != m_actionMap.end())
+	try
 	{
-		it->second(args);
+		if (it != m_actionMap.end())
+		{
+			it->second(args);
+		}
 	}
-	else
+	catch (const std::exception& /*error*/)
 	{
-		m_output << "Wrong input. Please, use command < help >" << std::endl;
+		throw std::invalid_argument("Error, you passed invalid count of params");
 	}
 }
 
@@ -79,7 +83,7 @@ void CController::SetRectangle(const std::string& args)
 	CPoint topLeftPoint(topPointX, topPointY);
 
 	CRectangle rectangle(topLeftPoint, width, height, ParseColor(outlineColor), ParseColor(fillColor));
-		
+
 	m_shapesList.push_back(std::make_unique<CRectangle>(rectangle));
 }
 
@@ -161,7 +165,7 @@ void CController::SetLine(const std::string& args)
 
 	std::string outlineColor;
 	stream >> outlineColor;
-	
+
 	CPoint firstPoint(firstPointX, firstPointY);
 	CPoint secondPoint(secondPointX, secondPointY);
 
@@ -179,14 +183,20 @@ uint32_t CController::ParseColor(const std::string& color)
 
 const std::unique_ptr<IShape>& CController::GetShapeWithMaxArea() const
 {
-	auto it = std::max_element(m_shapesList.begin(), m_shapesList.end(), [](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) { return firstShape->GetArea() < secondShape->GetArea(); });
+	auto it = std::max_element(m_shapesList.begin(), m_shapesList.end(),
+		[](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) {
+			return firstShape->GetArea() < secondShape->GetArea();
+		});
 
 	return *it;
 }
 
 const std::unique_ptr<IShape>& CController::GetShapeWithMinPerimeter() const
 {
-	auto it = std::min_element(m_shapesList.begin(), m_shapesList.end(), [](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) { return firstShape->GetPerimeter() < secondShape->GetPerimeter(); });
+	auto it = std::min_element(m_shapesList.begin(), m_shapesList.end(),
+		[](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) {
+			return firstShape->GetPerimeter() < secondShape->GetPerimeter();
+		});
 
 	return *it;
 }
