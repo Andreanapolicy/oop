@@ -266,3 +266,108 @@ TEST_CASE("Test functional input and output")
 		}
 	}
 }
+
+TEST_CASE("Test functional binary + and -")
+{
+	GIVEN("rational numbers (1/3) and (1/2)")
+	{
+		CRational number1(1, 3);
+		CRational number2(1, 2);
+		
+		THEN("(1/3) + (1/2) = (5/6)")
+		{
+			double numberInDoubleNotation = 5 / 6;
+
+			CRational resultNumber = number1 + number2;
+			REQUIRE(resultNumber.GetNumerator() == 5);
+			REQUIRE(resultNumber.GetDenominator() == 6);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) - (1/2) = (-1/3)")
+		{
+			double numberInDoubleNotation = -1 / 6;
+
+			CRational resultNumber = number1 - number2;
+			REQUIRE(resultNumber.GetNumerator() == -1);
+			REQUIRE(resultNumber.GetDenominator() == 6);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (2/4) and (3/6)")
+	{
+		CRational number1(2, 4);
+		CRational number2(3, 6);
+
+		THEN("(2/4) + (3/6) = (1/1)")
+		{
+			double numberInDoubleNotation = 1;
+			
+			CRational resultNumber = number1 + number2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) - (3/6) = (0/1)")
+		{
+			double numberInDoubleNotation = 0;
+			
+			CRational resultNumber = number1 - number2;
+			REQUIRE(resultNumber.GetNumerator() == 0);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (2/4) and 2")
+	{
+		CRational number(2, 4);
+
+		THEN("(2/4) + 2 = (5/2)")
+		{
+			double numberInDoubleNotation = 5 / 2;
+			
+			CRational resultNumber = number + 2;
+			REQUIRE(resultNumber.GetNumerator() == 5);
+			REQUIRE(resultNumber.GetDenominator() == 2);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) - 2 = (-3/2)")
+		{
+			double numberInDoubleNotation = -3 / 2;
+			
+			CRational resultNumber = number - 2;
+			REQUIRE(resultNumber.GetNumerator() == -3);
+			REQUIRE(resultNumber.GetDenominator() == 2);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers 2 and (2/4)")
+	{
+		CRational number(2, 4);
+
+		THEN("2 + (2/4) = (5/2)")
+		{
+			double numberInDoubleNotation = 5 / 2;
+
+			CRational resultNumber = 2 + number;
+			REQUIRE(resultNumber.GetNumerator() == 5);
+			REQUIRE(resultNumber.GetDenominator() == 2);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("2 - (2/4) = (3/2)")
+		{
+			double numberInDoubleNotation = 3 / 2;
+
+			CRational resultNumber = 2 - number;
+			REQUIRE(resultNumber.GetNumerator() == 3);
+			REQUIRE(resultNumber.GetDenominator() == 2);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+}

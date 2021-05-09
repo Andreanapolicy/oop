@@ -53,19 +53,31 @@ CRational const CRational::operator-() const
 	return CRational(-m_numerator, m_denominator);
 }
 
+CRational const operator+(const CRational& firstFraction, const CRational& secondFraction)
+{
+	return CRational(firstFraction.m_numerator * secondFraction.m_denominator + 
+		firstFraction.m_denominator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
+}
+
+CRational const operator-(const CRational& firstFraction, const CRational& secondFraction)
+{
+	return CRational(firstFraction.m_numerator * secondFraction.m_denominator - 
+		firstFraction.m_denominator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
+}
+
 std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 {
 	oss << fraction.m_numerator << '/' << fraction.m_denominator;
-	
+
 	return oss;
 }
 
 std::istream& operator>>(std::istream& iss, CRational& fraction)
 {
 	char delimiter;
-	
+
 	iss >> fraction.m_numerator >> delimiter >> fraction.m_denominator;
 	fraction.Normalize();
-	
+
 	return iss;
 }

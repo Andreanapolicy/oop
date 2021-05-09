@@ -16,9 +16,12 @@ public:
 
 	CRational const operator-() const;
 
-	friend std::ostream& operator<<(std::ostream& iss, const CRational& rational);
+	friend CRational const operator+(const CRational& firstFraction, const CRational& secondFraction);
+	friend CRational const operator-(const CRational& firstFraction, const CRational& secondFraction);
 
-	friend std::istream& operator>>(std::istream& iss, CRational& rational);
+	friend std::ostream& operator<<(std::ostream& iss, const CRational& fraction);
+
+	friend std::istream& operator>>(std::istream& iss, CRational& fraction);
 
 private:
 	void Normalize();
