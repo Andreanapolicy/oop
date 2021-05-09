@@ -83,6 +83,41 @@ CRational const CRational::operator-=(const CRational& fraction)
 	return *this;
 }
 
+CRational const CRational::operator*=(const CRational& fraction)
+{
+	*this = CRational(this->m_numerator, this->m_denominator) * fraction;
+
+	Normalize();
+
+	return *this;
+}
+
+CRational const CRational::operator/=(const CRational& fraction)
+{
+	*this = CRational(this->m_numerator, this->m_denominator) / fraction;
+
+	Normalize();
+
+	return *this;
+}
+
+CRational const operator*(const CRational& firstFraction, const CRational& secondFraction)
+{
+	return CRational(firstFraction.m_numerator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
+}
+
+CRational const operator/(const CRational& firstFraction, const CRational& secondFraction)
+{
+	if (secondFraction.m_numerator == 0)
+	{
+		throw std::invalid_argument("Error while dividing on 0");
+	}
+
+	CRational invertedFraction(secondFraction.m_denominator, secondFraction.m_numerator);
+
+	return firstFraction * invertedFraction;
+}
+
 std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 {
 	oss << fraction.m_numerator << '/' << fraction.m_denominator;

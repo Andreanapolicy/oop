@@ -304,7 +304,7 @@ TEST_CASE("Test functional binary + and - (with and without assign)")
 			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
 		}
 
-		THEN("(1/3) - (1/2) = (-1/3)")
+		THEN("(1/3) - (1/2) = (-1/3) with assign")
 		{
 			double numberInDoubleNotation = -1 / 6;
 
@@ -408,6 +408,171 @@ TEST_CASE("Test functional binary + and - (with and without assign)")
 			REQUIRE(number.GetNumerator() == -3);
 			REQUIRE(number.GetDenominator() == 2);
 			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+		}
+	}
+}
+
+TEST_CASE("Test functional binary / and * (with and without assign)")
+{
+	GIVEN("rational numbers (1/3) and (1/2)")
+	{
+		CRational number1(1, 3);
+		CRational number2(1, 2);
+
+		THEN("(1/3) * (1/2) = (1/6)")
+		{
+			double numberInDoubleNotation = 1 / 6;
+
+			CRational resultNumber = number1 * number2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 6);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) / (1/2) = (2/3)")
+		{
+			double numberInDoubleNotation = 2 / 3;
+
+			CRational resultNumber = number1 / number2;
+			REQUIRE(resultNumber.GetNumerator() == 2);
+			REQUIRE(resultNumber.GetDenominator() == 3);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) * (1/2) = (1/6) with assign")
+		{
+			double numberInDoubleNotation = 1 / 6;
+
+			number1 *= number2;
+			REQUIRE(number1.GetNumerator() == 1);
+			REQUIRE(number1.GetDenominator() == 6);
+			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) / (1/2) = (2/3) with assign")
+		{
+			double numberInDoubleNotation = 2 / 3;
+
+			number1 /= number2;
+			REQUIRE(number1.GetNumerator() == 2);
+			REQUIRE(number1.GetDenominator() == 3);
+			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (2/4) and (3/6)")
+	{
+		CRational number1(2, 4);
+		CRational number2(3, 6);
+
+		THEN("(2/4) * (3/6) = (1/4)")
+		{
+			double numberInDoubleNotation = 1 / 4;
+
+			CRational resultNumber = number1 * number2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 4);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) / (3/6) = (1)")
+		{
+			double numberInDoubleNotation = 1;
+
+			CRational resultNumber = number1 / number2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (2/4) and 2")
+	{
+		CRational number(2, 4);
+
+		THEN("(2/4) * 2 = (1)")
+		{
+			double numberInDoubleNotation = 1;
+
+			CRational resultNumber = number * 2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) / 2 = (1/4)")
+		{
+			double numberInDoubleNotation = 1 / 4;
+
+			CRational resultNumber = number / 2;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 4);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers 2 and (2/4)")
+	{
+		CRational number(2, 4);
+
+		THEN("2 * (2/4) = (1)")
+		{
+			double numberInDoubleNotation = 1;
+
+			CRational resultNumber = 2 * number;
+			REQUIRE(resultNumber.GetNumerator() == 1);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("2 / (2/4) = (4)")
+		{
+			double numberInDoubleNotation = 4;
+
+			CRational resultNumber = 2 / number;
+			REQUIRE(resultNumber.GetNumerator() == 4);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) * 2 = (1) with assign")
+		{
+			double numberInDoubleNotation = 1;
+
+			number *= 2;
+			REQUIRE(number.GetNumerator() == 1);
+			REQUIRE(number.GetDenominator() == 1);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) / 2 = (1/4) with assign")
+		{
+			double numberInDoubleNotation = 1 / 4;
+
+			number /= 2;
+			REQUIRE(number.GetNumerator() == 1);
+			REQUIRE(number.GetDenominator() == 4);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (2/4) and 0")
+	{
+		CRational number(2, 4);
+
+		THEN("(2/4) * 0 = (0)")
+		{
+			double numberInDoubleNotation = 0;
+
+			CRational resultNumber = number * 0;
+			REQUIRE(resultNumber.GetNumerator() == 0);
+			REQUIRE(resultNumber.GetDenominator() == 1);
+			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) / 0 = exception: Error while dividing on 0")
+		{
+			REQUIRE_THROWS(number / 0);
 		}
 	}
 }
