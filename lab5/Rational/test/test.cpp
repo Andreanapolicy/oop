@@ -1,7 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 #include "../Rational/common_libs.h"
-#include "../Rational/algorithms.h"
 #include "../Rational/CRational.h"
 
 TEST_CASE("Test functional of getter and setter")
@@ -232,6 +231,38 @@ TEST_CASE("Test functional unary + and -")
 			REQUIRE(number.GetNumerator() == -2);
 			REQUIRE(number.GetDenominator() == 1);
 			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+		}
+	}
+}
+
+TEST_CASE("Test functional input and output")
+{
+	GIVEN("rational number (4/2) in input")
+	{
+		std::istringstream iss("4/2");
+		std::ostringstream oss;
+		CRational number;
+		double numberInDoubleNotation = 2;
+
+		iss >> number;
+
+		THEN("fraction is (2/1)")
+		{
+			REQUIRE(number.GetNumerator() == 2);
+			REQUIRE(number.GetDenominator() == 1);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+
+		}
+
+		THEN("fraction (2/1) in output")
+		{
+			oss << number;
+			REQUIRE(oss.str() == "2/1");
+
+			REQUIRE(number.GetNumerator() == 2);
+			REQUIRE(number.GetDenominator() == 1);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+
 		}
 	}
 }

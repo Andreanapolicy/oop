@@ -1,4 +1,5 @@
 #include "CRational.h"
+#include "common_libs.h"
 
 CRational::CRational(int numerator, int denominator)
 {
@@ -50,4 +51,21 @@ CRational const CRational::operator+() const
 CRational const CRational::operator-() const
 {
 	return CRational(-m_numerator, m_denominator);
+}
+
+std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
+{
+	oss << fraction.m_numerator << '/' << fraction.m_denominator;
+	
+	return oss;
+}
+
+std::istream& operator>>(std::istream& iss, CRational& fraction)
+{
+	char delimiter;
+	
+	iss >> fraction.m_numerator >> delimiter >> fraction.m_denominator;
+	fraction.Normalize();
+	
+	return iss;
 }
