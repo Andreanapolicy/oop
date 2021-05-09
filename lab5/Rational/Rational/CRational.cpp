@@ -65,6 +65,24 @@ CRational const operator-(const CRational& firstFraction, const CRational& secon
 		firstFraction.m_denominator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
 }
 
+CRational const CRational::operator+=(const CRational& fraction)
+{
+	*this = CRational(this->m_numerator, this->m_denominator) + fraction;
+
+	Normalize();
+
+	return *this;
+}
+
+CRational const CRational::operator-=(const CRational& fraction)
+{
+	*this = CRational(this->m_numerator, this->m_denominator) - fraction;
+
+	Normalize();
+
+	return *this;
+}
+
 std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 {
 	oss << fraction.m_numerator << '/' << fraction.m_denominator;

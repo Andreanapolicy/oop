@@ -267,7 +267,7 @@ TEST_CASE("Test functional input and output")
 	}
 }
 
-TEST_CASE("Test functional binary + and -")
+TEST_CASE("Test functional binary + and - (with and without assign)")
 {
 	GIVEN("rational numbers (1/3) and (1/2)")
 	{
@@ -292,6 +292,26 @@ TEST_CASE("Test functional binary + and -")
 			REQUIRE(resultNumber.GetNumerator() == -1);
 			REQUIRE(resultNumber.GetDenominator() == 6);
 			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) + (1/2) = (5/6) with assign")
+		{
+			double numberInDoubleNotation = 5 / 6;
+
+			number1 += number2;
+			REQUIRE(number1.GetNumerator() == 5);
+			REQUIRE(number1.GetDenominator() == 6);
+			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(1/3) - (1/2) = (-1/3)")
+		{
+			double numberInDoubleNotation = -1 / 6;
+
+			number1 -= number2;
+			REQUIRE(number1.GetNumerator() == -1);
+			REQUIRE(number1.GetDenominator() == 6);
+			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
 		}
 	}
 
@@ -368,6 +388,26 @@ TEST_CASE("Test functional binary + and -")
 			REQUIRE(resultNumber.GetNumerator() == 3);
 			REQUIRE(resultNumber.GetDenominator() == 2);
 			REQUIRE(resultNumber.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) + 2 = (5/2) with assign")
+		{
+			double numberInDoubleNotation = 5 / 2;
+
+			number += 2;
+			REQUIRE(number.GetNumerator() == 5);
+			REQUIRE(number.GetDenominator() == 2);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+		}
+
+		THEN("(2/4) - 2 = (-3/2) with assign")
+		{
+			double numberInDoubleNotation = -3 / 2;
+
+			number -= 2;
+			REQUIRE(number.GetNumerator() == -3);
+			REQUIRE(number.GetDenominator() == 2);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
 		}
 	}
 }

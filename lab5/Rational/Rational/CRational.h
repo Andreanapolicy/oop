@@ -17,7 +17,12 @@ public:
 	CRational const operator-() const;
 
 	friend CRational const operator+(const CRational& firstFraction, const CRational& secondFraction);
+
 	friend CRational const operator-(const CRational& firstFraction, const CRational& secondFraction);
+
+	CRational const operator+=(const CRational& fraction);
+
+	CRational const operator-=(const CRational& fraction);
 
 	friend std::ostream& operator<<(std::ostream& iss, const CRational& fraction);
 
