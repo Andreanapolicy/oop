@@ -61,8 +61,7 @@ CRational const operator+(const CRational& firstFraction, const CRational& secon
 
 CRational const operator-(const CRational& firstFraction, const CRational& secondFraction)
 {
-	return CRational(firstFraction.m_numerator * secondFraction.m_denominator - 
-		firstFraction.m_denominator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
+	return firstFraction + (-secondFraction);
 }
 
 CRational const CRational::operator+=(const CRational& fraction)
