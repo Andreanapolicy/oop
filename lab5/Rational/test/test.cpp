@@ -602,4 +602,77 @@ TEST_CASE("Test functional == and !=")
 			REQUIRE_FALSE(number1 != number2);
 		}
 	}
+
+	GIVEN("rational numbers (3/2) and (6/1)")
+	{
+		CRational number1(3, 2);
+
+		THEN("(3/2) != (6)")
+		{
+			REQUIRE(number1 != 6);
+			REQUIRE_FALSE(number1 == 6);
+		}
+	}
+}
+
+TEST_CASE("Test functional >, <, >=, <=")
+{
+	GIVEN("rational numbers (1/3) and (1/2)")
+	{
+		CRational number1(1, 3);
+		CRational number2(1, 2);
+
+		THEN("(1/3) < (1/2)")
+		{
+			REQUIRE(number1 < number2);
+			REQUIRE(number1 <= number2);
+			REQUIRE_FALSE(number1 > number2);
+			REQUIRE_FALSE(number1 >= number2);
+		}
+	}
+
+	GIVEN("rational numbers (2/3) and (1/2)")
+	{
+		CRational number1(2, 3);
+		CRational number2(1, 2);
+
+		THEN("(1/3) > (1/2)")
+		{
+			REQUIRE(number1 > number2);
+			REQUIRE(number1 >= number2);
+			REQUIRE_FALSE(number1 <= number2);
+			REQUIRE_FALSE(number1 < number2);
+		}
+	}
+
+	GIVEN("rational numbers (3) and (15/5)")
+	{
+		CRational number(15, 5);
+
+		THEN("3 >= (15/5)")
+		{
+			REQUIRE(3 >= number);
+			REQUIRE(3 == number);
+		}
+
+		THEN("3 <= (15/5)")
+		{
+			REQUIRE(3 <= number);
+			REQUIRE(3 == number);
+		}
+	}
+
+	GIVEN("rational numbers (28/14) and (7/12)")
+	{
+		CRational number1(28, 14);
+		CRational number2(7, 12);
+
+		THEN("(28/14) > (7/12)")
+		{
+			REQUIRE(number1 > number2);
+			REQUIRE(number1 >= number2);
+			REQUIRE_FALSE(number1 <= number2);
+			REQUIRE_FALSE(number1 < number2);
+		}
+	}
 }

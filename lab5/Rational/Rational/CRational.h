@@ -36,6 +36,14 @@ public:
 
 	friend bool const operator!=(const CRational& firstFraction, const CRational& secondFraction);
 
+	friend bool const operator>(const CRational& firstFraction, const CRational& secondFraction);
+
+	friend bool const operator<(const CRational& firstFraction, const CRational& secondFraction);
+	
+	friend bool const operator<=(const CRational& firstFraction, const CRational& secondFraction);
+	
+	friend bool const operator>=(const CRational& firstFraction, const CRational& secondFraction);
+
 	friend std::ostream& operator<<(std::ostream& iss, const CRational& fraction);
 
 	friend std::istream& operator>>(std::istream& iss, CRational& fraction);

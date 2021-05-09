@@ -127,6 +127,34 @@ bool const operator!=(const CRational& firstFraction, const CRational& secondFra
 	return !(firstFraction == secondFraction);
 }
 
+bool const operator>(const CRational& firstFraction, const CRational& secondFraction)
+{
+	CRational resultFraction = firstFraction - secondFraction;
+
+	return resultFraction.m_numerator > 0;
+}
+
+bool const operator>=(const CRational& firstFraction, const CRational& secondFraction)
+{
+	CRational resultFraction = firstFraction - secondFraction;
+
+	return resultFraction.m_numerator >= 0;
+}
+
+bool const operator<(const CRational& firstFraction, const CRational& secondFraction)
+{
+	CRational resultFraction = firstFraction - secondFraction;
+
+	return resultFraction.m_numerator < 0;
+}
+
+bool const operator<=(const CRational& firstFraction, const CRational& secondFraction)
+{
+	CRational resultFraction = firstFraction - secondFraction;
+
+	return resultFraction.m_numerator <= 0;
+}
+
 std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 {
 	oss << fraction.m_numerator << '/' << fraction.m_denominator;
