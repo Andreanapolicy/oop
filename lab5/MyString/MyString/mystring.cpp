@@ -3,8 +3,10 @@
 
 int main()
 {
-	CMyString string("testetstetst123");
-	string.GetLength();
-	const char* string2 = string.GetStringData();
-	std::cout << string2 << std::endl;
+	std::string emptyString = "hello world";
+	CMyString string = emptyString;
+	const char* substring = string.GetSubString(4, 4).GetStringData();
+
+	std::cout << substring << std::endl;
+	std::cout << substring[0] << std::endl;
 }
