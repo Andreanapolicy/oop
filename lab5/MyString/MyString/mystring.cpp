@@ -3,10 +3,11 @@
 
 int main()
 {
-	std::string emptyString = "hello world";
+	std::string emptyString = "hello";
 	CMyString string = emptyString;
-	const char* substring = string.GetSubString(4, 4).GetStringData();
+	CMyString substring = string.GetSubString(1, 2);
+	const char* result = substring.GetStringData();
 
-	std::cout << substring << std::endl;
-	std::cout << substring[0] << std::endl;
+	std::cout << result << std::endl;
+	std::cout << result[1] << std::endl;
 }

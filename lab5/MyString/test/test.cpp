@@ -173,7 +173,8 @@ TEST_CASE("Test functional of substring")
 		{
 			THEN("string: ''")
 			{
-				const char* resultString = string.GetSubString(4, 4).GetStringData();
+				CMyString substring = string.GetSubString(4, 4);
+				const char* resultString = substring.GetStringData();
 				REQUIRE(string.GetSubString(4, 4).GetLength() == 0);
 				REQUIRE(resultString[0] == '\0');
 			}
@@ -255,13 +256,13 @@ TEST_CASE("Test functional of substring")
 
 		WHEN("substring(1, 2)")
 		{
-			THEN("string: 'he'")
+			THEN("string: 'e'")
 			{
 				CMyString substring = string.GetSubString(1, 2);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 1);
 				REQUIRE(resultString[0] == 'e');
-				REQUIRE(resultString[2] == '\0');
+				REQUIRE(resultString[1] == '\0');
 			}
 		}
 	}
