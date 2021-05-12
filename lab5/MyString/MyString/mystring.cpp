@@ -5,5 +5,5 @@ int main()
 {
 	CMyString s("hello");
 	CMyString b("bonjour");
-	s = b;
+	s = s + b;
 }

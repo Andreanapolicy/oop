@@ -118,7 +118,7 @@ TEST_CASE("Test functional of constructors")
 
 	GIVEN("string '', that stl string")
 	{
-		std::string emptyStlString= "";
+		std::string emptyStlString = "";
 		CMyString copiedString(emptyStlString);
 
 		THEN("lenght is 0 and string is '\0'")
@@ -367,6 +367,105 @@ TEST_CASE("Test functional of assign")
 
 				REQUIRE(s.GetLength() == 0);
 				REQUIRE(resultString[0] == '\0');
+			}
+		}
+	}
+}
+
+TEST_CASE("Test functional of +")
+{
+	GIVEN("s = 'qw' b = 'ert'")
+	{
+		CMyString s = "qw";
+		CMyString b = "ert";
+
+		WHEN("s = s + b")
+		{
+			s = s + b;
+
+			THEN("s = 'qwert'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 'q');
+				REQUIRE(resultString[1] == 'w');
+				REQUIRE(resultString[2] == 'e');
+				REQUIRE(resultString[3] == 'r');
+				REQUIRE(resultString[4] == 't');
+				REQUIRE(resultString[5] == '\0');
+			}
+		}
+
+		WHEN("s = '' + b")
+		{
+			s = "" + b;
+
+			THEN("s = 'ert'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 3);
+				REQUIRE(resultString[0] == 'e');
+				REQUIRE(resultString[1] == 'r');
+				REQUIRE(resultString[2] == 't');
+				REQUIRE(resultString[3] == '\0');
+			}
+		}
+
+		WHEN("s = b + ''")
+		{
+			s = b + "";
+
+			THEN("s = 'ert'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 3);
+				REQUIRE(resultString[0] == 'e');
+				REQUIRE(resultString[1] == 'r');
+				REQUIRE(resultString[2] == 't');
+				REQUIRE(resultString[3] == '\0');
+			}
+		}
+	}
+
+	GIVEN("s = 'test'")
+	{
+		CMyString s = "test";
+
+		WHEN("s = '1' + s")
+		{
+			s = "1" + s;
+
+			THEN("s = '1test'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == '1');
+				REQUIRE(resultString[1] == 't');
+				REQUIRE(resultString[2] == 'e');
+				REQUIRE(resultString[3] == 's');
+				REQUIRE(resultString[4] == 't');
+				REQUIRE(resultString[5] == '\0');
+			}
+		}
+
+		WHEN("s = '1' + '23'")
+		{
+			std::string number = "1";
+			s = number + "23";
+
+			THEN("s = '123'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 3);
+				REQUIRE(resultString[0] == '1');
+				REQUIRE(resultString[1] == '2');
+				REQUIRE(resultString[2] == '3');
+				REQUIRE(resultString[3] == '\0');
 			}
 		}
 	}

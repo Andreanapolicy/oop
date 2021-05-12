@@ -119,6 +119,9 @@ CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 	resultString.m_length += secondString.m_length;
 	resultString.m_string = new char[resultString.m_length + 1];
 
+	resultString.CopyString(resultString.m_string, firstString.m_string);
+	resultString.CopyString(resultString.m_string, secondString.m_string, firstString.m_length);
+
 	return resultString;
 }
 
@@ -126,10 +129,10 @@ void CMyString::CopyString(char* destination, const char* source, size_t startPo
 {
 	size_t resultLength = std::min(std::strlen(source), length);
 
-	for (size_t i = startPos; i < resultLength; i++)
+	for (size_t i = 0; i < resultLength; i++)
 	{
-		destination[i] = source[i];
+		destination[i + startPos] = source[i];
 	}
 
-	destination[resultLength] = '\0';
+	destination[resultLength + startPos] = '\0';
 }
