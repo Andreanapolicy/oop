@@ -132,6 +132,29 @@ CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 	return resultString;
 }
 
+bool operator==(const CMyString& firstString, const CMyString& secondString)
+{
+	if (firstString.m_length != secondString.m_length)
+	{
+		return false;
+	}
+
+	for (size_t i = 0; i < firstString.m_length; i++)
+	{
+		if (firstString.m_string[i] != secondString.m_string[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool operator!=(const CMyString& firstString, const CMyString& secondString)
+{
+	return !(firstString == secondString);
+}
+
 void CMyString::CopyString(char* destination, const char* source, size_t startPos, size_t length)
 {
 	size_t resultLength = std::min(std::strlen(source), length);

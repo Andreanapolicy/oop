@@ -396,7 +396,7 @@ TEST_CASE("Test functional of + and +=")
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
-		
+
 		WHEN("s += b")
 		{
 			s += b;
@@ -522,6 +522,117 @@ TEST_CASE("Test functional of + and +=")
 				REQUIRE(resultString[4] == '1');
 				REQUIRE(resultString[5] == '\0');
 			}
+		}
+	}
+}
+
+TEST_CASE("Test functional of ==")
+{
+	GIVEN("s = 'qw' b = 'ert'")
+	{
+		CMyString s = "qw";
+		CMyString b = "ert";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'ert' string")
+	{
+		std::string s = "qw";
+		std::string b = "ert";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'ert' char*")
+	{
+		const char* s = "qw";
+		const char* b = "ert";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'ww'")
+	{
+		CMyString s = "qw";
+		CMyString b = "ww";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'ww' string")
+	{
+		std::string s = "qw";
+		std::string b = "ww";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'ww' char*")
+	{
+		const char* s = "qw";
+		const char* b = "ww";
+
+		THEN("s != b")
+		{
+			REQUIRE_FALSE(s == b);
+			REQUIRE(s != b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'qw'")
+	{
+		CMyString s = "qw";
+		CMyString b = "qw";
+
+		THEN("s == b")
+		{
+			REQUIRE_FALSE(s != b);
+			REQUIRE(s == b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'qw' string")
+	{
+		std::string s = "qw";
+		std::string b = "qw";
+
+		THEN("s == b")
+		{
+			REQUIRE_FALSE(s != b);
+			REQUIRE(s == b);
+		}
+	}
+
+	GIVEN("s = 'qw' b = 'qw' char*")
+	{
+		const char* s = "qw";
+		const char* b = "qw";
+
+		THEN("s == b")
+		{
+			REQUIRE_FALSE(s != b);
+			REQUIRE(s == b);
 		}
 	}
 }
