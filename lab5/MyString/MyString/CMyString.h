@@ -24,6 +24,8 @@ public:
 
 	CMyString operator=(const CMyString& string);
 
+	CMyString operator+=(const CMyString& string);
+
 	friend CMyString operator+(const CMyString& firstString, const CMyString& secondString);
 	
 	~CMyString();

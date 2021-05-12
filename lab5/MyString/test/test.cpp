@@ -372,7 +372,7 @@ TEST_CASE("Test functional of assign")
 	}
 }
 
-TEST_CASE("Test functional of +")
+TEST_CASE("Test functional of + and +=")
 {
 	GIVEN("s = 'qw' b = 'ert'")
 	{
@@ -382,6 +382,24 @@ TEST_CASE("Test functional of +")
 		WHEN("s = s + b")
 		{
 			s = s + b;
+
+			THEN("s = 'qwert'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 'q');
+				REQUIRE(resultString[1] == 'w');
+				REQUIRE(resultString[2] == 'e');
+				REQUIRE(resultString[3] == 'r');
+				REQUIRE(resultString[4] == 't');
+				REQUIRE(resultString[5] == '\0');
+			}
+		}
+		
+		WHEN("s += b")
+		{
+			s += b;
 
 			THEN("s = 'qwert'")
 			{
@@ -452,6 +470,24 @@ TEST_CASE("Test functional of +")
 			}
 		}
 
+		WHEN("s += '1'")
+		{
+			s += "1";
+
+			THEN("s = 'test1'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 't');
+				REQUIRE(resultString[1] == 'e');
+				REQUIRE(resultString[2] == 's');
+				REQUIRE(resultString[3] == 't');
+				REQUIRE(resultString[4] == '1');
+				REQUIRE(resultString[5] == '\0');
+			}
+		}
+
 		WHEN("s = '1' + '23'")
 		{
 			std::string number = "1";
@@ -466,6 +502,25 @@ TEST_CASE("Test functional of +")
 				REQUIRE(resultString[1] == '2');
 				REQUIRE(resultString[2] == '3');
 				REQUIRE(resultString[3] == '\0');
+			}
+		}
+
+		WHEN("s += '1' string")
+		{
+			std::string number = "1";
+			s += number;
+
+			THEN("s = 'test1'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 't');
+				REQUIRE(resultString[1] == 'e');
+				REQUIRE(resultString[2] == 's');
+				REQUIRE(resultString[3] == 't');
+				REQUIRE(resultString[4] == '1');
+				REQUIRE(resultString[5] == '\0');
 			}
 		}
 	}

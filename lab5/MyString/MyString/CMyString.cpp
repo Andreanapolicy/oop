@@ -110,6 +110,13 @@ const char* CMyString::GetStringData() const
 	return m_string;
 }
 
+CMyString CMyString::operator+=(const CMyString& string)
+{
+	*this = CMyString(this->m_string, this->m_length) + string;
+	
+	return *this;
+}
+
 CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 {
 	CMyString resultString = firstString;
