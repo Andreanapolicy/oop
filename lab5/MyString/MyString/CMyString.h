@@ -22,11 +22,12 @@ public:
 
 	CMyString GetSubString(size_t start, size_t length = SIZE_MAX) const;
 
-	CMyString const operator=(const CMyString& string);
+	CMyString operator=(const CMyString& string);
 
 	~CMyString();
 
 private:
+	void CopyString(char* destination, const char* source, size_t startLength = SIZE_MAX);
 	char* m_string;
 	size_t m_length;
 };

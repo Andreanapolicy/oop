@@ -267,3 +267,107 @@ TEST_CASE("Test functional of substring")
 		}
 	}
 }
+
+TEST_CASE("Test functional of assign")
+{
+	GIVEN("s = 'hello' b = 'bonjour'")
+	{
+		CMyString s = "hello";
+		CMyString b = "bonjour";
+
+		WHEN("s = b")
+		{
+			s = b;
+
+			THEN("s = 'bonjour'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 7);
+				REQUIRE(resultString[0] == 'b');
+				REQUIRE(resultString[1] == 'o');
+				REQUIRE(resultString[2] == 'n');
+				REQUIRE(resultString[3] == 'j');
+				REQUIRE(resultString[4] == 'o');
+				REQUIRE(resultString[5] == 'u');
+				REQUIRE(resultString[6] == 'r');
+				REQUIRE(resultString[7] == '\0');
+			}
+
+			THEN("b = 'bonjour'")
+			{
+				const char* startString = b.GetStringData();
+
+				REQUIRE(startString[0] == 'b');
+				REQUIRE(startString[1] == 'o');
+				REQUIRE(startString[2] == 'n');
+				REQUIRE(startString[3] == 'j');
+				REQUIRE(startString[4] == 'o');
+				REQUIRE(startString[5] == 'u');
+				REQUIRE(startString[6] == 'r');
+				REQUIRE(startString[7] == '\0');
+			}
+		}
+
+		WHEN("b = s")
+		{
+			b = s;
+
+			THEN("b = 'hello'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 'h');
+				REQUIRE(resultString[1] == 'e');
+				REQUIRE(resultString[2] == 'l');
+				REQUIRE(resultString[3] == 'l');
+				REQUIRE(resultString[4] == 'o');
+				REQUIRE(resultString[5] == '\0');
+			}
+
+			THEN("s = 'hello'")
+			{
+				const char* startString = b.GetStringData();
+
+				REQUIRE(startString[0] == 'h');
+				REQUIRE(startString[1] == 'e');
+				REQUIRE(startString[2] == 'l');
+				REQUIRE(startString[3] == 'l');
+				REQUIRE(startString[4] == 'o');
+				REQUIRE(startString[5] == '\0');
+			}
+		}
+
+		WHEN("s = s")
+		{
+			s = s;
+
+			THEN("s = 'hello'")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 5);
+				REQUIRE(resultString[0] == 'h');
+				REQUIRE(resultString[1] == 'e');
+				REQUIRE(resultString[2] == 'l');
+				REQUIRE(resultString[3] == 'l');
+				REQUIRE(resultString[4] == 'o');
+				REQUIRE(resultString[5] == '\0');
+			}
+		}
+
+		WHEN("s = ''")
+		{
+			s = "";
+
+			THEN("s = ''")
+			{
+				const char* resultString = s.GetStringData();
+
+				REQUIRE(s.GetLength() == 0);
+				REQUIRE(resultString[0] == '\0');
+			}
+		}
+	}
+}

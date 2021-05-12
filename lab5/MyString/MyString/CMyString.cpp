@@ -21,12 +21,7 @@ CMyString::CMyString(const char* pString)
 	m_length = strlen(pString);
 	m_string = new char[m_length + 1];
 
-	for (size_t i = 0; i < m_length; i++)
-	{
-		m_string[i] = pString[i];
-	}
-
-	m_string[m_length] = '\0';
+	CopyString(m_string, pString);
 }
 
 CMyString::CMyString(const char* pString, size_t length)
@@ -39,12 +34,7 @@ CMyString::CMyString(const char* pString, size_t length)
 	m_length = length;
 	m_string = new char[m_length + 1];
 
-	for (size_t i = 0; i < m_length; i++)
-	{
-		m_string[i] = pString[i];
-	}
-
-	m_string[m_length] = '\0';
+	CopyString(m_string, pString, m_length);
 }
 
 CMyString::CMyString(const CMyString& string)
@@ -52,12 +42,7 @@ CMyString::CMyString(const CMyString& string)
 	m_length = string.m_length;
 	m_string = new char[m_length + 1];
 
-	for (size_t i = 0; i < m_length; i++)
-	{
-		m_string[i] = string.m_string[i];
-	}
-
-	m_string[m_length] = '\0';
+	CopyString(m_string, string.m_string);
 }
 
 CMyString::CMyString(CMyString&& string)
@@ -65,12 +50,7 @@ CMyString::CMyString(CMyString&& string)
 	m_length = string.m_length;
 	m_string = new char[m_length + 1];
 
-	for (size_t i = 0; i < m_length; i++)
-	{
-		m_string[i] = string.m_string[i];
-	}
-
-	m_string[m_length] = '\0';
+	CopyString(m_string, string.m_string);
 
 	string.m_length = 0;
 	string.m_string = nullptr;
@@ -81,18 +61,22 @@ CMyString::CMyString(const std::string& stlString)
 	m_length = std::size(stlString);
 	m_string = new char[m_length + 1];
 
-	for (size_t i = 0; i < m_length; i++)
-	{
-		m_string[i] = stlString[i];
-	}
-
-	m_string[m_length] = '\0';
+	CopyString(m_string, &stlString[0]);
 }
 
-CMyString const CMyString::operator=(const CMyString& string)
+CMyString CMyString::operator=(const CMyString& string)
 {
+	if (this == &string)
+	{
+		return *this;
+	}
+
+	delete[] m_string;
+
 	m_length = string.m_length;
-	m_string = string.m_string;
+	m_string = new char[m_length + 1];
+
+	CopyString(m_string, string.m_string);
 
 	return *this;
 }
@@ -124,4 +108,16 @@ size_t CMyString::GetLength() const
 const char* CMyString::GetStringData() const
 {
 	return m_string;
+}
+
+void CMyString::CopyString(char* destination, const char* source, size_t startLength)
+{
+	size_t length = std::min(std::strlen(source), startLength);
+
+	for (size_t i = 0; i < length; i++)
+	{
+		destination[i] = source[i];
+	}
+
+	destination[length] = '\0';
 }
