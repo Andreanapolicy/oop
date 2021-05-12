@@ -34,7 +34,7 @@ CMyString::CMyString(const char* pString, size_t length)
 	m_length = length;
 	m_string = new char[m_length + 1];
 
-	CopyString(m_string, pString, m_length);
+	CopyString(m_string, pString, 0, m_length);
 }
 
 CMyString::CMyString(const CMyString& string)
@@ -110,14 +110,26 @@ const char* CMyString::GetStringData() const
 	return m_string;
 }
 
-void CMyString::CopyString(char* destination, const char* source, size_t startLength)
+CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 {
-	size_t length = std::min(std::strlen(source), startLength);
+	CMyString resultString = firstString;
 
-	for (size_t i = 0; i < length; i++)
+	delete[] resultString.m_string;
+
+	resultString.m_length += secondString.m_length;
+	resultString.m_string = new char[resultString.m_length + 1];
+
+	return resultString;
+}
+
+void CMyString::CopyString(char* destination, const char* source, size_t startPos, size_t length)
+{
+	size_t resultLength = std::min(std::strlen(source), length);
+
+	for (size_t i = startPos; i < resultLength; i++)
 	{
 		destination[i] = source[i];
 	}
 
-	destination[length] = '\0';
+	destination[resultLength] = '\0';
 }
