@@ -1,5 +1,6 @@
 #include "CRational.h"
 #include "common_libs.h"
+#include <numeric>
 
 CRational::CRational(int numerator, int denominator)
 {
@@ -37,7 +38,7 @@ double CRational::ToDouble() const
 
 void CRational::Normalize()
 {
-	int GCD = GetGreatestCommonDivisor(m_numerator, m_denominator);
+	int GCD = std::gcd(m_numerator, m_denominator);
 
 	m_numerator /= GCD;
 	m_denominator /= GCD;
@@ -62,8 +63,10 @@ CRational const CRational::operator-() const
 
 CRational const operator+(const CRational& firstFraction, const CRational& secondFraction)
 {
-	return CRational(firstFraction.m_numerator * secondFraction.m_denominator + 
-		firstFraction.m_denominator * secondFraction.m_numerator, firstFraction.m_denominator * secondFraction.m_denominator);
+	int denumLCM = std::lcm(firstFraction.m_denominator, secondFraction.m_denominator);
+
+	return CRational(firstFraction.m_numerator * (denumLCM / firstFraction.m_denominator) + 
+		(denumLCM / secondFraction.m_denominator) * secondFraction.m_numerator, denumLCM);
 }
 
 CRational const operator-(const CRational& firstFraction, const CRational& secondFraction)
@@ -71,38 +74,30 @@ CRational const operator-(const CRational& firstFraction, const CRational& secon
 	return firstFraction + (-secondFraction);
 }
 
-CRational const CRational::operator+=(const CRational& fraction)
+CRational& CRational::operator+=(const CRational& fraction)
 {
 	*this = CRational(this->m_numerator, this->m_denominator) + fraction;
 
-	Normalize();
-
 	return *this;
 }
 
-CRational const CRational::operator-=(const CRational& fraction)
+CRational& CRational::operator-=(const CRational& fraction)
 {
 	*this = CRational(this->m_numerator, this->m_denominator) - fraction;
 
-	Normalize();
-
 	return *this;
 }
 
-CRational const CRational::operator*=(const CRational& fraction)
+CRational& CRational::operator*=(const CRational& fraction)
 {
 	*this = CRational(this->m_numerator, this->m_denominator) * fraction;
 
-	Normalize();
-
 	return *this;
 }
 
-CRational const CRational::operator/=(const CRational& fraction)
+CRational& CRational::operator/=(const CRational& fraction)
 {
 	*this = CRational(this->m_numerator, this->m_denominator) / fraction;
-
-	Normalize();
 
 	return *this;
 }
@@ -124,38 +119,38 @@ CRational const operator/(const CRational& firstFraction, const CRational& secon
 	return firstFraction * invertedFraction;
 }
 
-bool const operator==(const CRational& firstFraction, const CRational& secondFraction)
+bool operator==(const CRational& firstFraction, const CRational& secondFraction)
 {
 	return firstFraction.m_numerator == secondFraction.m_numerator && firstFraction.m_denominator == secondFraction.m_denominator;
 }
 
-bool const operator!=(const CRational& firstFraction, const CRational& secondFraction)
+bool operator!=(const CRational& firstFraction, const CRational& secondFraction)
 {
 	return !(firstFraction == secondFraction);
 }
 
-bool const operator>(const CRational& firstFraction, const CRational& secondFraction)
+bool operator>(const CRational& firstFraction, const CRational& secondFraction)
 {
 	CRational resultFraction = firstFraction - secondFraction;
 
 	return resultFraction.m_numerator > 0;
 }
 
-bool const operator>=(const CRational& firstFraction, const CRational& secondFraction)
+bool operator>=(const CRational& firstFraction, const CRational& secondFraction)
 {
 	CRational resultFraction = firstFraction - secondFraction;
 
 	return resultFraction.m_numerator >= 0;
 }
 
-bool const operator<(const CRational& firstFraction, const CRational& secondFraction)
+bool operator<(const CRational& firstFraction, const CRational& secondFraction)
 {
 	CRational resultFraction = firstFraction - secondFraction;
 
 	return resultFraction.m_numerator < 0;
 }
 
-bool const operator<=(const CRational& firstFraction, const CRational& secondFraction)
+bool operator<=(const CRational& firstFraction, const CRational& secondFraction)
 {
 	CRational resultFraction = firstFraction - secondFraction;
 
@@ -172,8 +167,19 @@ std::ostream& operator<<(std::ostream& oss, const CRational& fraction)
 std::istream& operator>>(std::istream& iss, CRational& fraction)
 {
 	char delimiter;
+	int numerator; 
+	int denominator; 
 
-	iss >> fraction.m_numerator >> delimiter >> fraction.m_denominator;
+	iss >> numerator >> delimiter >> denominator;
+
+	if (delimiter != '/' || denominator == 0)
+	{
+		return iss;
+	}
+
+	fraction.m_numerator = numerator;
+	fraction.m_denominator = denominator;
+
 	fraction.Normalize();
 
 	return iss;

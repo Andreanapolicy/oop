@@ -18,13 +18,13 @@ public:
 
 	CRational const operator-() const;
 
-	CRational const operator+=(const CRational& fraction);
+	CRational& operator+=(const CRational& fraction);
 
-	CRational const operator-=(const CRational& fraction);
+	CRational& operator-=(const CRational& fraction);
 
-	CRational const operator*=(const CRational& fraction);
+	CRational& operator*=(const CRational& fraction);
 
-	CRational const operator/=(const CRational& fraction);
+	CRational& operator/=(const CRational& fraction);
 
 	friend CRational const operator+(const CRational& firstFraction, const CRational& secondFraction);
 
@@ -34,17 +34,17 @@ public:
 
 	friend CRational const operator*(const CRational& firstFraction, const CRational& secondFraction);
 
-	friend bool const operator==(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator==(const CRational& firstFraction, const CRational& secondFraction);
 
-	friend bool const operator!=(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator!=(const CRational& firstFraction, const CRational& secondFraction);
 
-	friend bool const operator>(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator>(const CRational& firstFraction, const CRational& secondFraction);
 
-	friend bool const operator<(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator<(const CRational& firstFraction, const CRational& secondFraction);
 	
-	friend bool const operator<=(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator<=(const CRational& firstFraction, const CRational& secondFraction);
 	
-	friend bool const operator>=(const CRational& firstFraction, const CRational& secondFraction);
+	friend bool operator>=(const CRational& firstFraction, const CRational& secondFraction);
 
 	friend std::ostream& operator<<(std::ostream& iss, const CRational& fraction);
 

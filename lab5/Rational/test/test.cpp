@@ -81,71 +81,6 @@ TEST_CASE("Test functional of getter and setter")
 	}
 }
 
-TEST_CASE("Test Euclid's algorithm")
-{
-	GIVEN("numbers 4 and 7")
-	{
-		int GCD = GetGreatestCommonDivisor(4, 7);
-		THEN("gcd == 1")
-		{
-			REQUIRE(GCD == 1);
-		}
-	}
-
-	GIVEN("numbers 4 and 2")
-	{
-		int GCD = GetGreatestCommonDivisor(4, 2);
-		THEN("gcd == 2")
-		{
-			REQUIRE(GCD == 2);
-		}
-	}
-
-	GIVEN("numbers 2 and 4")
-	{
-		int GCD = GetGreatestCommonDivisor(2, 4);
-		THEN("gcd == 2")
-		{
-			REQUIRE(GCD == 2);
-		}
-	}
-
-	GIVEN("numbers 0 and 13")
-	{
-		int GCD = GetGreatestCommonDivisor(0, 13);
-		THEN("gcd == 13")
-		{
-			REQUIRE(GCD == 13);
-		}
-	}
-
-	GIVEN("numbers 13 and 0")
-	{
-		int GCD = GetGreatestCommonDivisor(13, 0);
-		THEN("gcd == 13")
-		{
-			REQUIRE(GCD == 13);
-		}
-	}
-
-	GIVEN("numbers 0 and 0")
-	{
-		THEN("throw exception: 'There is no GCD for numbers (0; 0)'")
-		{
-			REQUIRE_THROWS(GetGreatestCommonDivisor(0, 0));
-		}
-	}
-
-	GIVEN("numbers 6 and -12")
-	{
-		int GCD = GetGreatestCommonDivisor(6, -12);
-		THEN("gcd == 6")
-		{
-			REQUIRE(GCD == 6);
-		}
-	}
-}
-
 TEST_CASE("Test functional of normalize")
 {
 	GIVEN("rational number (4/2)")
@@ -265,6 +200,42 @@ TEST_CASE("Test functional input and output")
 
 		}
 	}
+
+	GIVEN("(4;2) in input")
+	{
+		std::istringstream iss("4;2");
+		std::ostringstream oss;
+		CRational number;
+		double numberInDoubleNotation = 0;
+
+		iss >> number;
+
+		THEN("fraction is (0/1)")
+		{
+			REQUIRE(number.GetNumerator() == 0);
+			REQUIRE(number.GetDenominator() == 1);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+
+		}
+	}
+
+	GIVEN("(4/0) in input")
+	{
+		std::istringstream iss("4/0");
+		std::ostringstream oss;
+		CRational number;
+		double numberInDoubleNotation = 0;
+
+		iss >> number;
+
+		THEN("fraction is (0/1)")
+		{
+			REQUIRE(number.GetNumerator() == 0);
+			REQUIRE(number.GetDenominator() == 1);
+			REQUIRE(number.ToDouble() == numberInDoubleNotation);
+
+		}
+	}
 }
 
 TEST_CASE("Test functional binary + and - (with and without assign)")
@@ -312,6 +283,23 @@ TEST_CASE("Test functional binary + and - (with and without assign)")
 			REQUIRE(number1.GetNumerator() == -1);
 			REQUIRE(number1.GetDenominator() == 6);
 			REQUIRE(number1.ToDouble() == numberInDoubleNotation);
+		}
+	}
+
+	GIVEN("rational numbers (1/3) and (1/2)")
+	{
+		CRational a(3, 3);
+		CRational b(2, 2);
+		CRational c(3, 1);
+
+		WHEN("(((a += b) += c) += c)")
+		{
+			(((a += b) += c) += c);
+
+			THEN("a == 8")
+			{
+				REQUIRE(a == 8);
+			}
 		}
 	}
 
@@ -653,12 +641,18 @@ TEST_CASE("Test functional >, <, >=, <=")
 		{
 			REQUIRE(3 >= number);
 			REQUIRE(3 == number);
+			REQUIRE(3 <= number);
+			REQUIRE_FALSE(3 > number);
+			REQUIRE_FALSE(3 < number);
 		}
-
+		
 		THEN("3 <= (15/5)")
 		{
 			REQUIRE(3 <= number);
 			REQUIRE(3 == number);
+			REQUIRE(3 >= number);
+			REQUIRE_FALSE(3 > number);
+			REQUIRE_FALSE(3 < number);
 		}
 	}
 

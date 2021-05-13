@@ -21,9 +21,6 @@
     <ClCompile Include="..\Rational\CRational.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rational\algorithms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Rational\common_libs.h">
