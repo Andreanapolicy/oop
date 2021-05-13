@@ -166,3 +166,28 @@ void CMyString::CopyString(char* destination, const char* source, size_t startPo
 
 	destination[resultLength + startPos] = '\0';
 }
+
+std::istream& operator>>(std::istream& iss, CMyString& string)
+{
+	char charForReading = '.';
+	CMyString newString;
+	while (iss.good() && !iss.eof() && charForReading != ' ')
+	{
+		iss.get(charForReading);
+
+		newString += &charForReading;
+	}
+
+	string = newString;
+	return iss;
+}
+
+std::ostream& operator<<(std::ostream& oss, CMyString& string)
+{
+	for (size_t i = 0; i < string.GetLength(); i++)
+	{
+		oss << string.m_string[i];
+	}
+
+	return oss;
+}

@@ -636,3 +636,38 @@ TEST_CASE("Test functional of ==")
 		}
 	}
 }
+
+TEST_CASE("Test functional of << and >>")
+{
+	GIVEN("'test' in iss")
+	{
+		CMyString string;
+		std::istringstream iss("test\0");
+		std::ostringstream oss;
+
+		THEN("iss >> string")
+		{
+			iss >> string;
+			const char* resultString = string.GetStringData();
+
+			REQUIRE(string.GetLength() == 4);
+			REQUIRE(resultString[0] == 't');
+			REQUIRE(resultString[1] == 'e');
+			REQUIRE(resultString[2] == 's');
+			REQUIRE(resultString[3] == 't');
+			REQUIRE(resultString[4] == '\0');
+		}
+	}
+
+	GIVEN("'test' in string")
+	{
+		CMyString string = "test";
+		std::ostringstream oss;
+
+		THEN("oss << string")
+		{
+			oss << string;
+			REQUIRE(oss.str() == "test");
+		}
+	}
+}
