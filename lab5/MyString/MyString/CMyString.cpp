@@ -113,7 +113,7 @@ const char* CMyString::GetStringData() const
 CMyString CMyString::operator+=(const CMyString& string)
 {
 	*this = CMyString(this->m_string, this->m_length) + string;
-	
+
 	return *this;
 }
 
@@ -171,12 +171,20 @@ std::istream& operator>>(std::istream& iss, CMyString& string)
 {
 	char charForReading = '.';
 	CMyString newString;
-	while (iss.good() && !iss.eof() && charForReading != ' ')
+
+	if (!iss.good() || iss.eof())
+	{
+		string = CMyString("");
+
+		return iss;
+	}
+
+	do
 	{
 		iss.get(charForReading);
 
 		newString += &charForReading;
-	}
+	} while (iss.good() && !iss.eof() && charForReading != ' ');
 
 	string = newString;
 	return iss;
