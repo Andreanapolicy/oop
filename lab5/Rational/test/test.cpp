@@ -225,7 +225,7 @@ TEST_CASE("Test functional input and output")
 		std::ostringstream oss;
 		CRational number;
 
-		THEN("excaption")
+		THEN("exception")
 		{
 			REQUIRE_THROWS(iss >> number);
 		}
