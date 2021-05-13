@@ -170,11 +170,16 @@ std::istream& operator>>(std::istream& iss, CRational& fraction)
 	int numerator; 
 	int denominator; 
 
-	iss >> numerator >> delimiter >> denominator;
-
-	if (delimiter != '/' || denominator == 0)
+	if (!(iss >> numerator) || !(iss >> delimiter) || !(delimiter == '/') || !(iss >> denominator))
 	{
+		iss.setstate(std::ios_base::failbit);
+
 		return iss;
+	}
+
+	if (denominator == 0)
+	{
+		throw std::invalid_argument("Denominator can't be 0");
 	}
 
 	fraction.m_numerator = numerator;

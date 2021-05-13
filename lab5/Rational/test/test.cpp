@@ -210,12 +210,12 @@ TEST_CASE("Test functional input and output")
 
 		iss >> number;
 
-		THEN("fraction is (0/1)")
+		THEN("fraction is (0/1) and iss is not good")
 		{
 			REQUIRE(number.GetNumerator() == 0);
 			REQUIRE(number.GetDenominator() == 1);
 			REQUIRE(number.ToDouble() == numberInDoubleNotation);
-
+			REQUIRE_FALSE(iss.good());
 		}
 	}
 
@@ -224,16 +224,10 @@ TEST_CASE("Test functional input and output")
 		std::istringstream iss("4/0");
 		std::ostringstream oss;
 		CRational number;
-		double numberInDoubleNotation = 0;
 
-		iss >> number;
-
-		THEN("fraction is (0/1)")
+		THEN("excaption")
 		{
-			REQUIRE(number.GetNumerator() == 0);
-			REQUIRE(number.GetDenominator() == 1);
-			REQUIRE(number.ToDouble() == numberInDoubleNotation);
-
+			REQUIRE_THROWS(iss >> number);
 		}
 	}
 }
