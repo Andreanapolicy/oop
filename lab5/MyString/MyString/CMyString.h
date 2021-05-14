@@ -24,7 +24,7 @@ public:
 
 	CMyString operator=(const CMyString& string);
 
-	CMyString operator+=(const CMyString& string);
+	CMyString& operator+=(const CMyString& string);
 
 	friend CMyString operator+(const CMyString& firstString, const CMyString& secondString);
 
@@ -39,7 +39,7 @@ public:
 	~CMyString();
 
 private:
-	void CopyString(char* destination, const char* source, size_t startPos = 0, size_t length = SIZE_MAX);
 	char* m_string;
+
 	size_t m_length;
 };

@@ -155,9 +155,12 @@ TEST_CASE("Test functional of substring")
 
 		WHEN("substring(5, 4)")
 		{
-			THEN("exception: 'Wrong params'")
+			THEN("string: ''")
 			{
-				REQUIRE_THROWS(string.GetSubString(5, 4));
+				CMyString substring = string.GetSubString(5, 4);
+				const char* resultString = substring.GetStringData();
+				REQUIRE(substring.GetLength() == 0);
+				REQUIRE(resultString[0] == '\0');
 			}
 		}
 
@@ -171,12 +174,13 @@ TEST_CASE("Test functional of substring")
 
 		WHEN("substring(4, 4)")
 		{
-			THEN("string: ''")
+			THEN("string: 'o'")
 			{
 				CMyString substring = string.GetSubString(4, 4);
 				const char* resultString = substring.GetStringData();
-				REQUIRE(string.GetSubString(4, 4).GetLength() == 0);
-				REQUIRE(resultString[0] == '\0');
+				REQUIRE(string.GetSubString(4, 4).GetLength() == 1);
+				REQUIRE(resultString[0] == 'o');
+				REQUIRE(resultString[1] == '\0');
 			}
 		}
 
@@ -256,12 +260,25 @@ TEST_CASE("Test functional of substring")
 
 		WHEN("substring(1, 2)")
 		{
-			THEN("string: 'e'")
+			THEN("string: 'el'")
 			{
 				CMyString substring = string.GetSubString(1, 2);
 				const char* resultString = substring.GetStringData();
-				REQUIRE(substring.GetLength() == 1);
+				REQUIRE(substring.GetLength() == 2);
 				REQUIRE(resultString[0] == 'e');
+				REQUIRE(resultString[1] == 'l');
+				REQUIRE(resultString[2] == '\0');
+			}
+		}
+
+		WHEN("substring(2, 1)")
+		{
+			THEN("string: 'l'")
+			{
+				CMyString substring = string.GetSubString(2, 1);
+				const char* resultString = substring.GetStringData();
+				REQUIRE(substring.GetLength() == 1);
+				REQUIRE(resultString[0] == 'l');
 				REQUIRE(resultString[1] == '\0');
 			}
 		}
@@ -635,6 +652,28 @@ TEST_CASE("Test functional of ==")
 			REQUIRE(s == b);
 		}
 	}
+
+	GIVEN("s = 'qw' and 'qwe'")
+	{
+		CMyString s = "qw";
+
+		THEN("s != 'qwe'")
+		{
+			REQUIRE_FALSE(s == "qwe");
+			REQUIRE(s != "qwe");
+		}
+	}
+
+	GIVEN("s = 'qwe' and 'qwe'")
+	{
+		CMyString s = "qwe";
+
+		THEN("s == 'qwe'")
+		{
+			REQUIRE_FALSE(s != "qwe");
+			REQUIRE(s == "qwe");
+		}
+	}
 }
 
 TEST_CASE("Test functional of << and >>")
@@ -645,17 +684,21 @@ TEST_CASE("Test functional of << and >>")
 		std::istringstream iss("test\0");
 		std::ostringstream oss;
 
-		THEN("iss >> string")
+		WHEN("iss >> string")
 		{
 			iss >> string;
-			const char* resultString = string.GetStringData();
 
-			REQUIRE(string.GetLength() == 4);
-			REQUIRE(resultString[0] == 't');
-			REQUIRE(resultString[1] == 'e');
-			REQUIRE(resultString[2] == 's');
-			REQUIRE(resultString[3] == 't');
-			REQUIRE(resultString[4] == '\0');
+			THEN("string == 'test'")
+			{
+				const char* resultString = string.GetStringData();
+
+				REQUIRE(string == "test");
+				REQUIRE(resultString[0] == 't');
+				REQUIRE(resultString[1] == 'e');
+				REQUIRE(resultString[2] == 's');
+				REQUIRE(resultString[3] == 't');
+				REQUIRE(resultString[4] == '\0');
+			}
 		}
 	}
 
@@ -664,10 +707,13 @@ TEST_CASE("Test functional of << and >>")
 		CMyString string = "test";
 		std::ostringstream oss;
 
-		THEN("oss << string")
+		WHEN("oss << string")
 		{
-			oss << string;
-			REQUIRE(oss.str() == "test");
+			THEN("in oss - 'test'")
+			{
+				oss << string;
+				REQUIRE(oss.str() == "test");
+			}
 		}
 	}
 }

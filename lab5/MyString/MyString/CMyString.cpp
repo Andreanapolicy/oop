@@ -12,8 +12,6 @@ CMyString::CMyString()
 CMyString::~CMyString()
 {
 	delete[] m_string;
-
-	m_length = 0;
 }
 
 CMyString::CMyString(const char* pString)
@@ -21,20 +19,17 @@ CMyString::CMyString(const char* pString)
 	m_length = strlen(pString);
 	m_string = new char[m_length + 1];
 
-	CopyString(m_string, pString);
+	std::memcpy(m_string, pString, m_length);
+	m_string[m_length] = '\0';
 }
 
 CMyString::CMyString(const char* pString, size_t length)
 {
-	if (length < 0)
-	{
-		throw std::invalid_argument("Error, length is < 0");
-	}
-
 	m_length = length;
 	m_string = new char[m_length + 1];
 
-	CopyString(m_string, pString, 0, m_length);
+	std::memcpy(m_string, pString, m_length);
+	m_string[m_length] = '\0';
 }
 
 CMyString::CMyString(const CMyString& string)
@@ -42,16 +37,15 @@ CMyString::CMyString(const CMyString& string)
 	m_length = string.m_length;
 	m_string = new char[m_length + 1];
 
-	CopyString(m_string, string.m_string);
+	std::memcpy(m_string, string.m_string, m_length);
+	m_string[m_length] = '\0';
 }
 
 CMyString::CMyString(CMyString&& string)
 {
+	m_string = string.m_string;
 	m_length = string.m_length;
-	m_string = new char[m_length + 1];
-
-	CopyString(m_string, string.m_string);
-
+	
 	string.m_length = 0;
 	string.m_string = nullptr;
 }
@@ -61,7 +55,8 @@ CMyString::CMyString(const std::string& stlString)
 	m_length = std::size(stlString);
 	m_string = new char[m_length + 1];
 
-	CopyString(m_string, &stlString[0]);
+	std::memcpy(m_string, &stlString[0], m_length);
+	m_string[m_length] = '\0';
 }
 
 CMyString CMyString::operator=(const CMyString& string)
@@ -71,26 +66,29 @@ CMyString CMyString::operator=(const CMyString& string)
 		return *this;
 	}
 
+	char* m_tmpString = new char[string.m_length + 1];
+
 	delete[] m_string;
 
+	m_string = m_tmpString;
 	m_length = string.m_length;
-	m_string = new char[m_length + 1];
 
-	CopyString(m_string, string.m_string);
+	std::memcpy(m_string, string.m_string, m_length);
+	m_string[m_length] = '\0';
 
 	return *this;
 }
 
 CMyString CMyString::GetSubString(size_t start, size_t length) const
 {
-	if (length < start || m_length < start)
+	if (m_length < start)
 	{
 		throw std::invalid_argument("Wrong params");
 	}
 
 	std::string substring = "";
 
-	length = length < m_length ? length : m_length;
+	length = length + start < m_length ? (length + start) : m_length;
 
 	for (size_t i = start; i < length; i++)
 	{
@@ -107,27 +105,35 @@ size_t CMyString::GetLength() const
 
 const char* CMyString::GetStringData() const
 {
+	if (m_string == nullptr)
+	{
+		char* emptyString = new char[1];
+		emptyString[0] = '\0';
+
+		return emptyString;
+	}
+
 	return m_string;
 }
 
-CMyString CMyString::operator+=(const CMyString& string)
+CMyString& CMyString::operator+=(const CMyString& string)
 {
-	*this = CMyString(this->m_string, this->m_length) + string;
+	*this = CMyString(this->m_string) + string;
 
 	return *this;
 }
 
 CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 {
-	CMyString resultString = firstString;
+	CMyString resultString;
 
-	delete[] resultString.m_string;
-
-	resultString.m_length += secondString.m_length;
+	resultString.m_length = firstString.m_length + secondString.m_length;
 	resultString.m_string = new char[resultString.m_length + 1];
 
-	resultString.CopyString(resultString.m_string, firstString.m_string);
-	resultString.CopyString(resultString.m_string, secondString.m_string, firstString.m_length);
+	std::memcpy(resultString.m_string, firstString.m_string, firstString.m_length);
+	std::memcpy(&resultString.m_string[firstString.m_length], secondString.m_string, secondString.m_length);
+
+	resultString.m_string[resultString.m_length] = '\0';
 
 	return resultString;
 }
@@ -155,38 +161,27 @@ bool operator!=(const CMyString& firstString, const CMyString& secondString)
 	return !(firstString == secondString);
 }
 
-void CMyString::CopyString(char* destination, const char* source, size_t startPos, size_t length)
-{
-	size_t resultLength = std::min(std::strlen(source), length);
-
-	for (size_t i = 0; i < resultLength; i++)
-	{
-		destination[i + startPos] = source[i];
-	}
-
-	destination[resultLength + startPos] = '\0';
-}
-
 std::istream& operator>>(std::istream& iss, CMyString& string)
 {
 	char charForReading = '.';
-	CMyString newString;
+
+	std::string resultString;
+
 
 	if (!iss.good() || iss.eof())
 	{
-		string = CMyString("");
-
 		return iss;
 	}
 
+	iss.get(charForReading);
 	do
 	{
-		iss.get(charForReading);
+		resultString += charForReading;
 
-		newString += &charForReading;
-	} while (iss.good() && !iss.eof() && charForReading != ' ');
+	} while (iss.good() && !iss.eof() && iss.get(charForReading));
 
-	string = newString;
+	string = resultString;
+
 	return iss;
 }
 
