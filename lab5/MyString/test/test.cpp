@@ -11,10 +11,9 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 5 and string is 'hello'")
 		{
-			const char* resultString = string.GetStringData();
 			REQUIRE(string.GetLength() == 5);
 			REQUIRE(string == "hello");
-			REQUIRE(resultString[5] == '\0');
+			REQUIRE(string[5] == '\0');
 		}
 	}
 
@@ -25,7 +24,7 @@ TEST_CASE("Test functional of constructors")
 		THEN("lenght is 0 and string is '\0'")
 		{
 			REQUIRE(string.GetLength() == 0);
-			REQUIRE(string.GetStringData()[0] == '\0');
+			REQUIRE(string[0] == '\0');
 		}
 	}
 
@@ -36,7 +35,7 @@ TEST_CASE("Test functional of constructors")
 		THEN("lenght is 0 and string is '\0'")
 		{
 			REQUIRE(string.GetLength() == 0);
-			REQUIRE(string.GetStringData()[0] == '\0');
+			REQUIRE(string[0] == '\0');
 		}
 	}
 
@@ -47,7 +46,7 @@ TEST_CASE("Test functional of constructors")
 		THEN("lenght is 0 and string is '\0'")
 		{
 			REQUIRE(string.GetLength() == 0);
-			REQUIRE(string.GetStringData()[0] == '\0');
+			REQUIRE(string[0] == '\0');
 		}
 	}
 
@@ -57,10 +56,9 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 5 and string is 'hello\0'")
 		{
-			const char* resultString = string.GetStringData();
 			REQUIRE(string.GetLength() == 5);
 			REQUIRE(string == "hello");
-			REQUIRE(resultString[5] == '\0');
+			REQUIRE(string[5] == '\0');
 		}
 	}
 
@@ -79,11 +77,10 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 11 and string is 'hello world\0'")
 		{
-			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 11);
 			REQUIRE(copiedString == "hello world");
 
-			REQUIRE(resultString[11] == '\0');
+			REQUIRE(copiedString[11] == '\0');
 		}
 	}
 
@@ -93,9 +90,8 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 0 and string is '\0'")
 		{
-			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 0);
-			REQUIRE(resultString[0] == '\0');
+			REQUIRE(copiedString[0] == '\0');
 		}
 	}
 
@@ -106,9 +102,8 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 0 and string is '\0'")
 		{
-			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 0);
-			REQUIRE(resultString[0] == '\0');
+			REQUIRE(copiedString[0] == '\0');
 		}
 	}
 
@@ -119,7 +114,6 @@ TEST_CASE("Test functional of constructors")
 
 		THEN("lenght is 5 and string is 'hello\0'")
 		{
-			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 5);
 			REQUIRE(copiedString == "hello");
 		}
@@ -137,9 +131,9 @@ TEST_CASE("Test functional of substring")
 			THEN("string: ''")
 			{
 				CMyString substring = string.GetSubString(5, 4);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 0);
-				REQUIRE(resultString[0] == '\0');
+				REQUIRE(substring[0] == '\0');
 			}
 		}
 
@@ -156,10 +150,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'o'")
 			{
 				CMyString substring = string.GetSubString(4, 4);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 1);
 				REQUIRE(substring == "o");
-				REQUIRE(resultString[1] == '\0');
+				REQUIRE(substring[1] == '\0');
 			}
 		}
 
@@ -168,10 +162,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'hello'")
 			{
 				CMyString substring = string.GetSubString(0);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 5);
 				REQUIRE(substring == "hello");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(substring[5] == '\0');
 			}
 		}
 
@@ -180,10 +174,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'hello'")
 			{
 				CMyString substring = string.GetSubString(0, 1230);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 5);
 				REQUIRE(substring == "hello");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(substring[5] == '\0');
 			}
 		}
 
@@ -192,10 +186,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'hell'")
 			{
 				CMyString substring = string.GetSubString(0, 4);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 4);
 				REQUIRE(substring == "hell");
-				REQUIRE(resultString[4] == '\0');
+				REQUIRE(substring[4] == '\0');
 			}
 		}
 
@@ -204,10 +198,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'hel'")
 			{
 				CMyString substring = string.GetSubString(0, 3);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 3);
 				REQUIRE(substring == "hel");
-				REQUIRE(resultString[3] == '\0');
+				REQUIRE(substring[3] == '\0');
 			}
 		}
 
@@ -216,10 +210,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'he'")
 			{
 				CMyString substring = string.GetSubString(0, 2);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 2);
 				REQUIRE(substring == "he");
-				REQUIRE(resultString[2] == '\0');
+				REQUIRE(substring[2] == '\0');
 			}
 		}
 
@@ -228,10 +222,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'el'")
 			{
 				CMyString substring = string.GetSubString(1, 2);
-				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 2);
 				REQUIRE(substring == "el");
-				REQUIRE(resultString[2] == '\0');
+				REQUIRE(substring[2] == '\0');
 			}
 		}
 
@@ -240,11 +234,10 @@ TEST_CASE("Test functional of substring")
 			THEN("string: 'l'")
 			{
 				CMyString substring = string.GetSubString(2, 1);
-				const char* resultString = substring.GetStringData();
 
 				REQUIRE(substring.GetLength() == 1);
 				REQUIRE(substring == "l");
-				REQUIRE(resultString[1] == '\0');
+				REQUIRE(substring[1] == '\0');
 			}
 		}
 	}
@@ -263,25 +256,15 @@ TEST_CASE("Test functional of assign")
 
 			THEN("s = 'bonjour'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 7);
 				REQUIRE(s == "bonjour");
-				REQUIRE(resultString[0] == 'b');
-				REQUIRE(resultString[1] == 'o');
-				REQUIRE(resultString[2] == 'n');
-				REQUIRE(resultString[3] == 'j');
-				REQUIRE(resultString[4] == 'o');
-				REQUIRE(resultString[5] == 'u');
-				REQUIRE(resultString[6] == 'r');
-				REQUIRE(resultString[7] == '\0');
+				REQUIRE(s[7] == '\0');
 			}
 
 			THEN("b = 'bonjour'")
 			{
-				const char* startString = b.GetStringData();
 				REQUIRE(b == "bonjour");
-				REQUIRE(startString[7] == '\0');
+				REQUIRE(b[7] == '\0');
 			}
 		}
 
@@ -291,18 +274,15 @@ TEST_CASE("Test functional of assign")
 
 			THEN("b = 'hello'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "hello");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 
 			THEN("s = 'hello'")
 			{
-				const char* startString = b.GetStringData();
 				REQUIRE(b == "hello");
-				REQUIRE(startString[5] == '\0');
+				REQUIRE(b[5] == '\0');
 			}
 		}
 
@@ -312,11 +292,9 @@ TEST_CASE("Test functional of assign")
 
 			THEN("s = 'hello'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "hello");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 
@@ -326,10 +304,8 @@ TEST_CASE("Test functional of assign")
 
 			THEN("s = ''")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 0);
-				REQUIRE(resultString[0] == '\0');
+				REQUIRE(s[0] == '\0');
 			}
 		}
 	}
@@ -348,11 +324,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'qwert'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "qwert");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 
@@ -362,11 +336,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'qwert'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "qwert");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 
@@ -376,11 +348,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'ert'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 3);
 				REQUIRE(s == "ert");
-				REQUIRE(resultString[3] == '\0');
+				REQUIRE(s[3] == '\0');
 			}
 		}
 
@@ -390,11 +360,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'ert'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 3);
 				REQUIRE(s == "ert");
-				REQUIRE(resultString[3] == '\0');
+				REQUIRE(s[3] == '\0');
 			}
 		}
 	}
@@ -409,11 +377,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = '1test'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "1test");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 
@@ -423,11 +389,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'test1'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "test1");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 
@@ -438,11 +402,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = '123'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 3);
 				REQUIRE(s == "123");
-				REQUIRE(resultString[3] == '\0');
+				REQUIRE(s[3] == '\0');
 			}
 		}
 
@@ -453,11 +415,9 @@ TEST_CASE("Test functional of + and +=")
 
 			THEN("s = 'test1'")
 			{
-				const char* resultString = s.GetStringData();
-
 				REQUIRE(s.GetLength() == 5);
 				REQUIRE(s == "test1");
-				REQUIRE(resultString[5] == '\0');
+				REQUIRE(s[5] == '\0');
 			}
 		}
 	}
@@ -610,10 +570,8 @@ TEST_CASE("Test functional of << and >>")
 
 			THEN("string == 'test'")
 			{
-				const char* resultString = string.GetStringData();
-
 				REQUIRE(string == "test");
-				REQUIRE(resultString[4] == '\0');
+				REQUIRE(string[4] == '\0');
 			}
 		}
 	}
