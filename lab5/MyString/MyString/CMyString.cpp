@@ -45,7 +45,7 @@ CMyString::CMyString(CMyString&& string)
 {
 	m_string = string.m_string;
 	m_length = string.m_length;
-	
+
 	string.m_length = 0;
 	string.m_string = nullptr;
 }
@@ -156,6 +156,66 @@ bool operator==(const CMyString& firstString, const CMyString& secondString)
 	return true;
 }
 
+bool operator<(const CMyString& firstString, const CMyString& secondString)
+{
+	size_t minLength = std::min(firstString.m_length, secondString.m_length);
+
+	for (size_t i = 0; i < minLength; i++)
+	{
+		if (firstString[i] > secondString[i])
+		{
+			return false;
+		}
+
+		if (firstString[i] < secondString[i])
+		{
+			return true;
+		}
+	}
+
+	if (firstString.m_length >= secondString.m_length)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool operator>(const CMyString& firstString, const CMyString& secondString)
+{
+	size_t minLength = std::min(firstString.m_length, secondString.m_length);
+
+	for (size_t i = 0; i < minLength; i++)
+	{
+		if (firstString[i] < secondString[i])
+		{
+			return false;
+		}
+
+		if (firstString[i] > secondString[i])
+		{
+			return true;
+		}
+	}
+
+	if (firstString.m_length <= secondString.m_length)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool operator<=(const CMyString& firstString, const CMyString& secondString)
+{
+	return firstString == secondString || firstString < secondString;
+}
+
+bool operator>=(const CMyString& firstString, const CMyString& secondString)
+{
+	return firstString == secondString || firstString > secondString;
+}
+
 bool operator!=(const CMyString& firstString, const CMyString& secondString)
 {
 	return !(firstString == secondString);
@@ -166,7 +226,6 @@ std::istream& operator>>(std::istream& iss, CMyString& string)
 	char charForReading = '.';
 
 	std::string resultString;
-
 
 	if (!iss.good() || iss.eof())
 	{

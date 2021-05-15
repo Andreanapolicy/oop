@@ -34,6 +34,14 @@ public:
 
 	friend bool operator==(const CMyString& firstString, const CMyString& secondString);
 
+	friend bool operator<(const CMyString& firstString, const CMyString& secondString);
+	
+	friend bool operator<=(const CMyString& firstString, const CMyString& secondString);
+
+	friend bool operator>(const CMyString& firstString, const CMyString& secondString);
+
+	friend bool operator>=(const CMyString& firstString, const CMyString& secondString);
+
 	friend bool operator!=(const CMyString& firstString, const CMyString& secondString);
 	
 	friend std::istream& operator>>(std::istream& iss, CMyString& string);

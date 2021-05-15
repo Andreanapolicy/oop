@@ -708,3 +708,78 @@ TEST_CASE("Test functional of [] for reading and writing")
 		}
 	}
 }
+
+TEST_CASE("Test functional of >, >=, <, <=")
+{
+	GIVEN("string1 = 'abc', string2 = 'abcd'")
+	{
+		CMyString string1 = "abc";
+		CMyString string2 = "abcd";
+
+		THEN("string1 < string2")
+		{
+			REQUIRE(string1 < string2);
+			REQUIRE(string1 <= string2);
+			REQUIRE_FALSE(string1 > string2);
+			REQUIRE_FALSE(string1 >= string2);
+		}
+	}
+
+	GIVEN("string1 = 'bc', string2 = 'abcd'")
+	{
+		CMyString string1 = "bc";
+		CMyString string2 = "abcd";
+
+		THEN("string1 > string2")
+		{
+			REQUIRE(string1 > string2);
+			REQUIRE(string1 >= string2);
+			REQUIRE_FALSE(string1 < string2);
+			REQUIRE_FALSE(string1 <= string2);
+		}
+
+		THEN("string2 < string1")
+		{
+			REQUIRE(string2 < string1);
+			REQUIRE(string2 <= string1);
+			REQUIRE_FALSE(string2 > string1);
+			REQUIRE_FALSE(string2 >= string1);
+		}
+	}
+
+	GIVEN("string1 = 'bc', string2 = 'bc'")
+	{
+		CMyString string1 = "bc";
+		CMyString string2 = "bc";
+
+		THEN("string1 == string2")
+		{
+			REQUIRE_FALSE(string1 > string2);
+			REQUIRE(string1 >= string2);
+			REQUIRE_FALSE(string1 < string2);
+			REQUIRE(string1 <= string2);
+		}
+	}
+
+	GIVEN("string1 = 'abc', string2 = 'acc'")
+	{
+		CMyString string1 = "abc";
+		CMyString string2 = "acc";
+
+		THEN("string1 < string2")
+		{
+			REQUIRE_FALSE(string1 > string2);
+			REQUIRE_FALSE(string1 >= string2);
+			REQUIRE(string1 < string2);
+			REQUIRE(string1 <= string2);
+		}
+
+		THEN("string2 > string1")
+		{
+			REQUIRE(string2 > string1);
+			REQUIRE(string2 >= string1);
+			REQUIRE_FALSE(string2 < string1);
+			REQUIRE_FALSE(string2 <= string1);
+		}
+	}
+}
