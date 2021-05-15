@@ -26,6 +26,10 @@ public:
 
 	CMyString& operator+=(const CMyString& string);
 
+	const char& operator[](size_t index) const;
+
+	char& operator[](size_t index);
+
 	friend CMyString operator+(const CMyString& firstString, const CMyString& secondString);
 
 	friend bool operator==(const CMyString& firstString, const CMyString& secondString);

@@ -633,3 +633,78 @@ TEST_CASE("Test functional of << and >>")
 		}
 	}
 }
+
+TEST_CASE("Test functional of [] for reading and writing")
+{
+	GIVEN("string = 'test'")
+	{
+		CMyString string = "test";
+
+		WHEN("string[0] for reading")
+		{
+			THEN("string[0] = 't'")
+			{
+				REQUIRE(string[0] == 't');
+				REQUIRE(string[0] != 'e');
+			}
+		}
+
+		WHEN("string[1] for reading")
+		{
+			THEN("string[1] = 'e'")
+			{
+				REQUIRE(string[1] == 'e');
+				REQUIRE(string[1] != 't');
+			}
+		}
+
+		WHEN("string[2] for reading")
+		{
+			THEN("string[2] = 's'")
+			{
+				REQUIRE(string[2] == 's');
+				REQUIRE(string[2] != 't');
+			}
+		}
+
+		WHEN("string[3] for reading")
+		{
+			THEN("string[3] = 't'")
+			{
+				REQUIRE(string[3] == 't');
+				REQUIRE(string[3] != 's');
+			}
+		}
+
+		WHEN("string[0] = 'a'")
+		{
+			string[0] = 'a';
+			THEN("string = 'aest'")
+			{
+				REQUIRE(string[0] == 'a');
+				REQUIRE(string == "aest");
+			}
+		}
+
+		WHEN("string[5]")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(string[5]);
+			}
+		}
+	}
+
+	GIVEN("string = ''")
+	{
+		CMyString string;
+
+		WHEN("string[0]")
+		{
+			THEN("exception")
+			{
+				REQUIRE(string[0] == '\0');
+			}
+		}
+	}
+}

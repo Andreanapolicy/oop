@@ -185,6 +185,26 @@ std::istream& operator>>(std::istream& iss, CMyString& string)
 	return iss;
 }
 
+const char& CMyString::operator[](size_t index) const
+{
+	if (index > m_length)
+	{
+		throw std::invalid_argument("Index out of range");
+	}
+
+	return m_string[index];
+}
+
+char& CMyString::operator[](size_t index)
+{
+	if (index > m_length)
+	{
+		throw std::invalid_argument("Index out of range");
+	}
+
+	return m_string[index];
+}
+
 std::ostream& operator<<(std::ostream& oss, CMyString& string)
 {
 	for (size_t i = 0; i < string.GetLength(); i++)
