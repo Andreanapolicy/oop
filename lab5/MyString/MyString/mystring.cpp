@@ -5,5 +5,5 @@ int main()
 {
 	CMyString s("hello");
 	CMyString b("bonjour");
-	std::cin >> s;
+	s == "test1";
 }

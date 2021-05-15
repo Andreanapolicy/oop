@@ -13,11 +13,7 @@ TEST_CASE("Test functional of constructors")
 		{
 			const char* resultString = string.GetStringData();
 			REQUIRE(string.GetLength() == 5);
-			REQUIRE(resultString[0] == 'h');
-			REQUIRE(resultString[1] == 'e');
-			REQUIRE(resultString[2] == 'l');
-			REQUIRE(resultString[3] == 'l');
-			REQUIRE(resultString[4] == 'o');
+			REQUIRE(string == "hello");
 			REQUIRE(resultString[5] == '\0');
 		}
 	}
@@ -63,11 +59,7 @@ TEST_CASE("Test functional of constructors")
 		{
 			const char* resultString = string.GetStringData();
 			REQUIRE(string.GetLength() == 5);
-			REQUIRE(resultString[0] == 'h');
-			REQUIRE(resultString[1] == 'e');
-			REQUIRE(resultString[2] == 'l');
-			REQUIRE(resultString[3] == 'l');
-			REQUIRE(resultString[4] == 'o');
+			REQUIRE(string == "hello");
 			REQUIRE(resultString[5] == '\0');
 		}
 	}
@@ -89,17 +81,8 @@ TEST_CASE("Test functional of constructors")
 		{
 			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 11);
-			REQUIRE(resultString[0] == 'h');
-			REQUIRE(resultString[1] == 'e');
-			REQUIRE(resultString[2] == 'l');
-			REQUIRE(resultString[3] == 'l');
-			REQUIRE(resultString[4] == 'o');
-			REQUIRE(resultString[5] == ' ');
-			REQUIRE(resultString[6] == 'w');
-			REQUIRE(resultString[7] == 'o');
-			REQUIRE(resultString[8] == 'r');
-			REQUIRE(resultString[9] == 'l');
-			REQUIRE(resultString[10] == 'd');
+			REQUIRE(copiedString == "hello world");
+
 			REQUIRE(resultString[11] == '\0');
 		}
 	}
@@ -138,11 +121,7 @@ TEST_CASE("Test functional of constructors")
 		{
 			const char* resultString = copiedString.GetStringData();
 			REQUIRE(copiedString.GetLength() == 5);
-			REQUIRE(resultString[0] == 'h');
-			REQUIRE(resultString[1] == 'e');
-			REQUIRE(resultString[2] == 'l');
-			REQUIRE(resultString[3] == 'l');
-			REQUIRE(resultString[4] == 'o');
+			REQUIRE(copiedString == "hello");
 		}
 	}
 }
@@ -178,8 +157,8 @@ TEST_CASE("Test functional of substring")
 			{
 				CMyString substring = string.GetSubString(4, 4);
 				const char* resultString = substring.GetStringData();
-				REQUIRE(string.GetSubString(4, 4).GetLength() == 1);
-				REQUIRE(resultString[0] == 'o');
+				REQUIRE(substring.GetLength() == 1);
+				REQUIRE(substring == "o");
 				REQUIRE(resultString[1] == '\0');
 			}
 		}
@@ -191,11 +170,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(0);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 5);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
-				REQUIRE(resultString[3] == 'l');
-				REQUIRE(resultString[4] == 'o');
+				REQUIRE(substring == "hello");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -207,11 +182,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(0, 1230);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 5);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
-				REQUIRE(resultString[3] == 'l');
-				REQUIRE(resultString[4] == 'o');
+				REQUIRE(substring == "hello");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -223,10 +194,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(0, 4);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 4);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
-				REQUIRE(resultString[3] == 'l');
+				REQUIRE(substring == "hell");
 				REQUIRE(resultString[4] == '\0');
 			}
 		}
@@ -238,9 +206,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(0, 3);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 3);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
+				REQUIRE(substring == "hel");
 				REQUIRE(resultString[3] == '\0');
 			}
 		}
@@ -252,8 +218,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(0, 2);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 2);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
+				REQUIRE(substring == "he");
 				REQUIRE(resultString[2] == '\0');
 			}
 		}
@@ -265,8 +230,7 @@ TEST_CASE("Test functional of substring")
 				CMyString substring = string.GetSubString(1, 2);
 				const char* resultString = substring.GetStringData();
 				REQUIRE(substring.GetLength() == 2);
-				REQUIRE(resultString[0] == 'e');
-				REQUIRE(resultString[1] == 'l');
+				REQUIRE(substring == "el");
 				REQUIRE(resultString[2] == '\0');
 			}
 		}
@@ -277,8 +241,9 @@ TEST_CASE("Test functional of substring")
 			{
 				CMyString substring = string.GetSubString(2, 1);
 				const char* resultString = substring.GetStringData();
+
 				REQUIRE(substring.GetLength() == 1);
-				REQUIRE(resultString[0] == 'l');
+				REQUIRE(substring == "l");
 				REQUIRE(resultString[1] == '\0');
 			}
 		}
@@ -301,6 +266,7 @@ TEST_CASE("Test functional of assign")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 7);
+				REQUIRE(s == "bonjour");
 				REQUIRE(resultString[0] == 'b');
 				REQUIRE(resultString[1] == 'o');
 				REQUIRE(resultString[2] == 'n');
@@ -314,14 +280,7 @@ TEST_CASE("Test functional of assign")
 			THEN("b = 'bonjour'")
 			{
 				const char* startString = b.GetStringData();
-
-				REQUIRE(startString[0] == 'b');
-				REQUIRE(startString[1] == 'o');
-				REQUIRE(startString[2] == 'n');
-				REQUIRE(startString[3] == 'j');
-				REQUIRE(startString[4] == 'o');
-				REQUIRE(startString[5] == 'u');
-				REQUIRE(startString[6] == 'r');
+				REQUIRE(b == "bonjour");
 				REQUIRE(startString[7] == '\0');
 			}
 		}
@@ -335,23 +294,14 @@ TEST_CASE("Test functional of assign")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
-				REQUIRE(resultString[3] == 'l');
-				REQUIRE(resultString[4] == 'o');
+				REQUIRE(s == "hello");
 				REQUIRE(resultString[5] == '\0');
 			}
 
 			THEN("s = 'hello'")
 			{
 				const char* startString = b.GetStringData();
-
-				REQUIRE(startString[0] == 'h');
-				REQUIRE(startString[1] == 'e');
-				REQUIRE(startString[2] == 'l');
-				REQUIRE(startString[3] == 'l');
-				REQUIRE(startString[4] == 'o');
+				REQUIRE(b == "hello");
 				REQUIRE(startString[5] == '\0');
 			}
 		}
@@ -365,11 +315,7 @@ TEST_CASE("Test functional of assign")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 'h');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 'l');
-				REQUIRE(resultString[3] == 'l');
-				REQUIRE(resultString[4] == 'o');
+				REQUIRE(s == "hello");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -405,11 +351,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 'q');
-				REQUIRE(resultString[1] == 'w');
-				REQUIRE(resultString[2] == 'e');
-				REQUIRE(resultString[3] == 'r');
-				REQUIRE(resultString[4] == 't');
+				REQUIRE(s == "qwert");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -423,11 +365,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 'q');
-				REQUIRE(resultString[1] == 'w');
-				REQUIRE(resultString[2] == 'e');
-				REQUIRE(resultString[3] == 'r');
-				REQUIRE(resultString[4] == 't');
+				REQUIRE(s == "qwert");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -441,9 +379,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 3);
-				REQUIRE(resultString[0] == 'e');
-				REQUIRE(resultString[1] == 'r');
-				REQUIRE(resultString[2] == 't');
+				REQUIRE(s == "ert");
 				REQUIRE(resultString[3] == '\0');
 			}
 		}
@@ -457,9 +393,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 3);
-				REQUIRE(resultString[0] == 'e');
-				REQUIRE(resultString[1] == 'r');
-				REQUIRE(resultString[2] == 't');
+				REQUIRE(s == "ert");
 				REQUIRE(resultString[3] == '\0');
 			}
 		}
@@ -478,11 +412,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == '1');
-				REQUIRE(resultString[1] == 't');
-				REQUIRE(resultString[2] == 'e');
-				REQUIRE(resultString[3] == 's');
-				REQUIRE(resultString[4] == 't');
+				REQUIRE(s == "1test");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -496,11 +426,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 't');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 's');
-				REQUIRE(resultString[3] == 't');
-				REQUIRE(resultString[4] == '1');
+				REQUIRE(s == "test1");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -515,9 +441,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 3);
-				REQUIRE(resultString[0] == '1');
-				REQUIRE(resultString[1] == '2');
-				REQUIRE(resultString[2] == '3');
+				REQUIRE(s == "123");
 				REQUIRE(resultString[3] == '\0');
 			}
 		}
@@ -532,11 +456,7 @@ TEST_CASE("Test functional of + and +=")
 				const char* resultString = s.GetStringData();
 
 				REQUIRE(s.GetLength() == 5);
-				REQUIRE(resultString[0] == 't');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 's');
-				REQUIRE(resultString[3] == 't');
-				REQUIRE(resultString[4] == '1');
+				REQUIRE(s == "test1");
 				REQUIRE(resultString[5] == '\0');
 			}
 		}
@@ -693,10 +613,6 @@ TEST_CASE("Test functional of << and >>")
 				const char* resultString = string.GetStringData();
 
 				REQUIRE(string == "test");
-				REQUIRE(resultString[0] == 't');
-				REQUIRE(resultString[1] == 'e');
-				REQUIRE(resultString[2] == 's');
-				REQUIRE(resultString[3] == 't');
 				REQUIRE(resultString[4] == '\0');
 			}
 		}
