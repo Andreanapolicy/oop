@@ -1,2 +1,137 @@
 #include "CHttpUrl.h"
+#include "CUrlParsingError.h"
+
 #include "common_libs.h"
+
+CHttpUrl::CHttpUrl(const std::string& url)
+{
+	try
+	{
+		ParseURL(url);
+	}
+	catch (const std::exception& error)
+	{
+		throw CUrlParsingError(error.what());
+	}
+}
+
+CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol)
+	: m_domain(domain)
+	, m_document(document)
+	, m_protocol(protocol)
+	, m_port(GetDefaultPort(protocol))
+{
+}
+
+CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol, unsigned short port)
+{
+
+}
+
+std::string CHttpUrl::GetURL() const
+{
+	std::string url = m_protocol == Protocol::HTTP ? "http" : "https";
+
+	url += "://";
+	url += m_domain == "/" ? "" : m_domain;
+	url += m_port == DefaultPorts.find(m_protocol)->second ? "" : ":" + std::to_string(m_port);
+	url += m_document;
+
+	return url;
+}
+
+std::string CHttpUrl::GetDomain() const
+{
+	return m_domain;
+}
+
+std::string CHttpUrl::GetDocument() const
+{
+	return m_document;
+}
+
+unsigned short CHttpUrl::GetPort() const
+{
+	return m_port;
+}
+
+Protocol CHttpUrl::GetProtocol() const
+{
+	return m_protocol;
+}
+
+void CHttpUrl::ParseURL(const std::string& url)
+{
+	std::regex regex("^((http[s]?)://)?([-.[:alnum:]]+)(:([[:digit:]]+))?(/(.*))?$");
+	std::smatch matches;
+	std::regex_search(url, matches, regex);
+
+	if (matches.empty())
+	{
+		throw std::invalid_argument("Wrong URL");
+	}
+
+	this->m_protocol = ParseProtocol(matches[2]);
+	this->m_domain = matches[3];
+	this->m_port = ParsePort(matches[5], m_protocol);
+	this->m_document = ParseDocument(matches[7]);
+}
+
+std::string CHttpUrl::ParseDocument(const std::string& document)
+{
+	if (document.empty() || document[0] != '/')
+	{
+		return "/" + document;
+	}
+
+	return document;
+}
+
+Protocol CHttpUrl::ParseProtocol(const std::string& protocol)
+{
+	if (protocol == "https")
+	{
+		return Protocol::HTTPS;
+	}
+
+	return Protocol::HTTP;
+}
+
+unsigned short CHttpUrl::ParsePort(const std::string& port, const Protocol& protocol)
+{
+	if (port.empty())
+	{
+		return GetDefaultPort(protocol);
+	}
+
+	unsigned short numPort = static_cast<unsigned short>(std::stoi(port));
+
+	if (numPort > USHRT_MAX || numPort < 1)
+	{
+		throw std::invalid_argument("Wrong port. Value should be in [1 .. 65535]");
+	}
+
+	return numPort;
+}
+
+unsigned short CHttpUrl::GetDefaultPort(const Protocol& protocol)
+{
+	auto it = DefaultPorts.find(protocol);
+
+	if (it == DefaultPorts.end())
+	{
+		throw std::runtime_error("Wrong protocol");
+	}
+
+	return it->second;
+}
+
+std::string CHttpUrl::FromProtocolToString(const Protocol& protocol)
+{
+	if (protocol == Protocol::HTTP)
+	{
+		return "http";
+	}
+
+	return "https";
+}
