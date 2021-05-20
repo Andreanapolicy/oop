@@ -25,7 +25,10 @@ CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Proto
 
 CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol, unsigned short port)
 {
-
+	m_domain = domain;
+	m_document = ParseDocument(document);
+	m_protocol = protocol;
+	m_port = port;
 }
 
 std::string CHttpUrl::GetURL() const
@@ -62,7 +65,7 @@ Protocol CHttpUrl::GetProtocol() const
 
 void CHttpUrl::ParseURL(const std::string& url)
 {
-	std::regex regex("^((http[s]?)://)?([-.[:alnum:]]+)(:([[:digit:]]+))?(/(.*))?$");
+	std::regex regex("^((http[s]?)://)?([-.[:alnum:]]+)(:([[:digit:]]+))?(/(.*))?$", std::regex_constants::icase);
 	std::smatch matches;
 	std::regex_search(url, matches, regex);
 
@@ -89,7 +92,7 @@ std::string CHttpUrl::ParseDocument(const std::string& document)
 
 Protocol CHttpUrl::ParseProtocol(const std::string& protocol)
 {
-	if (protocol == "https")
+	if (CHttpUrl::GetStringInLowerCase(protocol) == "https")
 	{
 		return Protocol::HTTPS;
 	}
@@ -104,7 +107,7 @@ unsigned short CHttpUrl::ParsePort(const std::string& port, const Protocol& prot
 		return GetDefaultPort(protocol);
 	}
 
-	unsigned short numPort = static_cast<unsigned short>(std::stoi(port));
+	auto numPort = static_cast<unsigned int>(std::stoi(port));
 
 	if (numPort > USHRT_MAX || numPort < 1)
 	{
@@ -134,4 +137,15 @@ std::string CHttpUrl::FromProtocolToString(const Protocol& protocol)
 	}
 
 	return "https";
+}
+
+std::string CHttpUrl::GetStringInLowerCase(const std::string& line)
+{
+	std::string stringInLowerCase;
+	for (auto element : line)
+	{
+		stringInLowerCase += tolower(element);
+	}
+
+	return stringInLowerCase;
 }

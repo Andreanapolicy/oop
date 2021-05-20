@@ -36,13 +36,15 @@ public:
 private:
 	void ParseURL(const std::string& url);
 
-	std::string ParseDocument(const std::string& document);
+	static std::string ParseDocument(const std::string& document);
 
-	Protocol ParseProtocol(const std::string& protocol);
+	static Protocol ParseProtocol(const std::string& protocol);
 
-	unsigned short ParsePort(const std::string& port, const Protocol& protocol);
+	static unsigned short ParsePort(const std::string& port, const Protocol& protocol);
 
-	unsigned short GetDefaultPort(const Protocol& protocol);
+	static unsigned short GetDefaultPort(const Protocol& protocol);
+
+	static std::string GetStringInLowerCase(const std::string& line);
 
 	std::string m_domain;
 
