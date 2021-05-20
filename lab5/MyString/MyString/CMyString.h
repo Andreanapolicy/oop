@@ -22,7 +22,9 @@ public:
 
 	CMyString GetSubString(size_t start, size_t length = SIZE_MAX) const;
 
-	CMyString operator=(const CMyString& string);
+	CMyString& operator=(const CMyString& string);
+
+	CMyString& operator=(CMyString&& string);
 
 	CMyString& operator+=(const CMyString& string);
 
@@ -54,4 +56,6 @@ private:
 	char* m_string;
 
 	size_t m_length;
+
+	inline static const char m_empty[1] = { '\0' };
 };

@@ -36,8 +36,9 @@ CMyString::CMyString(const CMyString& string)
 {
 	m_length = string.m_length;
 	m_string = new char[m_length + 1];
+	auto tempString = string.GetStringData();
 
-	std::memcpy(m_string, string.m_string, m_length);
+	std::memcpy(m_string, tempString, m_length);
 	m_string[m_length] = '\0';
 }
 
@@ -55,26 +56,36 @@ CMyString::CMyString(const std::string& stlString)
 	m_length = std::size(stlString);
 	m_string = new char[m_length + 1];
 
-	std::memcpy(m_string, &stlString[0], m_length);
+	std::memcpy(m_string, &stlString.c_str()[0], m_length);
 	m_string[m_length] = '\0';
 }
 
-CMyString CMyString::operator=(const CMyString& string)
+CMyString& CMyString::operator=(const CMyString& string)
 {
 	if (this == &string)
 	{
 		return *this;
 	}
 
-	char* m_tmpString = new char[string.m_length + 1];
+	char* tempString = new char[string.m_length + 1];
 
 	delete[] m_string;
 
-	m_string = m_tmpString;
+	std::memcpy(tempString, string.GetStringData(), string.m_length);
 	m_length = string.m_length;
+	
+	m_string = tempString;
 
-	std::memcpy(m_string, string.m_string, m_length);
 	m_string[m_length] = '\0';
+
+	return *this;
+}
+
+CMyString& CMyString::operator=(CMyString&& string)
+{
+	*this = string;
+
+	string.m_string = nullptr;
 
 	return *this;
 }
@@ -86,16 +97,15 @@ CMyString CMyString::GetSubString(size_t start, size_t length) const
 		throw std::invalid_argument("Wrong params");
 	}
 
-	std::string substring = "";
+	length = length + start < m_length ? length : m_length;
 
-	length = length + start < m_length ? (length + start) : m_length;
+	char* tempString = new char[length + 1];
 
-	for (size_t i = start; i < length; i++)
-	{
-		substring += m_string[i];
-	}
+	std::memcpy(tempString, &m_string[start], length);
 
-	return CMyString(substring);
+	tempString[length] = '\0';
+
+	return CMyString(tempString);
 }
 
 size_t CMyString::GetLength() const
@@ -107,10 +117,7 @@ const char* CMyString::GetStringData() const
 {
 	if (m_string == nullptr)
 	{
-		char* emptyString = new char[1];
-		emptyString[0] = '\0';
-
-		return emptyString;
+		return m_empty;
 	}
 
 	return m_string;
@@ -118,20 +125,20 @@ const char* CMyString::GetStringData() const
 
 CMyString& CMyString::operator+=(const CMyString& string)
 {
-	*this = CMyString(this->m_string) + string;
+	*this = *this + string;
 
 	return *this;
 }
 
 CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 {
-	CMyString resultString;
+	auto firstStringData = firstString.GetStringData();
+	auto secondStringData = secondString.GetStringData();
 
-	resultString.m_length = firstString.m_length + secondString.m_length;
-	resultString.m_string = new char[resultString.m_length + 1];
+	CMyString resultString("", firstString.m_length + secondString.m_length);
 
-	std::memcpy(resultString.m_string, firstString.m_string, firstString.m_length);
-	std::memcpy(&resultString.m_string[firstString.m_length], secondString.m_string, secondString.m_length);
+	std::memcpy(resultString.m_string, firstStringData, firstString.m_length);
+	std::memcpy(&resultString.m_string[firstString.m_length], secondStringData, secondString.m_length);
 
 	resultString.m_string[resultString.m_length] = '\0';
 
