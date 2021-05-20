@@ -16,9 +16,10 @@ public:
 
 	bool IsEmpty() const;
 
+	int Size() const;
+
 private:
 
-	void IncreaseStack();
 	void DecreaseStack();
 
 	int m_top;

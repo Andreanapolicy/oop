@@ -145,10 +145,12 @@
   <ItemGroup>
     <ClInclude Include="CEmptyStackError.h" />
     <ClInclude Include="common_libs.h" />
+    <ClInclude Include="COverflowStackError.h" />
     <ClInclude Include="CStringStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEmptyStackError.cpp" />
+    <ClCompile Include="COverflowStackError.cpp" />
     <ClCompile Include="CStringStack.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

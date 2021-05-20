@@ -1,5 +1,6 @@
 #include "CStringStack.h"
 #include "CEmptyStackError.h"
+#include "COverflowStackError.h"
 #include "common_libs.h"
 
 CStringStack::CStringStack()
@@ -32,6 +33,30 @@ std::string CStringStack::Pop()
 	DecreaseStack();
 
 	return element;
+}
+
+void CStringStack::Push(const std::string& string)
+{
+	if (m_top >= INT_MAX - 1)
+	{
+		throw COverflowStackError("Stack overflow");
+	}
+
+	std::string* tempStack = new std::string[m_top + 2];
+
+	std::memcpy(tempStack, m_stack, m_top + 1);
+	tempStack[m_top + 1] = string;
+
+	delete[] m_stack;
+
+	m_stack = tempStack;
+
+	m_top += 1;
+}
+
+int CStringStack::Size() const
+{
+	return m_top + 1;
 }
 
 void CStringStack::DecreaseStack()

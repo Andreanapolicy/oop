@@ -1,9 +1,12 @@
 #include "common_libs.h"
-#include "CStringStack.h";
+#include "CStringStack.h"
 
 int main()
 {
-	CStringStack stack("test");
+	CStringStack stack("test1");
+	stack.Push("test2");
+	stack.Push("test3");
+	stack.Push("test4");
 
 	std::cout << stack.Pop() << std::endl;
 	std::string isEmpty = stack.IsEmpty() ? "true" : "false";

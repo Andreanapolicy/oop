@@ -156,12 +156,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\StringStack\CEmptyStackError.cpp" />
+    <ClCompile Include="..\StringStack\COverflowStackError.cpp" />
     <ClCompile Include="..\StringStack\CStringStack.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\StringStack\CEmptyStackError.h" />
     <ClInclude Include="..\StringStack\common_libs.h" />
+    <ClInclude Include="..\StringStack\COverflowStackError.h" />
     <ClInclude Include="..\StringStack\CStringStack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

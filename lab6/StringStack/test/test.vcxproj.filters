@@ -24,6 +24,9 @@
     <ClCompile Include="..\StringStack\CStringStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\StringStack\COverflowStackError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\StringStack\CEmptyStackError.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\StringStack\CStringStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StringStack\COverflowStackError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
