@@ -46,6 +46,10 @@ private:
 
 	static std::string GetStringInLowerCase(const std::string& line);
 
+	inline static std::string ERROR_WRONG_URL = "Wrong URL";
+	inline static std::string ERROR_WRONG_PROTOCOL = "Wrong protocol";
+	inline static std::string ERROR_WRONG_PORT = "Wrong port. Value should be in [1 .. 65535]";
+
 	std::string m_domain;
 
 	std::string m_document;

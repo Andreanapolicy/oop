@@ -45,6 +45,16 @@ TEST_CASE("Test functional of parsing url with exceptions")
 		}
 	}
 
+	GIVEN("url = 'http://asd.com:999999999/asd/asd'")
+	{
+		THEN("exception")
+		{
+			REQUIRE_THROWS(CHttpUrl("http://asd.com:999999999/asd/asd"));	
+			REQUIRE_THROWS_AS(CHttpUrl("http://asd.com:999999999/asd/asd"), CUrlParsingError);	
+			REQUIRE_THROWS_WITH(CHttpUrl("http://asd.com:999999999/asd/asd"), "Wrong port. Value should be in [1 .. 65535]");	
+		}
+	}
+
 	GIVEN("url = 'http://asd.com:65537/asd/asd'")
 	{
 		THEN("exception")
@@ -52,6 +62,16 @@ TEST_CASE("Test functional of parsing url with exceptions")
 			REQUIRE_THROWS(CHttpUrl("http://asd.com:65537/asd/asd"));	
 			REQUIRE_THROWS_AS(CHttpUrl("http://asd.com:65537/asd/asd"), CUrlParsingError);	
 			REQUIRE_THROWS_WITH(CHttpUrl("http://asd.com:65537/asd/asd"), "Wrong port. Value should be in [1 .. 65535]");	
+		}
+	}
+
+	GIVEN("url = 'regex.com', '/my_regex', https, 0")
+	{
+		THEN("exception")
+		{
+			REQUIRE_THROWS(CHttpUrl("regex.com", "/my_regex", Protocol::HTTPS, 0));	
+			REQUIRE_THROWS_AS(CHttpUrl("regex.com", "/my_regex", Protocol::HTTPS, 0), CUrlParsingError);	
+			REQUIRE_THROWS_WITH(CHttpUrl("regex.com", "/my_regex", Protocol::HTTPS, 0), "Wrong port. Value should be in [1 .. 65535]");	
 		}
 	}
 }
@@ -132,6 +152,78 @@ TEST_CASE("Test functional of getter url and others params with rights urls")
 			REQUIRE(url.GetDocument() == "/");
 			REQUIRE(url.GetDomain() == "regex.com");
 			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
+		}
+	}
+}
+
+TEST_CASE("Test functional of getter url and others params with rights urls separately")
+{
+	GIVEN("url = 'http://regex.com/my_regex'")
+	{
+		THEN("url = 'regex.com', '/my_regex'")
+		{
+			CHttpUrl url("regex.com", "/my_regex");
+			REQUIRE(url.GetURL() == "http://regex.com/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 80);
+			REQUIRE(url.GetProtocol() == Protocol::HTTP);
+		}
+
+		THEN("url = 'regex.com', 'my_regex'")
+		{
+			CHttpUrl url("regex.com", "my_regex");
+			REQUIRE(url.GetURL() == "http://regex.com/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 80);
+			REQUIRE(url.GetProtocol() == Protocol::HTTP);
+		}
+
+		THEN("url = 'regex.com', 'my_regex', http")
+		{
+			CHttpUrl url("regex.com", "my_regex", Protocol::HTTP);
+			REQUIRE(url.GetURL() == "http://regex.com/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 80);
+			REQUIRE(url.GetProtocol() == Protocol::HTTP);
+		}
+	}
+
+	GIVEN("url = 'https://regex.com/my_regex'")
+	{
+		THEN("url = 'regex.com', '/my_regex', https")
+		{
+			CHttpUrl url("regex.com", "/my_regex", Protocol::HTTPS);
+			REQUIRE(url.GetURL() == "https://regex.com/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
+		}
+
+		THEN("url = 'regex.com', '/my_regex', https, 422")
+		{
+			CHttpUrl url("regex.com", "/my_regex", Protocol::HTTPS);
+			REQUIRE(url.GetURL() == "https://regex.com/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
+		}
+	}
+
+	GIVEN("url = 'https://regex.com:781/my_regex'")
+	{
+		THEN("url = 'regex.com', '/my_regex', https, 781")
+		{
+			CHttpUrl url("regex.com", "/my_regex", Protocol::HTTPS, 781);
+			REQUIRE(url.GetURL() == "https://regex.com:781/my_regex");
+			REQUIRE(url.GetDocument() == "/my_regex");
+			REQUIRE(url.GetDomain() == "regex.com");
+			REQUIRE(url.GetPort() == 781);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 	}

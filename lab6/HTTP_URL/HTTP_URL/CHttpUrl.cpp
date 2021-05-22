@@ -16,15 +16,22 @@ CHttpUrl::CHttpUrl(const std::string& url)
 }
 
 CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol)
-	: m_domain(domain)
-	, m_document(document)
-	, m_protocol(protocol)
-	, m_port(GetDefaultPort(protocol))
+	: CHttpUrl(domain, document, protocol, GetDefaultPort(protocol))
 {
 }
 
 CHttpUrl::CHttpUrl(const std::string& domain, const std::string& document, Protocol protocol, unsigned short port)
 {
+	if (domain.empty())
+	{
+		throw CUrlParsingError(CHttpUrl::ERROR_WRONG_URL);
+	}
+
+	if (port < 1 || port > USHRT_MAX)
+	{
+		throw CUrlParsingError(CHttpUrl::ERROR_WRONG_PORT);
+	}
+
 	m_domain = domain;
 	m_document = ParseDocument(document);
 	m_protocol = protocol;
@@ -71,7 +78,7 @@ void CHttpUrl::ParseURL(const std::string& url)
 
 	if (matches.empty())
 	{
-		throw std::invalid_argument("Wrong URL");
+		throw std::invalid_argument(CHttpUrl::ERROR_WRONG_URL);
 	}
 
 	this->m_protocol = ParseProtocol(matches[2]);
@@ -111,7 +118,7 @@ unsigned short CHttpUrl::ParsePort(const std::string& port, const Protocol& prot
 
 	if (numPort > USHRT_MAX || numPort < 1)
 	{
-		throw std::invalid_argument("Wrong port. Value should be in [1 .. 65535]");
+		throw std::invalid_argument(CHttpUrl::ERROR_WRONG_PORT);
 	}
 
 	return numPort;
@@ -123,7 +130,7 @@ unsigned short CHttpUrl::GetDefaultPort(const Protocol& protocol)
 
 	if (it == DefaultPorts.end())
 	{
-		throw std::runtime_error("Wrong protocol");
+		throw std::runtime_error(CHttpUrl::ERROR_WRONG_PROTOCOL);
 	}
 
 	return it->second;
