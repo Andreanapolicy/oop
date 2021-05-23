@@ -147,80 +147,61 @@ CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 
 bool operator==(const CMyString& firstString, const CMyString& secondString)
 {
-	if (firstString.m_length != secondString.m_length)
-	{
-		return false;
-	}
+	auto result = CMyString::Compare(firstString, secondString);
 
-	for (size_t i = 0; i < firstString.m_length; i++)
-	{
-		if (firstString.m_string[i] != secondString.m_string[i])
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return result == 0;
 }
 
 bool operator<(const CMyString& firstString, const CMyString& secondString)
 {
-	size_t minLength = std::min(firstString.m_length, secondString.m_length);
+	auto result = CMyString::Compare(firstString, secondString);
 
-	for (size_t i = 0; i < minLength; i++)
-	{
-		if (firstString[i] > secondString[i])
-		{
-			return false;
-		}
-
-		if (firstString[i] < secondString[i])
-		{
-			return true;
-		}
-	}
-
-	if (firstString.m_length >= secondString.m_length)
-	{
-		return false;
-	}
-
-	return true;
+	return result < 0;
 }
 
 bool operator>(const CMyString& firstString, const CMyString& secondString)
 {
-	size_t minLength = std::min(firstString.m_length, secondString.m_length);
+	auto result = CMyString::Compare(firstString, secondString);
 
-	for (size_t i = 0; i < minLength; i++)
+	return result > 0;
+}
+
+short CMyString::Compare(const CMyString& firstString, const CMyString& secondString)
+{
+	auto minLength = std::min(firstString.m_length, secondString.m_length);
+
+	int result = std::memcmp(firstString.GetStringData(), secondString.GetStringData(), minLength);
+
+	if (result != 0)
 	{
-		if (firstString[i] < secondString[i])
-		{
-			return false;
-		}
-
-		if (firstString[i] > secondString[i])
-		{
-			return true;
-		}
+		return result;
 	}
 
-	if (firstString.m_length <= secondString.m_length)
+	if (minLength < firstString.m_length)
 	{
-		return false;
+		return 1;
 	}
 
-	return true;
+	if (minLength < secondString.m_length)
+	{
+		return -1;
+	}
+
+	return 0;
 }
 
 bool operator<=(const CMyString& firstString, const CMyString& secondString)
 {
-	return firstString == secondString || firstString < secondString;
+	auto result = CMyString::Compare(firstString, secondString);
+
+	return result < 0 || result == 0;
 }
 
 bool operator>=(const CMyString& firstString, const CMyString& secondString)
 {
-	return firstString == secondString || firstString > secondString;
+	auto result = CMyString::Compare(firstString, secondString);
+
+	return result > 0 || result == 0;
 }
 
 bool operator!=(const CMyString& firstString, const CMyString& secondString)

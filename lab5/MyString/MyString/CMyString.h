@@ -53,6 +53,8 @@ public:
 	~CMyString();
 
 private:
+	short static Compare(const CMyString& firstString, const CMyString& secondString);
+
 	char* m_string;
 
 	size_t m_length;
