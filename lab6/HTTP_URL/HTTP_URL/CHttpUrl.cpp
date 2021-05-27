@@ -121,7 +121,7 @@ unsigned short CHttpUrl::ParsePort(const std::string& port, const Protocol& prot
 		throw std::invalid_argument(CHttpUrl::ERROR_WRONG_PORT);
 	}
 
-	return numPort;
+	return static_cast<int>(numPort);
 }
 
 unsigned short CHttpUrl::GetDefaultPort(const Protocol& protocol)
