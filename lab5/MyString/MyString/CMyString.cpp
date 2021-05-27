@@ -194,14 +194,14 @@ bool operator<=(const CMyString& firstString, const CMyString& secondString)
 {
 	auto result = CMyString::Compare(firstString, secondString);
 
-	return result < 0 || result == 0;
+	return result <= 0;
 }
 
 bool operator>=(const CMyString& firstString, const CMyString& secondString)
 {
 	auto result = CMyString::Compare(firstString, secondString);
 
-	return result > 0 || result == 0;
+	return result >= 0;
 }
 
 bool operator!=(const CMyString& firstString, const CMyString& secondString)
