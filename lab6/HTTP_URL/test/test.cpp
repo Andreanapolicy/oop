@@ -91,6 +91,19 @@ TEST_CASE("Test functional of getter url and others params with rights urls")
 		}
 	}
 
+	GIVEN("url = 'http://asd.com:1/asd/asd'")
+	{
+		THEN("exception")
+		{
+			CHttpUrl url("http://asd.com:1/asd/asd");
+			REQUIRE(url.GetURL() == "http://asd.com:1/asd/asd");
+			REQUIRE(url.GetDocument() == "/asd/asd");
+			REQUIRE(url.GetDomain() == "asd.com");
+			REQUIRE(url.GetPort() == 1);
+			REQUIRE(url.GetProtocol() == Protocol::HTTP);
+		}
+	}
+
 	GIVEN("url = 'http://regex.com/my_regex'")
 	{
 		THEN("url = 'http://regex.com/my_regex'")
