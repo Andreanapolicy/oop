@@ -125,7 +125,7 @@ TEST_CASE("Test functional of getter url and others params with rights urls")
 			REQUIRE(url.GetURL() == "https://regex.com/my_regex");
 			REQUIRE(url.GetDocument() == "/my_regex");
 			REQUIRE(url.GetDomain() == "regex.com");
-			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetPort() == 443);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 	}
@@ -151,7 +151,7 @@ TEST_CASE("Test functional of getter url and others params with rights urls")
 			REQUIRE(url.GetURL() == "https://regex.com/");
 			REQUIRE(url.GetDocument() == "/");
 			REQUIRE(url.GetDomain() == "regex.com");
-			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetPort() == 443);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 	}
@@ -164,7 +164,7 @@ TEST_CASE("Test functional of getter url and others params with rights urls")
 			REQUIRE(url.GetURL() == "https://regex.com/");
 			REQUIRE(url.GetDocument() == "/");
 			REQUIRE(url.GetDomain() == "regex.com");
-			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetPort() == 443);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 	}
@@ -213,17 +213,17 @@ TEST_CASE("Test functional of getter url and others params with rights urls sepa
 			REQUIRE(url.GetURL() == "https://regex.com/my_regex");
 			REQUIRE(url.GetDocument() == "/my_regex");
 			REQUIRE(url.GetDomain() == "regex.com");
-			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetPort() == 443);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 
-		THEN("url = 'regex.com', '/my_regex', https, 422")
+		THEN("url = 'regex.com', '/my_regex', https, 423")
 		{
 			CHttpUrl url("regex.com", "/my_regex", Protocol::HTTPS);
 			REQUIRE(url.GetURL() == "https://regex.com/my_regex");
 			REQUIRE(url.GetDocument() == "/my_regex");
 			REQUIRE(url.GetDomain() == "regex.com");
-			REQUIRE(url.GetPort() == 442);
+			REQUIRE(url.GetPort() == 443);
 			REQUIRE(url.GetProtocol() == Protocol::HTTPS);
 		}
 	}

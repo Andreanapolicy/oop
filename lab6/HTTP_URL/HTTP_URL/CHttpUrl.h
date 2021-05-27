@@ -9,7 +9,7 @@ enum class Protocol
 
 const std::map<Protocol, unsigned short> DefaultPorts{
 	{ Protocol::HTTP, 80 },
-	{ Protocol::HTTPS, 442 }
+	{ Protocol::HTTPS, 443 }
 };
 
 class CHttpUrl
