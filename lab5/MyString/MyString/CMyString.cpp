@@ -56,7 +56,7 @@ CMyString::CMyString(const std::string& stlString)
 	m_length = std::size(stlString);
 	m_string = new char[m_length + 1];
 
-	std::memcpy(m_string, &stlString.c_str()[0], m_length);
+	std::memcpy(m_string, stlString.c_str(), m_length);
 	m_string[m_length] = '\0';
 }
 
@@ -97,15 +97,9 @@ CMyString CMyString::GetSubString(size_t start, size_t length) const
 		throw std::invalid_argument("Wrong params");
 	}
 
-	length = length + start < m_length ? length : m_length;
+	length = length + start < m_length ? length : m_length - start;
 
-	char* tempString = new char[length + 1];
-
-	std::memcpy(tempString, &m_string[start], length);
-
-	tempString[length] = '\0';
-
-	return CMyString(tempString);
+	return CMyString(&(this->GetStringData())[start], length);
 }
 
 size_t CMyString::GetLength() const
@@ -136,7 +130,7 @@ CMyString operator+(const CMyString& firstString, const CMyString& secondString)
 	auto secondStringData = secondString.GetStringData();
 
 	CMyString resultString("", firstString.m_length + secondString.m_length);
-
+	
 	std::memcpy(resultString.m_string, firstStringData, firstString.m_length);
 	std::memcpy(&resultString.m_string[firstString.m_length], secondStringData, secondString.m_length);
 
