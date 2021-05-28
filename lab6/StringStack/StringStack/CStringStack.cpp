@@ -26,14 +26,18 @@ CStringStack::~CStringStack()
 	}
 }
 
-void CStringStack::Delete(Node* pointer)
+void CStringStack::DeleteTop()
 {
 	if (m_size == 0 || m_first == nullptr)
 	{
 		return;
 	}
 
-	delete pointer;
+	auto futureFirst = m_first->m_next->m_next;
+	delete m_first->m_next;
+	m_first->m_next = futureFirst;
+
+	m_size--;
 }
 
 void CStringStack::Push(const std::string& value)
@@ -44,6 +48,24 @@ void CStringStack::Push(const std::string& value)
 	m_first->m_next = newNode;
 
 	m_size++;
+}
+
+std::string CStringStack::Pop()
+{
+	if (IsEmpty())
+	{
+		throw CEmptyStackError("Error, stack is empty");
+	}
+
+	auto popValue = m_first->m_next->GetValue();
+
+	auto futureFirst = m_first->m_next->m_next;
+	delete m_first->m_next;
+	m_first->m_next = futureFirst;
+
+	m_size--;
+
+	return popValue;
 }
 
 bool CStringStack::IsEmpty() const

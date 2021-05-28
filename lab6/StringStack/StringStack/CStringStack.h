@@ -11,6 +11,8 @@ public:
 	
 	void Push(const std::string& value);
 
+	std::string Pop();
+
 	bool IsEmpty() const;
 	
 	int Size() const;
@@ -38,7 +40,7 @@ private:
 		std::string m_value;
 	};
 
-	void Delete(Node* pointer);
+	void DeleteTop();
 
 	int m_size;
 
