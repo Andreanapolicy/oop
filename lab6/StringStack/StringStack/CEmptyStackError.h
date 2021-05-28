@@ -1,5 +1,6 @@
 #pragma once
-#include "common_libs.h"
+#include <stdexcept>
+#include <string>
 
 class CEmptyStackError : std::logic_error
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "common_libs.h"
+#include <stdexcept>
+#include <string>
 
 class COverflowStackError: std::logic_error
 {

@@ -16,11 +16,11 @@ TEST_CASE("check functional of 'pop'")
 				REQUIRE(stack.Size() == 0);
 			}
 
-			THEN("exception: Empty Stack")
+			/*THEN("exception: Empty Stack")
 			{
 				REQUIRE_THROWS(stack.Pop());
 				REQUIRE_THROWS_AS(stack.Pop(), CEmptyStackError);
-			}
+			}*/
 		}
 
 		WHEN("check is empty stack")
@@ -32,7 +32,7 @@ TEST_CASE("check functional of 'pop'")
 		}
 	}
 
-	GIVEN("stack with 1 string 'test'")
+	/*GIVEN("stack with 1 string 'test'")
 	{
 		CStringStack stack("test");
 
@@ -56,7 +56,7 @@ TEST_CASE("check functional of 'pop'")
 				REQUIRE_THROWS_AS(stack.Pop(), CEmptyStackError);
 			}
 		}
-	}
+	}*/
 }
 
 TEST_CASE("check functional of 'push'")
@@ -65,54 +65,128 @@ TEST_CASE("check functional of 'push'")
 	{
 		CStringStack stack;
 
-		WHEN("push in stack string 'test'")
+		WHEN("push 0 strings")
 		{
-			stack.Push("test");
+			THEN("size = 0; stack is empty")
+			{
+				REQUIRE(stack.IsEmpty());
+				REQUIRE(stack.Size() == 0);
+			}
+		}
 
-			THEN("stack is not empty")
+		WHEN("push 1 strings")
+		{
+			stack.Push("first");
+
+			THEN("size = 1; is not empty")
 			{
 				REQUIRE_FALSE(stack.IsEmpty());
-			}
-
-			THEN("stack pop 'test'")
-			{
-				REQUIRE(stack.Pop() == "test");
-			}
-
-			THEN("stack size = 1")
-			{
 				REQUIRE(stack.Size() == 1);
 			}
 		}
 
-		WHEN("push in stack string 'test' and 'test2'")
+		WHEN("push 2 strings")
 		{
-			stack.Push("test");
-			stack.Push("test2");
+			stack.Push("first");
+			stack.Push("second");
 
-			THEN("stack is not empty")
+			THEN("size = 2; is not empty")
 			{
 				REQUIRE_FALSE(stack.IsEmpty());
+				REQUIRE(stack.Size() == 2);
 			}
+		}
+	}
 
-			THEN("stack pop 'test' and 'test2'")
+	GIVEN("stack 1 string")
+	{
+		CStringStack stack;
+		stack.Push("first");
+
+		WHEN("push 0 strings")
+		{
+			THEN("size = 1; stack is not empty")
 			{
-				REQUIRE(stack.Pop() == "test");
-				REQUIRE(stack.Pop() == "test2");
+				REQUIRE_FALSE(stack.IsEmpty());
+				REQUIRE(stack.Size() == 1);
 			}
+		}
 
-			THEN("stack size = 2")
+		WHEN("push 1 strings")
+		{
+			stack.Push("second");
+
+			THEN("size = 2; is not empty")
 			{
+				REQUIRE_FALSE(stack.IsEmpty());
 				REQUIRE(stack.Size() == 2);
 			}
 		}
 
-		WHEN("check is empty stack")
+		WHEN("push 2 strings")
 		{
-			THEN("stack is empty")
+			stack.Push("second");
+			stack.Push("third");
+
+			THEN("size = 3; is not empty")
 			{
-				REQUIRE(stack.IsEmpty());
+				REQUIRE_FALSE(stack.IsEmpty());
+				REQUIRE(stack.Size() == 3);
 			}
 		}
 	}
+	//	GIVEN("stack without strings")
+//	{
+//		CStringStack stack;
+//
+//		WHEN("push in stack string 'test'")
+//		{
+//			stack.Push("test");
+//
+//			THEN("stack is not empty")
+//			{
+//				REQUIRE_FALSE(stack.IsEmpty());
+//			}
+//
+//			THEN("stack pop 'test'")
+//			{
+//				REQUIRE(stack.Pop() == "test");
+//			}
+//
+//			THEN("stack size = 1")
+//			{
+//				REQUIRE(stack.Size() == 1);
+//			}
+//		}
+//
+//		WHEN("push in stack string 'test' and 'test2'")
+//		{
+//			stack.Push("test");
+//			stack.Push("test2");
+//
+//			THEN("stack is not empty")
+//			{
+//				REQUIRE_FALSE(stack.IsEmpty());
+//			}
+//
+//			THEN("stack pop 'test' and 'test2'")
+//			{
+//				REQUIRE(stack.Pop() == "test");
+//				REQUIRE(stack.Pop() == "test2");
+//			}
+//
+//			THEN("stack size = 2")
+//			{
+//				REQUIRE(stack.Size() == 2);
+//			}
+//		}
+//
+//		WHEN("check is empty stack")
+//		{
+//			THEN("stack is empty")
+//			{
+//				REQUIRE(stack.IsEmpty());
+//			}
+//		}
+//	}
 }

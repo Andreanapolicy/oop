@@ -3,13 +3,14 @@
 
 int main()
 {
-	CStringStack stack("test1");
-	stack.Push("test2");
-	stack.Push("test3");
-	stack.Push("test4");
+	CStringStack stack;
 
-	std::cout << stack.Pop() << std::endl;
-	std::string isEmpty = stack.IsEmpty() ? "true" : "false";
-	std::cout << isEmpty << std::endl;
-	return 0;
+	stack.Push("1");
+	stack.Push("2");
+	stack.Push("3");
+	stack.Push("4");
+	stack.Push("5");
+
+	std::cout << std::to_string(stack.Size()) << std::endl;
+	std::cout << std::to_string(stack.IsEmpty()) << std::endl;
 }
