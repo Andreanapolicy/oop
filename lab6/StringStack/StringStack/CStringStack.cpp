@@ -1,6 +1,5 @@
 #include "CStringStack.h"
 #include "CEmptyStackError.h"
-#include "COverflowStackError.h"
 #include "common_libs.h"
 
 CStringStack::CStringStack()
@@ -18,11 +17,7 @@ CStringStack::~CStringStack()
 
 	while (!IsEmpty())
 	{
-		auto futureFirst = m_first->m_next->m_next;
-		delete m_first->m_next;
-		m_first->m_next = futureFirst;
-
-		m_size--;
+		DeleteTop();
 	}
 }
 
@@ -44,7 +39,7 @@ CStringStack::CStringStack(const CStringStack& stack)
 	}
 }
 
-CStringStack::CStringStack(CStringStack&& stack)
+CStringStack::CStringStack(CStringStack&& stack) noexcept
 {
 	m_size = stack.m_size;
 	m_first = new Node();
@@ -86,11 +81,7 @@ std::string CStringStack::Pop()
 
 	auto popValue = m_first->m_next->GetValue();
 
-	auto futureFirst = m_first->m_next->m_next;
-	delete m_first->m_next;
-	m_first->m_next = futureFirst;
-
-	m_size--;
+	DeleteTop();
 
 	return popValue;
 }
@@ -103,4 +94,38 @@ bool CStringStack::IsEmpty() const
 int CStringStack::Size() const
 {
 	return m_size;
+}
+
+CStringStack& CStringStack::operator=(const CStringStack& stack)
+{
+	if (this == &stack)
+	{
+		return *this;
+	}
+
+	CStringStack tempStack(stack);
+	std::swap(*this, tempStack);
+
+	return *this;
+}
+
+CStringStack& CStringStack::operator=(CStringStack&& stack) noexcept
+{
+	if (this == &stack)
+	{
+		return *this;
+	}
+
+	while (!IsEmpty())
+	{
+		DeleteTop();
+	}
+
+	m_first = stack.m_first;
+	m_size = stack.m_size;
+
+	stack.m_size = 0;
+	stack.m_first = new Node();
+
+	return *this;
 }

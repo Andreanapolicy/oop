@@ -9,10 +9,14 @@ public:
 
 	CStringStack(const CStringStack& stack);
 
-	CStringStack(CStringStack&& stack);
+	CStringStack(CStringStack&& stack) noexcept;
 
 	~CStringStack();
 	
+	CStringStack& operator=(const CStringStack& stack);
+
+	CStringStack& operator=(CStringStack&& stack) noexcept;
+
 	void Push(const std::string& value);
 
 	std::string Pop();
