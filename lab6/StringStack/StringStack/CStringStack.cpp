@@ -26,6 +26,33 @@ CStringStack::~CStringStack()
 	}
 }
 
+CStringStack::CStringStack(const CStringStack& stack)
+{
+	m_size = 0;
+	m_first = new Node();
+
+	auto* prevNewStackPtr = m_first;
+	auto* nextNewStackPtr = m_first->m_next;
+	auto nextOldStackPtr = stack.m_first->m_next;
+
+	while (m_size != stack.m_size)
+	{
+		nextNewStackPtr = new Node(nullptr, nextOldStackPtr->GetValue());
+		prevNewStackPtr->m_next = nextNewStackPtr;
+		nextOldStackPtr = nextOldStackPtr->m_next;
+		m_size++;
+	}
+}
+
+CStringStack::CStringStack(CStringStack&& stack)
+{
+	m_size = stack.m_size;
+	m_first = new Node();
+	m_first->m_next = stack.m_first->m_next;
+
+	stack.m_first->m_next = nullptr;
+}
+
 void CStringStack::DeleteTop()
 {
 	if (m_size == 0 || m_first == nullptr)

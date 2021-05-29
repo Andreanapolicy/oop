@@ -7,6 +7,10 @@ public:
 
 	CStringStack();
 
+	CStringStack(const CStringStack& stack);
+
+	CStringStack(CStringStack&& stack);
+
 	~CStringStack();
 	
 	void Push(const std::string& value);

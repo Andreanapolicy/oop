@@ -158,3 +158,77 @@ TEST_CASE("check functional of 'push'")
 		}
 	}
 }
+
+TEST_CASE("check functional of copy constructor")
+{
+	GIVEN("stack with 0 string")
+	{
+		CStringStack stack;
+
+		WHEN("created newStack = stack")
+		{
+			CStringStack newStack(stack);
+
+			THEN("size = 0; new stack is empty")
+			{
+				REQUIRE(newStack.IsEmpty());
+				REQUIRE(newStack.Size() == 0);
+			}
+
+			THEN("stack pop -> exception")
+			{
+				REQUIRE_THROWS(stack.Pop());
+				REQUIRE_THROWS_AS(stack.Pop(), CEmptyStackError);
+			}
+		}
+	}
+
+	GIVEN("stack with 1 string, new stack = stack")
+	{
+		CStringStack stack;
+		stack.Push("first");
+		CStringStack newStack(stack);
+
+		WHEN("")
+		{
+			THEN("size = 1; new stack is not empty")
+			{
+				REQUIRE_FALSE(newStack.IsEmpty());
+				REQUIRE(newStack.Size() == 1);
+			}
+
+			THEN("new stack pop -> string 'first'")
+			{
+				REQUIRE(newStack.Pop() == "first");
+			}
+		}
+
+		WHEN("push in new stack string")
+		{
+			newStack.Push("second");
+
+			THEN("size = 2; new stack is not empty")
+			{
+				REQUIRE_FALSE(newStack.IsEmpty());
+				REQUIRE(newStack.Size() == 2);
+			}
+
+			THEN("new stack pop -> string 'second and 'first'")
+			{
+				REQUIRE(newStack.Pop() == "second");
+				REQUIRE(newStack.Pop() == "first");
+			}
+
+			THEN("size of old stack is 1")
+			{
+				REQUIRE(stack.Size() == 1);
+				REQUIRE(stack.Pop() == "first");
+			}
+
+			THEN("old stack pop -> string 'first'")
+			{
+				REQUIRE(stack.Pop() == "first");
+			}
+		}
+	}
+}
