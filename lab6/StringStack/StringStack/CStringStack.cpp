@@ -10,15 +10,12 @@ CStringStack::CStringStack()
 
 CStringStack::~CStringStack()
 {
-	if (m_size == 0 || m_first == nullptr)
-	{
-		return;
-	}
-
 	while (!IsEmpty())
 	{
 		DeleteTop();
 	}
+
+	delete m_first;
 }
 
 CStringStack::CStringStack(const CStringStack& stack)
@@ -50,7 +47,7 @@ CStringStack::CStringStack(CStringStack&& stack) noexcept
 
 void CStringStack::DeleteTop()
 {
-	if (m_size == 0 || m_first == nullptr)
+	if (IsEmpty())
 	{
 		return;
 	}
