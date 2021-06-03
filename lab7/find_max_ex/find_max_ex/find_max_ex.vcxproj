@@ -146,7 +146,7 @@
     <ClCompile Include="find_max_ex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="find_max_module.h" />
+    <ClInclude Include="find_max.h" />
     <ClInclude Include="sportsman_module.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

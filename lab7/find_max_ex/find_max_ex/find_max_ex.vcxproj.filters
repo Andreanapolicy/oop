@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="find_max_module.h">
+    <ClInclude Include="sportsman_module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sportsman_module.h">
+    <ClInclude Include="find_max.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

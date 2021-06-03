@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../find_max_ex/find_max_module.h"
+#include "../find_max_ex/find_max.h"
 #include "../find_max_ex/sportsman_module.h"
 
 TEST_CASE("Test with error")

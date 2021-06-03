@@ -1,7 +1,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "find_max_module.h"
+#include "find_max.h"
 #include "sportsman_module.h"
 
 int main()
