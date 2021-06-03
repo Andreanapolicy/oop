@@ -25,6 +25,22 @@ TEST_CASE("Test with error")
 
 TEST_CASE("Test functional")
 {
+	GIVEN("max = 1; vector = {1}")
+	{
+		int max = 3;
+
+		WHEN("find max")
+		{
+			bool result = FindMaxEx(std::vector{ 1 }, max, [](int a, int b) { return a < b; });
+
+			THEN("max = 1")
+			{
+				REQUIRE(result);
+				REQUIRE(max == 1);
+			}
+		}
+	}
+
 	GIVEN("max = 1; vector = {1, 2, 3, 5, 1}")
 	{
 		int max = 1;

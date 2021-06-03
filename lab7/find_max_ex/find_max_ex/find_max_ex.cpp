@@ -17,7 +17,7 @@ int main()
 	Sportsman tallestSportsman;
 	Sportsman heaviestSportsman;
 
-	if (FindMaxEx(sportsmen, tallestSportsman, [](Sportsman first, Sportsman second) { return first.height < second.height; }))
+	if (FindMaxEx(sportsmen, tallestSportsman, [](const Sportsman& first, const Sportsman& second) { return first.height < second.height; }))
 	{
 		std::cout << "The tallest sportsman is " << tallestSportsman.name << std::endl;
 	}
