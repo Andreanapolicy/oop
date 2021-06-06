@@ -5,7 +5,7 @@
 CStringStack::CStringStack()
 {
 	m_size = 0;
-	m_first = new Node();
+	m_first = nullptr;
 }
 
 CStringStack::~CStringStack() noexcept
@@ -21,28 +21,28 @@ CStringStack::~CStringStack() noexcept
 CStringStack::CStringStack(const CStringStack& stack)
 {
 	m_size = 0;
-	m_first = new Node();
+	m_first = nullptr;
 
-	auto* prevNewStackPtr = m_first;
-	auto* nextNewStackPtr = m_first->m_next;
-	auto nextOldStackPtr = stack.m_first->m_next;
+	Node* copyiedStackPtr = nullptr;
+	auto originStackPtr = stack.m_first;
 
 	while (m_size != stack.m_size)
 	{
-		nextNewStackPtr = new NodeWithValue(nullptr, nextOldStackPtr->GetValue());
-		prevNewStackPtr->m_next = nextNewStackPtr;
-		nextOldStackPtr = nextOldStackPtr->m_next;
+		auto newElement = new NodeWithValue(copyiedStackPtr, originStackPtr->GetValue());
+		copyiedStackPtr = newElement;
+		originStackPtr = originStackPtr->m_next;
 		m_size++;
 	}
+
+	std::swap(m_first, copyiedStackPtr);
 }
 
 CStringStack::CStringStack(CStringStack&& stack)
 {
 	m_size = stack.m_size;
-	m_first = new Node();
-	m_first->m_next = stack.m_first->m_next;
+	m_first = stack.m_first;
 
-	stack.m_first->m_next = nullptr;
+	stack.m_first = nullptr;
 }
 
 void CStringStack::DeleteTop() noexcept
@@ -52,19 +52,18 @@ void CStringStack::DeleteTop() noexcept
 		return;
 	}
 
-	auto futureFirst = m_first->m_next->m_next;
-	delete m_first->m_next;
-	m_first->m_next = futureFirst;
+	auto futureFirst = m_first->m_next;
+	delete m_first;
+	m_first = futureFirst;
 
 	m_size--;
 }
 
 void CStringStack::Push(const std::string& value)
 {
-	auto newNode = new NodeWithValue(nullptr, value);
+	auto newNode = new NodeWithValue(m_first, value);
 	
-	newNode->m_next = m_first->m_next;
-	m_first->m_next = newNode;
+	m_first = newNode;
 
 	m_size++;
 }
@@ -76,7 +75,7 @@ std::string CStringStack::Pop()
 		throw CEmptyStackError("Error, stack is empty");
 	}
 
-	auto popValue = std::move(m_first->m_next->GetValue());
+	std::string popValue = std::move(m_first->GetValue());
 
 	DeleteTop();
 
@@ -113,16 +112,11 @@ CStringStack& CStringStack::operator=(CStringStack&& stack)
 		return *this;
 	}
 
-	while (!IsEmpty())
-	{
-		DeleteTop();
-	}
+	*this = stack;
 
-	m_first = stack.m_first;
-	m_size = stack.m_size;
+	CStringStack newStack;
 
-	stack.m_size = 0;
-	stack.m_first = new Node();
-
+	std::swap(stack, newStack);
+	
 	return *this;
 }

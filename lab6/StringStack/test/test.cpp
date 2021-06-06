@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../StringStack/CStringStack.h"
 #include "../StringStack/CEmptyStackError.h"
+#include "../StringStack/CStringStack.h"
 
 TEST_CASE("check functional of 'pop'")
 {
@@ -47,7 +47,7 @@ TEST_CASE("check functional of 'pop'")
 			THEN("string = 'test'. After pop stack is empty")
 			{
 				REQUIRE(stack.Pop() == "test");
-				REQUIRE(stack.IsEmpty());		
+				REQUIRE(stack.IsEmpty());
 			}
 
 			THEN("string = 'test'. After another one pop will be exception")
@@ -280,24 +280,21 @@ TEST_CASE("check functional of operator '='")
 		stack.Push("first");
 		CStringStack newStack = stack;
 
-		WHEN("")
+		THEN("size = 1; new stack is not empty")
 		{
-			THEN("size = 1; new stack is not empty")
-			{
-				REQUIRE_FALSE(newStack.IsEmpty());
-				REQUIRE(newStack.Size() == 1);
-			}
+			REQUIRE_FALSE(newStack.IsEmpty());
+			REQUIRE(newStack.Size() == 1);
+		}
 
-			THEN("new stack pop -> string 'first'")
-			{
-				REQUIRE(newStack.Pop() == "first");
-			}
+		THEN("new stack pop -> string 'first'")
+		{
+			REQUIRE(newStack.Pop() == "first");
 		}
 
 		WHEN("push in new stack string")
 		{
 			newStack.Push("second");
-			
+
 			THEN("size = 2; new stack is not empty")
 			{
 				REQUIRE_FALSE(newStack.IsEmpty());
