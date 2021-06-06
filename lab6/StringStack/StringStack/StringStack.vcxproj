@@ -143,11 +143,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAccessToNonExistentElementError.h" />
     <ClInclude Include="CEmptyStackError.h" />
     <ClInclude Include="common_libs.h" />
     <ClInclude Include="CStringStack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAccessToNonExistentElementError.cpp" />
     <ClCompile Include="CEmptyStackError.cpp" />
     <ClCompile Include="CStringStack.cpp" />
     <ClCompile Include="main.cpp" />

@@ -1,4 +1,5 @@
 #pragma once
+#include "CAccessToNonExistentElementError.h"
 #include "common_libs.h"
 
 class CStringStack
@@ -9,13 +10,13 @@ public:
 
 	CStringStack(const CStringStack& stack);
 
-	CStringStack(CStringStack&& stack) noexcept;
+	CStringStack(CStringStack&& stack);
 
-	~CStringStack();
+	~CStringStack() noexcept;
 	
 	CStringStack& operator=(const CStringStack& stack);
 
-	CStringStack& operator=(CStringStack&& stack) noexcept;
+	CStringStack& operator=(CStringStack&& stack);
 
 	void Push(const std::string& value);
 
@@ -29,26 +30,41 @@ private:
 	class Node
 	{
 	public:
-		Node(Node* next = nullptr, const std::string& value = "")
-			: m_value(value)
+		Node(Node* next = nullptr)
 		{
 			this->m_next = next;
 		}
 
-		std::string& GetValue()
+		virtual std::string& GetValue()
+		{
+			throw CAccessToNonExistentElementError("Error, access to non existent element.");
+		}
+
+		virtual ~Node() = default;
+
+		Node* m_next;
+	};
+
+	class NodeWithValue : public Node
+	{
+	public:
+		NodeWithValue(Node* next = nullptr, const std::string& value = "")
+			: Node(next)
+			, m_value(value)
+		{
+			this->m_next = next;
+		}
+
+		std::string& GetValue() override
 		{
 			return m_value;
 		}
-
-		~Node() = default;
-
-		Node* m_next;
 
 	private:
 		std::string m_value;
 	};
 
-	void DeleteTop();
+	void DeleteTop() noexcept;
 
 	int m_size;
 

@@ -297,7 +297,7 @@ TEST_CASE("check functional of operator '='")
 		WHEN("push in new stack string")
 		{
 			newStack.Push("second");
-
+			
 			THEN("size = 2; new stack is not empty")
 			{
 				REQUIRE_FALSE(newStack.IsEmpty());

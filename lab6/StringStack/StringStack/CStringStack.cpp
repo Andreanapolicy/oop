@@ -8,7 +8,7 @@ CStringStack::CStringStack()
 	m_first = new Node();
 }
 
-CStringStack::~CStringStack()
+CStringStack::~CStringStack() noexcept
 {
 	while (!IsEmpty())
 	{
@@ -29,14 +29,14 @@ CStringStack::CStringStack(const CStringStack& stack)
 
 	while (m_size != stack.m_size)
 	{
-		nextNewStackPtr = new Node(nullptr, nextOldStackPtr->GetValue());
+		nextNewStackPtr = new NodeWithValue(nullptr, nextOldStackPtr->GetValue());
 		prevNewStackPtr->m_next = nextNewStackPtr;
 		nextOldStackPtr = nextOldStackPtr->m_next;
 		m_size++;
 	}
 }
 
-CStringStack::CStringStack(CStringStack&& stack) noexcept
+CStringStack::CStringStack(CStringStack&& stack)
 {
 	m_size = stack.m_size;
 	m_first = new Node();
@@ -45,7 +45,7 @@ CStringStack::CStringStack(CStringStack&& stack) noexcept
 	stack.m_first->m_next = nullptr;
 }
 
-void CStringStack::DeleteTop()
+void CStringStack::DeleteTop() noexcept
 {
 	if (IsEmpty())
 	{
@@ -61,7 +61,7 @@ void CStringStack::DeleteTop()
 
 void CStringStack::Push(const std::string& value)
 {
-	auto newNode = new Node(nullptr, value);
+	auto newNode = new NodeWithValue(nullptr, value);
 	
 	newNode->m_next = m_first->m_next;
 	m_first->m_next = newNode;
@@ -76,7 +76,7 @@ std::string CStringStack::Pop()
 		throw CEmptyStackError("Error, stack is empty");
 	}
 
-	auto popValue = m_first->m_next->GetValue();
+	auto popValue = std::move(m_first->m_next->GetValue());
 
 	DeleteTop();
 
@@ -106,7 +106,7 @@ CStringStack& CStringStack::operator=(const CStringStack& stack)
 	return *this;
 }
 
-CStringStack& CStringStack::operator=(CStringStack&& stack) noexcept
+CStringStack& CStringStack::operator=(CStringStack&& stack)
 {
 	if (this == &stack)
 	{
