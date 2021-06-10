@@ -18,9 +18,27 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnableChangeIteratorError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnableDeleteElementError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnableInsertElementError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnableChangeIteratorError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnableDeleteElementError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnableInsertElementError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
