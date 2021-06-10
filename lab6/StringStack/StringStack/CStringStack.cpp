@@ -8,14 +8,14 @@ CStringStack::CStringStack()
 	m_first = nullptr;
 }
 
-CStringStack::~CStringStack() noexcept
+CStringStack::~CStringStack()
 {
 	while (!IsEmpty())
 	{
 		DeleteTop();
 	}
 
-	delete m_first;
+	m_first = nullptr;
 }
 
 CStringStack::CStringStack(const CStringStack& stack)
@@ -23,7 +23,7 @@ CStringStack::CStringStack(const CStringStack& stack)
 	m_size = 0;
 	m_first = nullptr;
 
-	Node* copyiedStackPtr = nullptr;
+	NodeWithValue* copyiedStackPtr = nullptr;
 	auto originStackPtr = stack.m_first;
 
 	while (m_size != stack.m_size)
@@ -40,8 +40,9 @@ CStringStack::CStringStack(const CStringStack& stack)
 CStringStack::CStringStack(CStringStack&& stack)
 {
 	m_size = stack.m_size;
-	m_first = stack.m_first;
+	m_first = std::move(stack.m_first);
 
+	stack.m_size = 0;
 	stack.m_first = nullptr;
 }
 
@@ -100,7 +101,7 @@ CStringStack& CStringStack::operator=(const CStringStack& stack)
 	}
 
 	CStringStack tempStack(stack);
-	std::swap(*this, tempStack);
+	std::swap(this->m_first, tempStack.m_first);
 
 	return *this;
 }
@@ -114,9 +115,8 @@ CStringStack& CStringStack::operator=(CStringStack&& stack)
 
 	*this = stack;
 
-	CStringStack newStack;
-
-	std::swap(stack, newStack);
+	stack.m_size = 0;
+	stack.m_first = nullptr;
 	
 	return *this;
 }

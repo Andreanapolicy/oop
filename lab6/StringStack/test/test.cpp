@@ -183,6 +183,28 @@ TEST_CASE("check functional of copy constructor")
 		}
 	}
 
+	GIVEN("stack with 1 string")
+	{
+		CStringStack stack;
+		stack.Push("first");
+
+		WHEN("created newStack = stack by moving")
+		{
+			CStringStack newStack = std::move(stack);
+
+			THEN("size = 1; new stack is not empty")
+			{
+				REQUIRE_FALSE(newStack.IsEmpty());
+				REQUIRE(newStack.Size() == 1);
+			}
+
+			THEN("newStack pop -> 'first'")
+			{
+				REQUIRE(newStack.Pop() == "first");
+			}
+		}
+	}
+
 	GIVEN("stack with 1 string, new stack = stack")
 	{
 		CStringStack stack;
@@ -314,6 +336,86 @@ TEST_CASE("check functional of operator '='")
 			}
 
 			THEN("old stack pop -> string 'first'")
+			{
+				REQUIRE(stack.Pop() == "first");
+			}
+		}
+	}
+	
+	GIVEN("stack with 1 string, stack1 with 2 string")
+	{
+		CStringStack stack;
+		stack.Push("first");
+
+		CStringStack newStack;
+		newStack.Push("second");
+
+		WHEN("stack = stack")
+		{
+			stack = stack;
+
+			THEN("stack size = 1")
+			{
+				REQUIRE(stack.Size() == 1);
+			}
+
+			THEN("stack pop -> string 'first'")
+			{
+				REQUIRE(stack.Pop() == "first");
+			}
+		}
+		
+		WHEN("stack = newStack")
+		{
+			stack = newStack;
+
+			THEN("stack size = 1")
+			{
+				REQUIRE(stack.Size() == 1);
+			}
+
+			THEN("stack pop -> string 'second'")
+			{
+				REQUIRE(stack.Pop() == "second");
+			}
+
+			THEN("size of old stack is 1")
+			{
+				REQUIRE(newStack.Size() == 1);
+				REQUIRE(newStack.Pop() == "second");
+			}
+		}
+
+		WHEN("stack = newStack with moving")
+		{
+			stack = std::move(newStack);
+
+			THEN("stack size = 1")
+			{
+				REQUIRE(stack.Size() == 1);
+			}
+
+			THEN("stack pop -> string 'second'")
+			{
+				REQUIRE(stack.Pop() == "second");
+			}
+
+			THEN("size of newStack is 0")
+			{
+				REQUIRE(newStack.Size() == 0);
+			}
+		}
+	
+		WHEN("stack = stack with moving")
+		{
+			stack = std::move(stack);
+
+			THEN("stack size = 1")
+			{
+				REQUIRE(stack.Size() == 1);
+			}
+
+			THEN("stack pop -> string 'first'")
 			{
 				REQUIRE(stack.Pop() == "first");
 			}

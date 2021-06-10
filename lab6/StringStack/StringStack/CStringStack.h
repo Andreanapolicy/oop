@@ -12,7 +12,7 @@ public:
 
 	CStringStack(CStringStack&& stack);
 
-	~CStringStack() noexcept;
+	~CStringStack();
 	
 	CStringStack& operator=(const CStringStack& stack);
 
@@ -27,38 +27,22 @@ public:
 	int Size() const;
 
 private:
-	class Node
+	class NodeWithValue
 	{
 	public:
-		Node(Node* next = nullptr)
-		{
-			this->m_next = next;
-		}
-
-		virtual std::string& GetValue()
-		{
-			throw CAccessToNonExistentElementError("Error, access to non existent element.");
-		}
-
-		virtual ~Node() = default;
-
-		Node* m_next;
-	};
-
-	class NodeWithValue : public Node
-	{
-	public:
-		NodeWithValue(Node* next = nullptr, const std::string& value = "")
-			: Node(next)
+		NodeWithValue(NodeWithValue* next = nullptr, const std::string& value = "")
+			: m_next(next)
 			, m_value(value)
 		{
 			this->m_next = next;
 		}
 
-		std::string& GetValue() override
+		std::string& GetValue()
 		{
 			return m_value;
 		}
+
+		NodeWithValue* m_next;
 
 	private:
 		std::string m_value;
@@ -68,5 +52,5 @@ private:
 
 	int m_size;
 
-	Node* m_first;
+	NodeWithValue* m_first;
 };
