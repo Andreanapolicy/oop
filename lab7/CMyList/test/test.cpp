@@ -116,5 +116,168 @@ TEST_CASE("check functional of push")
 				REQUIRE_FALSE(list.IsEmpty());
 			}
 		}
+
+		WHEN("push front with insert front 2 element")
+		{
+			list.Insert(list.begin(), 1);
+			list.Insert(list.begin(), 2);
+
+			THEN("size = 2")
+			{
+				REQUIRE(list.Size() == 2);
+			}
+
+			THEN("list is not empty")
+			{
+				REQUIRE_FALSE(list.IsEmpty());
+			}
+		}
+
+		WHEN("push front and after first")
+		{
+			list.Insert(list.begin(), 1);
+			list.Insert(list.begin()++, 2);
+
+			THEN("size = 2")
+			{
+				REQUIRE(list.Size() == 2);
+			}
+
+			THEN("list is not empty")
+			{
+				REQUIRE_FALSE(list.IsEmpty());
+			}
+		}
+	}
+}
+
+TEST_CASE("test of getting elements")
+{
+	GIVEN("list with 0 elements")
+	{
+		CMyList<int> list;
+
+		WHEN("pop front")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.PopFront());
+				REQUIRE_THROWS_AS(list.PopFront(), UnableGetElementError);
+			}
+		}
+
+		WHEN("pop back")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.PopBack());
+				REQUIRE_THROWS_AS(list.PopBack(), UnableGetElementError);
+			}
+		}
+	}
+
+	GIVEN("list with 1 elements")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+
+		WHEN("pop front")
+		{
+			int element = list.PopFront();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+				REQUIRE(list.Size() == 1);
+			}
+		}
+
+		WHEN("pop back")
+		{
+			int element = list.PopBack();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+				REQUIRE(list.Size() == 1);
+			}
+		}
+
+		WHEN("const pop front")
+		{
+			const int element = list.PopFront();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+
+				REQUIRE(list.Size() == 1);
+			}
+		}
+
+		WHEN("const pop back")
+		{
+			const int element = list.PopBack();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+
+				REQUIRE(list.Size() == 1);
+			}
+		}
+	}
+
+	GIVEN("list with 2 elements")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushFront(2);
+
+		WHEN("pop front")
+		{
+			int element = list.PopFront();
+
+			THEN("element = 2")
+			{
+				REQUIRE(element == 2);
+				REQUIRE(list.Size() == 2);
+			}
+		}
+
+		WHEN("pop back")
+		{
+			int element = list.PopBack();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+				REQUIRE(list.Size() == 2);
+			}
+		}
+
+		WHEN("const pop front")
+		{
+			const int element = list.PopFront();
+
+			THEN("element = 2")
+			{
+				REQUIRE(element == 2);
+
+				REQUIRE(list.Size() == 2);
+			}
+		}
+
+		WHEN("const pop back")
+		{
+			const int element = list.PopBack();
+
+			THEN("element = 1")
+			{
+				REQUIRE(element == 1);
+
+				REQUIRE(list.Size() == 2);
+			}
+		}
 	}
 }

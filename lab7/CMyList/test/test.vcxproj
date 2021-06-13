@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="..\CMyList\UnableChangeIteratorError.cpp" />
     <ClCompile Include="..\CMyList\UnableDeleteElementError.cpp" />
+    <ClCompile Include="..\CMyList\UnableGetElementError.cpp" />
     <ClCompile Include="..\CMyList\UnableInsertElementError.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="..\CMyList\CMyList.h" />
     <ClInclude Include="..\CMyList\UnableChangeIteratorError.h" />
     <ClInclude Include="..\CMyList\UnableDeleteElementError.h" />
+    <ClInclude Include="..\CMyList\UnableGetElementError.h" />
     <ClInclude Include="..\CMyList\UnableInsertElementError.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

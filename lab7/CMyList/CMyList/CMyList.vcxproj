@@ -146,12 +146,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UnableChangeIteratorError.cpp" />
     <ClCompile Include="UnableDeleteElementError.cpp" />
+    <ClCompile Include="UnableGetElementError.cpp" />
     <ClCompile Include="UnableInsertElementError.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyList.h" />
     <ClInclude Include="UnableChangeIteratorError.h" />
     <ClInclude Include="UnableDeleteElementError.h" />
+    <ClInclude Include="UnableGetElementError.h" />
     <ClInclude Include="UnableInsertElementError.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

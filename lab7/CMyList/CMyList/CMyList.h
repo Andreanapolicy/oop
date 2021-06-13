@@ -2,6 +2,7 @@
 #include "UnableChangeIteratorError.h"
 #include "UnableDeleteElementError.h"
 #include "UnableInsertElementError.h"
+#include "UnableGetElementError.h"
 
 #include <iterator>
 #include <stdexcept>
@@ -63,7 +64,7 @@ class CMyList
 		}
 
 		Iterator(const Iterator& iterator)
-			: m_node(iterator->m_node)
+			: m_node(iterator.m_node)
 		{
 		}
 
@@ -92,7 +93,7 @@ class CMyList
 				throw UnableChangeIteratorError("Error, unable increase end()");
 			}
 
-			m_node = m_node->next.get();
+			m_node = m_node->m_next.get();
 
 			return *this;
 		}
@@ -196,6 +197,11 @@ public:
 		return const_iterator(m_last);
 	}
 
+	void Insert(const const_iterator& it, const T& value)
+	{
+		Insert(iterator(it.m_node), value);
+	}
+
 	void Insert(const iterator& iterator, const T& value)
 	{
 		auto newNode = std::make_unique<NodeWithValue>(iterator.m_node->m_prev, std::move(iterator.m_node->m_prev->m_next), value);
@@ -204,6 +210,46 @@ public:
 		newNode->m_prev->m_next = std::move(newNode);
 		
 		++m_size;
+	}
+
+	T& PopFront() const
+	{
+		if (IsEmpty())
+		{
+			throw UnableGetElementError("Error, list is empty");
+		}
+
+		return m_first->m_next->GetValue();
+	}
+
+	const T& PopFront()
+	{
+		if (IsEmpty())
+		{
+			throw UnableGetElementError("Error, list is empty");
+		}
+
+		return m_first->m_next->GetValue();
+	}
+
+	T& PopBack() const
+	{
+		if (IsEmpty())
+		{
+			throw UnableGetElementError("Error, list is empty");
+		}
+
+		return m_last->m_prev->GetValue();
+	}
+
+	const T& PopBack()
+	{
+		if (IsEmpty())
+		{
+			throw UnableGetElementError("Error, list is empty");
+		}
+
+		return m_last->m_prev->GetValue();
 	}
 
 	void Delete(const const_iterator& it)

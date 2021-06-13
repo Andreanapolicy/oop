@@ -27,6 +27,9 @@
     <ClCompile Include="..\CMyList\UnableInsertElementError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\CMyList\UnableGetElementError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CMyList\CMyList.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\CMyList\UnableInsertElementError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CMyList\UnableGetElementError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
