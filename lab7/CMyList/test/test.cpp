@@ -18,6 +18,150 @@ TEST_CASE("check functional of constructors")
 			REQUIRE(list.IsEmpty());
 		}
 	}
+
+	GIVEN("list with size 0")
+	{
+		CMyList<int> list;
+
+		WHEN("new list = list")
+		{
+			CMyList<int> newList(list);
+
+			THEN("size = 0")
+			{
+				REQUIRE(newList.Size() == 0);
+			}
+
+			THEN("new list is empty")
+			{
+				REQUIRE(list.IsEmpty());
+			}
+		}
+	}
+
+	GIVEN("list with size 2")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushBack(2);
+
+		WHEN("new list = list")
+		{
+			CMyList<int> newList(list);
+
+			THEN("size = 2")
+			{
+				REQUIRE(newList.Size() == 2);
+			}
+
+			THEN("elements: 1, 2")
+			{
+				REQUIRE(newList.PopFront() == 1);
+				REQUIRE(newList.PopBack() == 2);
+			}
+		}
+	}
+}
+
+TEST_CASE("check functional of assignment")
+{
+	GIVEN("list with size 2")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushBack(2);
+
+		WHEN("list = list")
+		{
+			list = list;
+
+			THEN("size = 2")
+			{
+				REQUIRE(list.Size() == 2);
+			}
+
+			THEN("elements: 1, 2")
+			{
+				REQUIRE(list.PopFront() == 1);
+				REQUIRE(list.PopBack() == 2);
+			}
+		}
+	}
+
+	GIVEN("list with size 2")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushBack(2);
+
+		WHEN("new list = list")
+		{
+			CMyList<int> newList;
+			newList = list;
+
+			THEN("size = 2")
+			{
+				REQUIRE(newList.Size() == 2);
+			}
+
+			THEN("elements: 1, 2")
+			{
+				REQUIRE(newList.PopFront() == 1);
+				REQUIRE(newList.PopBack() == 2);
+			}
+		}
+	}
+
+	GIVEN("list = the same list with moving")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushBack(2);
+
+		WHEN("list = list")
+		{
+			list = std::move(list);
+
+			THEN("size = 2")
+			{
+				REQUIRE(list.Size() == 2);
+			}
+
+			THEN("elements: 1, 2")
+			{
+				REQUIRE(list.PopFront() == 1);
+				REQUIRE(list.PopBack() == 2);
+			}
+		}
+	}
+
+	GIVEN("list with size 2 with moving")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushBack(2);
+
+		WHEN("new list = list")
+		{
+			CMyList<int> newList = std::move(list);
+
+			THEN("size = 2")
+			{
+				REQUIRE(newList.Size() == 2);
+			}
+
+			THEN("elements: 1, 2")
+			{
+				REQUIRE(newList.PopFront() == 1);
+				REQUIRE(newList.PopBack() == 2);
+			}
+
+			THEN("old list size = 0")
+			{
+				REQUIRE(list.Size() == 0);
+			}
+		}
+	}
 }
 
 TEST_CASE("check functional of delete")

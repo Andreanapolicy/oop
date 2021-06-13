@@ -1,12 +1,13 @@
 #pragma once
 #include "UnableChangeIteratorError.h"
 #include "UnableDeleteElementError.h"
-#include "UnableInsertElementError.h"
 #include "UnableGetElementError.h"
+#include "UnableInsertElementError.h"
 
+#include <algorithm>
 #include <iterator>
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
 
 template <typename T>
 class CMyList
@@ -48,15 +49,16 @@ class CMyList
 		T m_value;
 	};
 
-	template<bool IsConst>
+	template <bool IsConst>
 	class Iterator
 	{
 		friend class CMyList;
+
 	public:
 		using Type = Iterator<IsConst>;
 		using value_type = std::conditional_t<IsConst, const T, T>;
 		using reference = value_type&;
-        using pointer = value_type*;
+		using pointer = value_type*;
 
 		explicit Iterator(Node* node)
 			: m_node(node)
@@ -130,29 +132,77 @@ class CMyList
 public:
 	CMyList()
 	{
-		auto lastNode = std::make_unique<Node>(nullptr, nullptr);
-		Node* pLastNode = lastNode.get();
+		auto last = std::make_unique<Node>(nullptr, nullptr);
+		Node* lastPtr = last.get();
 
-		m_first = std::make_unique<Node>(nullptr, std::move(lastNode));
-		m_last = pLastNode;
+		m_first = std::make_unique<Node>(nullptr, std::move(last));
+		m_last = lastPtr;
 		m_last->m_prev = m_first.get();
 		m_size = 0;
 	}
 
 	~CMyList()
 	{
-		if (!IsEmpty())
-		{
-			Delete(begin());
-		}
-
-		m_first = nullptr;
-		m_last = nullptr;
+		DeleteList();
 	}
 
-	CMyList(const CMyList& list);
+	CMyList(const CMyList& list)
+	{
+		CMyList<T> tempList;
 
-	CMyList(CMyList&& list);
+		for (const auto& element : list)
+		{
+			tempList.PushBack(element);
+		}
+
+		std::swap(*this, tempList);
+	}
+
+	CMyList(CMyList&& list)
+	{
+		m_first = std::move(list.m_first);
+		m_last = list.m_last;
+		m_size = list.m_size;
+
+		list.m_first = nullptr;
+		list.m_first = nullptr;
+		list.m_size = 0;
+	}
+
+	CMyList& operator=(const CMyList& list)
+	{
+		if (this == &list)
+		{
+			return *this;
+		}
+
+		CMyList tempList(list);
+		std::swap(*this, tempList);
+
+		return *this;
+	}
+
+	CMyList& operator=(CMyList&& list)
+	{
+		if (this == &list)
+		{
+			return *this;
+		}
+
+		DeleteList();
+
+		m_first = std::move(list.m_first);
+		m_last = list.m_last;
+		m_size = list.m_size;
+
+		CMyList tempList;
+
+		list.m_first = std::move(tempList.m_first);
+		list.m_last = tempList.m_last;
+		list.m_size = tempList.m_size;
+
+		return *this;
+	}
 
 	void PushBack(const T& value)
 	{
@@ -174,8 +224,16 @@ public:
 		return m_size;
 	}
 
+	void DeleteList()
+	{
+		if (!IsEmpty())
+		{
+			Delete(begin());
+		}
+	}
+
 	using iterator = Iterator<false>;
-    using const_iterator = Iterator<true>;
+	using const_iterator = Iterator<true>;
 
 	iterator begin()
 	{
@@ -186,7 +244,7 @@ public:
 	{
 		return iterator(m_last);
 	}
-	
+
 	const_iterator begin() const
 	{
 		return const_iterator(m_first->m_next.get());
@@ -206,10 +264,10 @@ public:
 	{
 
 		auto newNode = std::make_unique<NodeWithValue>(iterator.m_node->m_prev, std::move(iterator.m_node->m_prev->m_next), value);
-		
+
 		newNode->m_next->m_prev = newNode.get();
 		newNode->m_prev->m_next = std::move(newNode);
-		
+
 		++m_size;
 	}
 
@@ -272,7 +330,6 @@ public:
 	}
 
 private:
-
 	std::unique_ptr<Node> m_first;
 	Node* m_last;
 
