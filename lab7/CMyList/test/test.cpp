@@ -20,6 +20,81 @@ TEST_CASE("check functional of constructors")
 	}
 }
 
+TEST_CASE("check functional of delete")
+{
+	GIVEN("list with size 0")
+	{
+		CMyList<int> list;
+
+		WHEN("delete begin()")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.Delete(list.begin()));
+				REQUIRE_THROWS_AS(list.Delete(list.begin()), UnableDeleteElementError);
+			}
+		}
+
+		WHEN("delete end()")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.Delete(list.end()));
+				REQUIRE_THROWS_AS(list.Delete(list.end()), UnableDeleteElementError);
+			}
+		}
+	}
+}
+
+TEST_CASE("check functional of iterators")
+{
+	GIVEN("list with size 0")
+	{
+		CMyList<int> list;
+
+		WHEN("iterator end() ++")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.end()++);
+				REQUIRE_THROWS_AS(list.end()++, UnableChangeIteratorError);
+			}
+		}
+	}
+
+	GIVEN("list with size 2")
+	{
+		CMyList<int> list;
+		list.PushFront(1);
+		list.PushFront(2);
+
+		WHEN("iterator begin() ++")
+		{
+			THEN("exception")
+			{
+				REQUIRE_NOTHROW(list.begin()++);
+			}
+		}
+
+		WHEN("iterator end() --")
+		{
+			THEN("exception")
+			{
+				REQUIRE_NOTHROW(list.end()--);
+			}
+		}
+
+		WHEN("iterator end() ++")
+		{
+			THEN("exception")
+			{
+				REQUIRE_THROWS(list.end()++);
+				REQUIRE_THROWS_AS(list.end()++, UnableChangeIteratorError);
+			}
+		}
+	}
+}
+
 TEST_CASE("check functional of push")
 {
 	GIVEN("list with size 0 type of int")

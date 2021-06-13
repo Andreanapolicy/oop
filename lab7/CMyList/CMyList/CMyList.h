@@ -204,6 +204,7 @@ public:
 
 	void Insert(const iterator& iterator, const T& value)
 	{
+
 		auto newNode = std::make_unique<NodeWithValue>(iterator.m_node->m_prev, std::move(iterator.m_node->m_prev->m_next), value);
 		
 		newNode->m_next->m_prev = newNode.get();
