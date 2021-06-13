@@ -47,11 +47,17 @@ class CMyList
 		T m_value;
 	};
 
+	template<bool IsConst>
 	class Iterator
 	{
 		friend class CMyList;
 	public:
-		Iterator(Node* node)
+		using Type = Iterator<IsConst>;
+		using value_type = std::conditional_t<IsConst, const T, T>;
+		using reference = value_type&;
+        using pointer = value_type*;
+
+		explicit Iterator(Node* node)
 			: m_node(node)
 		{
 		}
@@ -61,17 +67,17 @@ class CMyList
 		{
 		}
 
-		friend bool operator==(const Iterator& firstIterator, const Iterator& secondIterator)
+		friend bool operator==(const Type& firstIterator, const Type& secondIterator)
 		{
 			return firstIterator.m_node == secondIterator.m_node;
 		}
 
-		friend bool operator!=(const Iterator& firstIterator, const Iterator& secondIterator)
+		friend bool operator!=(const Type& firstIterator, const Type& secondIterator)
 		{
 			return firstIterator.m_node != secondIterator.m_node;
 		}
 
-		Iterator operator++(int)
+		Type operator++(int)
 		{
 			Iterator temp = *this;
 			++(*this);
@@ -79,19 +85,19 @@ class CMyList
 			return temp;
 		}
 
-		Iterator& operator++()
+		Type& operator++()
 		{
 			if (m_node == nullptr || m_node->m_next == nullptr)
 			{
 				throw UnableChangeIteratorError("Error, unable increase end()");
 			}
 
-			m_node++;
+			m_node = m_node->next.get();
 
 			return *this;
 		}
 
-		Iterator operator--(int)
+		Type operator--(int)
 		{
 			Iterator temp = *this;
 			--(*this);
@@ -99,26 +105,21 @@ class CMyList
 			return temp;
 		}
 
-		Iterator& operator--()
+		Type& operator--()
 		{
 			if (m_node == nullptr || m_node->m_prev == nullptr)
 			{
 				throw UnableChangeIteratorError("Error, unable increase begin()");
 			}
 
-			m_node--;
+			m_node = m_node->m_prev;
 
 			return *this;
 		}
 
-		T& operator*() const
+		reference& operator*() const
 		{
-			return m_node->getValue();
-		}
-
-		Node* operator->() const
-		{
-			return m_node;
+			return m_node->GetValue();
 		}
 
 	private:
@@ -128,14 +129,12 @@ class CMyList
 public:
 	CMyList()
 	{
-		std::unique_ptr<Node> last = std::make_unique<Node>(nullptr, nullptr);
-		Node* lastPtr = last->get();
+		auto lastNode = std::make_unique<Node>(nullptr, nullptr);
+		Node* pLastNode = lastNode.get();
 
-		m_first = std::make_unique<Node>(nullptr, std::move(last));
-		m_last = lastPtr;
-
-		m_last->m_prev = m_first->get();
-
+		m_first = std::make_unique<Node>(nullptr, std::move(lastNode));
+		m_last = pLastNode;
+		m_last->m_prev = m_first.get();
 		m_size = 0;
 	}
 
@@ -148,19 +147,6 @@ public:
 
 		m_first = nullptr;
 		m_last = nullptr;
-	}
-
-	void Delete(const Iterator& iterator)
-	{
-		if (!iterator || iterator == end() || iterator == --begin())
-		{
-			throw UnableDeleteElementError("Error, you can't delete element at that position");
-		}
-
-		iterator->m_next->m_prev = iterator->m_prev;
-		iterator->m_prev->m_next = std::move(iterator->m_next);
-
-		m_size--;
 	}
 
 	CMyList(const CMyList& list);
@@ -182,34 +168,60 @@ public:
 		return m_size == 0;
 	}
 
-	Iterator begin() const
-	{
-		return Iterator(m_first->next->get());
-	}
-
-	Iterator end() const
-	{
-		return Iterator(m_last);
-	}
-
-	void Insert(const Iterator& iterator, const T& value)
-	{
-		if (!iterator.m_node)
-		{
-			throw UnableInsertElementError("Error, can't insert in this position");
-		}
-
-		auto newElement = std::make_unique<NodeWithValue>(iterator->m_prev, std::move(iterator->m_prev->m_next), value);
-
-		newElement->m_next->m_prev = newElement->get();
-		newElement->m_prev->m_next = std::move(newElement);
-
-		m_size++;
-	}
-
 	int Size() const
 	{
 		return m_size;
+	}
+
+	using iterator = Iterator<false>;
+    using const_iterator = Iterator<true>;
+
+	iterator begin()
+	{
+		return iterator(m_first->m_next.get());
+	}
+
+	iterator end()
+	{
+		return iterator(m_last);
+	}
+	
+	const_iterator begin() const
+	{
+		return const_iterator(m_first->m_next.get());
+	}
+
+	const_iterator end() const
+	{
+		return const_iterator(m_last);
+	}
+
+	void Insert(const iterator& iterator, const T& value)
+	{
+		auto newNode = std::make_unique<NodeWithValue>(iterator.m_node->m_prev, std::move(iterator.m_node->m_prev->m_next), value);
+		
+		newNode->m_next->m_prev = newNode.get();
+		newNode->m_prev->m_next = std::move(newNode);
+		
+		++m_size;
+	}
+
+	void Delete(const const_iterator& it)
+	{
+		Delete(iterator(it.m_node));
+	}
+
+	void Delete(const iterator& iterator)
+	{
+		if (iterator == end() || iterator == --begin())
+		{
+			throw UnableDeleteElementError("Error, you can't delete element at that position");
+		}
+
+		iterator.m_node->m_next->m_prev = iterator.m_node->m_prev;
+		iterator.m_node->m_prev->m_next = std::move(iterator.m_node->m_next);
+
+		m_size--;
 	}
 
 private:
