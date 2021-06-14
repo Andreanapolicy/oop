@@ -236,6 +236,27 @@ TEST_CASE("check functional of iterators")
 				REQUIRE_THROWS_AS(list.end()++, UnableChangeIteratorError);
 			}
 		}
+
+		WHEN("iterator rend() and rbegin()")
+		{
+			THEN("*rend() = 2 *rbegin() = 1")
+			{
+				REQUIRE(*(--list.rend()) == 2);
+				REQUIRE(*list.rbegin() == 1);
+			}
+		}
+
+		WHEN("iterator = rend()")
+		{
+			auto iterator = list.rend();
+
+			THEN("*(--iterator) = 2")
+			{
+				REQUIRE_THROWS(*iterator);
+				REQUIRE_THROWS_AS(*iterator, UnableGetElementError);
+				REQUIRE(*(--iterator) == 2);
+			}
+		}
 	}
 }
 

@@ -23,7 +23,7 @@ class CMyList
 
 		virtual T& GetValue()
 		{
-			throw std::runtime_error("Error, can't get value");
+			throw UnableGetElementError("Error, can't get value");
 		}
 
 		virtual ~Node() = default;
@@ -59,6 +59,9 @@ class CMyList
 		using value_type = std::conditional_t<IsConst, const T, T>;
 		using reference = value_type&;
 		using pointer = value_type*;
+		
+        using difference_type = ptrdiff_t;
+        using iterator_category = std::random_access_iterator_tag;
 
 		explicit Iterator(Node* node)
 			: m_node(node)
@@ -165,7 +168,7 @@ public:
 		m_size = list.m_size;
 
 		list.m_first = nullptr;
-		list.m_first = nullptr;
+		list.m_last = nullptr;
 		list.m_size = 0;
 	}
 
@@ -195,11 +198,9 @@ public:
 		m_last = list.m_last;
 		m_size = list.m_size;
 
-		CMyList tempList;
-
-		list.m_first = std::move(tempList.m_first);
-		list.m_last = tempList.m_last;
-		list.m_size = tempList.m_size;
+		list.m_first = nullptr;
+		list.m_last = nullptr;
+		list.m_size = 0;
 
 		return *this;
 	}
@@ -254,6 +255,27 @@ public:
 	{
 		return const_iterator(m_last);
 	}
+
+	std::reverse_iterator<iterator> rbegin()
+	{
+		return std::reverse_iterator<iterator>(end());
+	}
+
+	std::reverse_iterator<iterator> rend()
+	{
+		return std::reverse_iterator<iterator>(begin());
+	}
+
+	std::reverse_iterator<const_iterator> rbegin() const
+	{
+		return std::reverse_iterator<const_iterator>(end());
+	}
+
+	std::reverse_iterator<const_iterator> rend() const
+	{
+		return std::reverse_iterator<const_iterator>(begin());
+	}
+
 
 	void Insert(const const_iterator& it, const T& value)
 	{
