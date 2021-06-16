@@ -14,27 +14,43 @@ CStringStack::~CStringStack()
 	{
 		DeleteTop();
 	}
-
-	m_first = nullptr;
 }
 
 CStringStack::CStringStack(const CStringStack& stack)
 {
-	m_size = 0;
-	m_first = nullptr;
+	CStringStack tempStack;
 
-	NodeWithValue* copyiedStackPtr = nullptr;
 	auto originStackPtr = stack.m_first;
+	auto newStackPtr = tempStack.m_first;
 
-	while (m_size != stack.m_size)
+	while (tempStack.m_size != stack.m_size)
 	{
-		auto newElement = new NodeWithValue(copyiedStackPtr, originStackPtr->GetValue());
-		copyiedStackPtr = newElement;
+		tempStack.Push(originStackPtr->GetValue());
 		originStackPtr = originStackPtr->m_next;
-		m_size++;
 	}
 
-	std::swap(m_first, copyiedStackPtr);
+	tempStack.Reverse();
+	m_size = tempStack.m_size;
+
+	std::swap(m_first, tempStack.m_first);
+
+	tempStack.m_size = 0;
+}
+
+void CStringStack::Reverse()
+{
+	CStringStack tempStack;
+
+	auto originStackPtr = m_first;
+	auto newStackPtr = tempStack.m_first;
+
+	while (tempStack.m_size != m_size)
+	{
+		tempStack.Push(originStackPtr->GetValue());
+		originStackPtr = originStackPtr->m_next;
+	}
+
+	std::swap(tempStack.m_first, m_first);
 }
 
 CStringStack::CStringStack(CStringStack&& stack)
@@ -53,6 +69,14 @@ void CStringStack::DeleteTop() noexcept
 		return;
 	}
 
+	if (Size() == 1)
+	{
+		delete m_first;
+		m_size--;
+
+		return;
+	}
+
 	auto futureFirst = m_first->m_next;
 	delete m_first;
 	m_first = futureFirst;
@@ -64,7 +88,7 @@ void CStringStack::Push(const std::string& value)
 {
 	auto newNode = new NodeWithValue(m_first, value);
 	
-	m_first = newNode;
+	m_first = std::move(newNode);
 
 	m_size++;
 }

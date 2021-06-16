@@ -5,11 +5,11 @@ int main()
 {
 	CStringStack stack;
 
-	stack.Push("1");
-	stack.Push("2");
-	stack.Push("3");
-	stack.Push("4");
-	stack.Push("5");
+	stack.Push("first");
+	stack.Push("second");
+	stack.Push("third");
 
-	CStringStack newStack = stack;
+	CStringStack newStack(stack);
+
+	return 0;
 }

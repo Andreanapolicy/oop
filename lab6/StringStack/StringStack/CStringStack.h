@@ -6,7 +6,7 @@ class CStringStack
 {
 public:
 
-	CStringStack();
+	explicit CStringStack();
 
 	CStringStack(const CStringStack& stack);
 
@@ -49,6 +49,8 @@ private:
 	};
 
 	void DeleteTop() noexcept;
+
+	void Reverse();
 
 	int m_size;
 

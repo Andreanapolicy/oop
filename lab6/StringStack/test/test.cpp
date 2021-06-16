@@ -252,6 +252,28 @@ TEST_CASE("check functional of copy constructor")
 				REQUIRE(stack.Pop() == "first");
 			}
 		}
+
+		GIVEN("stack with 3 strings, new stack = stack")
+		{
+			CStringStack stack;
+			stack.Push("first");
+			stack.Push("second");
+			stack.Push("third");
+			CStringStack newStack(stack);
+
+			THEN("size = 3; new stack is not empty")
+			{
+				REQUIRE_FALSE(newStack.IsEmpty());
+				REQUIRE(newStack.Size() == 3);
+			}
+
+			THEN("new stack pop -> string 'third', 'second', 'first'")
+			{
+				REQUIRE(newStack.Pop() == "third");
+				REQUIRE(newStack.Pop() == "second");
+				REQUIRE(newStack.Pop() == "first");
+			}
+		}
 	}
 }
 
@@ -341,7 +363,7 @@ TEST_CASE("check functional of operator '='")
 			}
 		}
 	}
-	
+
 	GIVEN("stack with 1 string, stack1 with 2 string")
 	{
 		CStringStack stack;
@@ -364,7 +386,7 @@ TEST_CASE("check functional of operator '='")
 				REQUIRE(stack.Pop() == "first");
 			}
 		}
-		
+
 		WHEN("stack = newStack")
 		{
 			stack = newStack;
@@ -405,7 +427,7 @@ TEST_CASE("check functional of operator '='")
 				REQUIRE(newStack.Size() == 0);
 			}
 		}
-	
+
 		WHEN("stack = stack with moving")
 		{
 			stack = std::move(stack);
