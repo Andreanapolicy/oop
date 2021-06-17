@@ -6,7 +6,7 @@ class CStringStack
 {
 public:
 
-	explicit CStringStack();
+	CStringStack();
 
 	CStringStack(const CStringStack& stack);
 

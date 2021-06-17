@@ -56,7 +56,7 @@ void CStringStack::Reverse()
 CStringStack::CStringStack(CStringStack&& stack)
 {
 	m_size = stack.m_size;
-	m_first = std::move(stack.m_first);
+	m_first = stack.m_first;
 
 	stack.m_size = 0;
 	stack.m_first = nullptr;
@@ -88,7 +88,7 @@ void CStringStack::Push(const std::string& value)
 {
 	auto newNode = new NodeWithValue(m_first, value);
 	
-	m_first = std::move(newNode);
+	m_first = newNode;
 
 	m_size++;
 }
@@ -127,6 +127,8 @@ CStringStack& CStringStack::operator=(const CStringStack& stack)
 	CStringStack tempStack(stack);
 	std::swap(this->m_first, tempStack.m_first);
 
+	m_size = tempStack.m_size;
+
 	return *this;
 }
 
@@ -137,7 +139,7 @@ CStringStack& CStringStack::operator=(CStringStack&& stack)
 		return *this;
 	}
 
-	*this = stack;
+	m_first = stack.m_first;
 
 	stack.m_size = 0;
 	stack.m_first = nullptr;
