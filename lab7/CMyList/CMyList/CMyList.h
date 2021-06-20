@@ -151,6 +151,10 @@ public:
 
 	CMyList(const CMyList& list)
 	{
+		m_first = nullptr;
+		m_last = nullptr;
+		m_size = 0;
+
 		CMyList<T> tempList;
 
 		for (const auto& element : list)
@@ -225,14 +229,6 @@ public:
 		return m_size;
 	}
 
-	void DeleteList()
-	{
-		if (!IsEmpty())
-		{
-			Delete(begin());
-		}
-	}
-
 	using iterator = Iterator<false>;
 	using const_iterator = Iterator<true>;
 
@@ -276,6 +272,13 @@ public:
 		return std::reverse_iterator<const_iterator>(begin());
 	}
 
+	void DeleteList()
+	{
+		while (!IsEmpty())
+		{
+			Delete(--end());
+		}
+	}
 
 	void Insert(const const_iterator& it, const T& value)
 	{
@@ -284,7 +287,6 @@ public:
 
 	void Insert(const iterator& iterator, const T& value)
 	{
-
 		auto newNode = std::make_unique<NodeWithValue>(iterator.m_node->m_prev, std::move(iterator.m_node->m_prev->m_next), value);
 
 		newNode->m_next->m_prev = newNode.get();
@@ -293,7 +295,7 @@ public:
 		++m_size;
 	}
 
-	T& PopFront() const
+	T& GetFrontElement()
 	{
 		if (IsEmpty())
 		{
@@ -303,7 +305,7 @@ public:
 		return m_first->m_next->GetValue();
 	}
 
-	const T& PopFront()
+	const T& GetFrontElement() const
 	{
 		if (IsEmpty())
 		{
@@ -313,7 +315,7 @@ public:
 		return m_first->m_next->GetValue();
 	}
 
-	T& PopBack() const
+	T& GetBackElement()
 	{
 		if (IsEmpty())
 		{
@@ -323,7 +325,7 @@ public:
 		return m_last->m_prev->GetValue();
 	}
 
-	const T& PopBack()
+	const T& GetBackElement() const
 	{
 		if (IsEmpty())
 		{

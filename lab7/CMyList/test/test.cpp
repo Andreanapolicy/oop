@@ -56,8 +56,8 @@ TEST_CASE("check functional of constructors")
 
 			THEN("elements: 1, 2")
 			{
-				REQUIRE(newList.PopFront() == 1);
-				REQUIRE(newList.PopBack() == 2);
+				REQUIRE(newList.GetFrontElement() == 1);
+				REQUIRE(newList.GetBackElement() == 2);
 			}
 		}
 	}
@@ -82,8 +82,8 @@ TEST_CASE("check functional of assignment")
 
 			THEN("elements: 1, 2")
 			{
-				REQUIRE(list.PopFront() == 1);
-				REQUIRE(list.PopBack() == 2);
+				REQUIRE(list.GetFrontElement() == 1);
+				REQUIRE(list.GetBackElement() == 2);
 			}
 		}
 	}
@@ -106,8 +106,8 @@ TEST_CASE("check functional of assignment")
 
 			THEN("elements: 1, 2")
 			{
-				REQUIRE(newList.PopFront() == 1);
-				REQUIRE(newList.PopBack() == 2);
+				REQUIRE(newList.GetFrontElement() == 1);
+				REQUIRE(newList.GetBackElement() == 2);
 			}
 		}
 	}
@@ -129,8 +129,8 @@ TEST_CASE("check functional of assignment")
 
 			THEN("elements: 1, 2")
 			{
-				REQUIRE(list.PopFront() == 1);
-				REQUIRE(list.PopBack() == 2);
+				REQUIRE(list.GetFrontElement() == 1);
+				REQUIRE(list.GetBackElement() == 2);
 			}
 		}
 	}
@@ -152,8 +152,8 @@ TEST_CASE("check functional of assignment")
 
 			THEN("elements: 1, 2")
 			{
-				REQUIRE(newList.PopFront() == 1);
-				REQUIRE(newList.PopBack() == 2);
+				REQUIRE(newList.GetFrontElement() == 1);
+				REQUIRE(newList.GetBackElement() == 2);
 			}
 
 			THEN("old list size = 0")
@@ -401,8 +401,8 @@ TEST_CASE("test of getting elements")
 		{
 			THEN("exception")
 			{
-				REQUIRE_THROWS(list.PopFront());
-				REQUIRE_THROWS_AS(list.PopFront(), UnableGetElementError);
+				REQUIRE_THROWS(list.GetFrontElement());
+				REQUIRE_THROWS_AS(list.GetFrontElement(), UnableGetElementError);
 			}
 		}
 
@@ -410,8 +410,8 @@ TEST_CASE("test of getting elements")
 		{
 			THEN("exception")
 			{
-				REQUIRE_THROWS(list.PopBack());
-				REQUIRE_THROWS_AS(list.PopBack(), UnableGetElementError);
+				REQUIRE_THROWS(list.GetBackElement());
+				REQUIRE_THROWS_AS(list.GetBackElement(), UnableGetElementError);
 			}
 		}
 	}
@@ -423,7 +423,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("pop front")
 		{
-			int element = list.PopFront();
+			int element = list.GetFrontElement();
 
 			THEN("element = 1")
 			{
@@ -434,7 +434,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("pop back")
 		{
-			int element = list.PopBack();
+			int element = list.GetBackElement();
 
 			THEN("element = 1")
 			{
@@ -445,7 +445,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("const pop front")
 		{
-			const int element = list.PopFront();
+			const int element = list.GetFrontElement();
 
 			THEN("element = 1")
 			{
@@ -457,7 +457,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("const pop back")
 		{
-			const int element = list.PopBack();
+			const int element = list.GetBackElement();
 
 			THEN("element = 1")
 			{
@@ -476,7 +476,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("pop front")
 		{
-			int element = list.PopFront();
+			int element = list.GetFrontElement();
 
 			THEN("element = 2")
 			{
@@ -487,7 +487,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("pop back")
 		{
-			int element = list.PopBack();
+			int element = list.GetBackElement();
 
 			THEN("element = 1")
 			{
@@ -498,7 +498,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("const pop front")
 		{
-			const int element = list.PopFront();
+			const int element = list.GetFrontElement();
 
 			THEN("element = 2")
 			{
@@ -510,7 +510,7 @@ TEST_CASE("test of getting elements")
 
 		WHEN("const pop back")
 		{
-			const int element = list.PopBack();
+			const int element = list.GetBackElement();
 
 			THEN("element = 1")
 			{

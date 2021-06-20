@@ -8,6 +8,4 @@ int main()
 	list.PushFront(1);
 	list.PushFront(2);
 	list.PushFront(3);
-
-	std::cout << *list.rend();
 }
