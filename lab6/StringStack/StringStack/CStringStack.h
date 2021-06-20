@@ -51,6 +51,7 @@ private:
 	void DeleteTop() noexcept;
 
 	void Reverse();
+	void Reverse2();
 
 	int m_size;
 
