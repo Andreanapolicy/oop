@@ -47,8 +47,15 @@ void CController::GetShape()
 
 void CController::WriteAllInfoAboutShapes() const
 {
-	m_output << GetShapeWithMaxArea()->ToString() << std::endl;
-	m_output << GetShapeWithMinPerimeter()->ToString() << std::endl;
+	if (m_shapesList.empty())
+	{
+		m_output << "There are no shapes" << std::endl;
+		
+		return;
+	}
+
+	WriteShapeWithMaxArea();
+	WriteShapeWithMinPerimeter();
 }
 
 void CController::GetHelp(const std::string& args)
@@ -181,22 +188,22 @@ uint32_t CController::ParseColor(const std::string& color)
 	return colorRgb;
 }
 
-const std::unique_ptr<IShape>& CController::GetShapeWithMaxArea() const
+void CController::WriteShapeWithMaxArea() const
 {
 	auto it = std::max_element(m_shapesList.begin(), m_shapesList.end(),
 		[](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) {
 			return firstShape->GetArea() < secondShape->GetArea();
 		});
 
-	return *it;
+	m_output << (*it)->ToString() << std::endl;
 }
 
-const std::unique_ptr<IShape>& CController::GetShapeWithMinPerimeter() const
+void CController::WriteShapeWithMinPerimeter() const
 {
 	auto it = std::min_element(m_shapesList.begin(), m_shapesList.end(),
 		[](const std::unique_ptr<IShape>& firstShape, const std::unique_ptr<IShape>& secondShape) {
 			return firstShape->GetPerimeter() < secondShape->GetPerimeter();
 		});
 
-	return *it;
+	m_output << (*it)->ToString() << std::endl;
 }
