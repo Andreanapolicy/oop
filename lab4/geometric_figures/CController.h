@@ -22,11 +22,12 @@ public:
 	void GetHelp(const std::string& args);
 
 private:
-	uint32_t ParseColor(const std::string& color);
 
 	void WriteShapeWithMaxArea() const;
 
 	void WriteShapeWithMinPerimeter() const;
+
+	std::smatch ParseString(const std::string& args) const;
 
 	using ShapesList = std::vector<std::unique_ptr<IShape>>;
 

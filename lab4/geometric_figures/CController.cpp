@@ -6,6 +6,20 @@
 #include "CTriangle.h"
 #include "common_libs.h"
 
+const std::map<std::string, std::string> regexForShapes = {
+	{ "rectangle", "^([[:alpha:]]+) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) "
+				   "([[:d:]]+(.[[:d:]]+)?) ([[:xdigit:]]{6}) ([[:xdigit:]]{6})$" },
+
+	{ "line", "^([[:alpha:]]+) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?)"
+			  " ([[:d:]]+(.[[:d:]]+)?) ([[:xdigit:]]{6})$" },
+
+	{ "circle", "^([[:alpha:]]+) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?)"
+				" ([[:xdigit:]]{6}) ([[:xdigit:]]{6})$" },
+
+	{ "triangle", "^([[:alpha:]]+) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) "
+				  "([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:d:]]+(.[[:d:]]+)?) ([[:xdigit:]]{6}) ([[:xdigit:]]{6})$" }
+};
+
 CController::CController(std::istream& input, std::ostream& output)
 	: m_input(input)
 	, m_output(output)
@@ -36,13 +50,35 @@ void CController::GetShape()
 	{
 		if (it != m_actionMap.end())
 		{
-			it->second(args);
+			it->second(commandLine);
 		}
 	}
-	catch (const std::exception& /*error*/)
+	catch (const std::exception& error)
 	{
-		throw std::invalid_argument("Error, you passed invalid count of params");
+		throw std::invalid_argument(error.what());
 	}
+}
+
+std::smatch CController::ParseString(const std::string& args) const
+{
+	std::stringstream iss(args);
+	std::string shape;
+
+	iss >> shape;
+
+	std::smatch matches;
+
+	auto it = regexForShapes.find(shape);
+	if (it == regexForShapes.end())
+	{
+		throw std::invalid_argument("Error, wrong shape");
+	}
+
+	std::regex regex(it->second);
+
+	regex_match(args, matches, regex);
+
+	return matches;
 }
 
 void CController::WriteAllInfoAboutShapes() const
@@ -50,7 +86,7 @@ void CController::WriteAllInfoAboutShapes() const
 	if (m_shapesList.empty())
 	{
 		m_output << "There are no shapes" << std::endl;
-		
+
 		return;
 	}
 
@@ -69,123 +105,57 @@ void CController::GetHelp(const std::string& args)
 
 void CController::SetRectangle(const std::string& args)
 {
-	std::string commandLine;
+	std::smatch matches = ParseString(args);
 
-	std::istringstream stream(args);
+	CPoint topLeftPoint(std::stod(matches[2]), std::stod(matches[4]));
+	double width = std::stod(matches[6]);
+	double height = std::stod(matches[8]);
 
-	double topPointX;
-	stream >> topPointX;
-	double topPointY;
-	stream >> topPointY;
-	double width;
-	stream >> width;
-	double height;
-	stream >> height;
+	uint32_t outlineColor = std::stoul(matches[10], nullptr, 16);
+	uint32_t fillColor = std::stoul(matches[11], nullptr, 16);
 
-	std::string outlineColor;
-	stream >> outlineColor;
-	std::string fillColor;
-	stream >> fillColor;
-
-	CPoint topLeftPoint(topPointX, topPointY);
-
-	CRectangle rectangle(topLeftPoint, width, height, ParseColor(outlineColor), ParseColor(fillColor));
+	CRectangle rectangle(topLeftPoint, width, height, outlineColor, fillColor);
 
 	m_shapesList.push_back(std::make_unique<CRectangle>(rectangle));
 }
 
 void CController::SetTriangle(const std::string& args)
 {
-	std::string commandLine;
+	std::smatch matches = ParseString(args);
 
-	std::istringstream stream(args);
+	CPoint firstVertex(std::stod(matches[2]), std::stod(matches[4]));
+	CPoint secondVertex(std::stod(matches[6]), std::stod(matches[8]));
+	CPoint thirdVertex(std::stod(matches[10]), std::stod(matches[12]));
+	
+	uint32_t outlineColor = std::stoul(matches[14], nullptr, 16);
+	uint32_t fillColor = std::stoul(matches[14], nullptr, 16);
 
-	double firstVertexX;
-	stream >> firstVertexX;
-	double firstVertexY;
-	stream >> firstVertexY;
-
-	double secondVertexX;
-	stream >> secondVertexX;
-	double secondVertexY;
-	stream >> secondVertexY;
-
-	double thirdVertexX;
-	stream >> thirdVertexX;
-	double thirdVertexY;
-	stream >> thirdVertexY;
-
-	std::string outlineColor;
-	stream >> outlineColor;
-	std::string fillColor;
-	stream >> fillColor;
-
-	CPoint firstVertex(firstVertexX, firstVertexY);
-	CPoint secondVertex(secondVertexX, secondVertexY);
-	CPoint thirdVertex(thirdVertexX, thirdVertexY);
-
-	CTriangle triangle(firstVertex, secondVertex, thirdVertex, ParseColor(outlineColor), ParseColor(fillColor));
+	CTriangle triangle(firstVertex, secondVertex, thirdVertex, outlineColor, fillColor);
 
 	m_shapesList.push_back(std::make_unique<CTriangle>(triangle));
 }
 
 void CController::SetCircle(const std::string& args)
 {
-	std::string commandLine;
+	std::smatch matches = ParseString(args);
 
-	std::istringstream stream(args);
+	CPoint centralPoint(std::stod(matches[2]), std::stod(matches[4]));
 
-	double centralPointX;
-	stream >> centralPointX;
-	double centralPointY;
-	stream >> centralPointY;
-	double radius;
-	stream >> radius;
-
-	std::string outlineColor;
-	stream >> outlineColor;
-	std::string fillColor;
-	stream >> fillColor;
-
-	CPoint centralPoint(centralPointX, centralPointY);
-
-	CCircle circle(centralPoint, radius, ParseColor(outlineColor), ParseColor(fillColor));
+	CCircle circle(centralPoint, std::stod(matches[6]), std::stoul(matches[8], nullptr, 16), std::stoul(matches[9], nullptr, 16));
 
 	m_shapesList.push_back(std::make_unique<CCircle>(circle));
 }
 
 void CController::SetLine(const std::string& args)
 {
-	std::string commandLine;
+	std::smatch matches = ParseString(args);
 
-	std::istringstream stream(args);
+	CPoint firstPoint(std::stod(matches[2]), std::stod(matches[4]));
+	CPoint secondPoint(std::stod(matches[6]), std::stod(matches[8]));
 
-	double firstPointX;
-	stream >> firstPointX;
-	double firstPointY;
-	stream >> firstPointY;
-
-	double secondPointX;
-	stream >> secondPointX;
-	double secondPointY;
-	stream >> secondPointY;
-
-	std::string outlineColor;
-	stream >> outlineColor;
-
-	CPoint firstPoint(firstPointX, firstPointY);
-	CPoint secondPoint(secondPointX, secondPointY);
-
-	CLineSegment line(firstPoint, secondPoint, ParseColor(outlineColor));
+	CLineSegment line(firstPoint, secondPoint, std::stoul(matches[10], nullptr, 16));
 
 	m_shapesList.push_back(std::make_unique<CLineSegment>(line));
-}
-
-uint32_t CController::ParseColor(const std::string& color)
-{
-	auto colorRgb = static_cast<uint32_t>(stoul(color, nullptr, 16) << 8);
-
-	return colorRgb;
 }
 
 void CController::WriteShapeWithMaxArea() const
