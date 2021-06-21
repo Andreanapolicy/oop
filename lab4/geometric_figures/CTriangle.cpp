@@ -4,11 +4,10 @@
 #include "common_libs.h"
 
 CTriangle::CTriangle(const CPoint& firstVertex, const CPoint& secondVertex, const CPoint& thirdVertex, const uint32_t outlineColor, const uint32_t fillColor)
-	: m_firstVertex(firstVertex)
+	: CFigure(fillColor, outlineColor)
+	, m_firstVertex(firstVertex)
 	, m_secondVertex(secondVertex)
 	, m_thirdVertex(thirdVertex)
-	, m_outlineColor(outlineColor)
-	, m_fillColor(fillColor)
 {
 }
 
@@ -47,7 +46,7 @@ std::string CTriangle::ToString() const
 	oss << "(" << m_firstVertex.x << ", " << m_firstVertex.y << "), ";
 	oss << "(" << m_secondVertex.x << ", " << m_secondVertex.y << "), ";
 	oss << "(" << m_thirdVertex.x << ", " << m_thirdVertex.y << "), ";
-	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
+	oss << "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
 
 	return oss.str();
 }
@@ -62,15 +61,15 @@ CPoint CTriangle::GetVertex3() const
 	return m_thirdVertex;
 }
 
-uint32_t CTriangle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
+//uint32_t CTriangle::GetOutlineColor() const
+//{
+//	return m_outlineColor;
+//}
 
-uint32_t CTriangle::GetFillColor() const
-{
-	return m_fillColor;
-}
+//uint32_t CTriangle::GetFillColor() const
+//{
+//	return m_fillColor;
+//}
 
 double CTriangle::GetPerimeter() const
 {

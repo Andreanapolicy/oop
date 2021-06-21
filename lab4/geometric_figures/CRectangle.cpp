@@ -7,8 +7,7 @@ CRectangle::CRectangle(const CPoint& topLeftPoint, const double width, const dou
 	: m_topLeftPoint(topLeftPoint)
 	, m_width(width)
 	, m_height(height)
-	, m_outlineColor(outlineColor)
-	, m_fillColor(fillColor)
+	, CFigure(fillColor, outlineColor)
 {
 }
 
@@ -30,7 +29,7 @@ std::string CRectangle::ToString() const
 	oss << "rectangle with top left point ";
 	oss << "(" << m_topLeftPoint.x << ", " << m_topLeftPoint.y << "), ";
 	oss << "width: " << m_width << " and height: " << m_height << " ";
-	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
+	oss << "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
 
 	return oss.str();
 }
@@ -45,16 +44,6 @@ CPoint CRectangle::GetBottomRightPoint() const
 	CPoint bottomRightPoint(m_topLeftPoint.x + m_width, m_topLeftPoint.y - m_height);
 	
 	return bottomRightPoint;
-}
-
-uint32_t CRectangle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
-
-uint32_t CRectangle::GetFillColor() const
-{
-	return m_fillColor;
 }
 
 double CRectangle::GetWidth() const

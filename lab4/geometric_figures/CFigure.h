@@ -1,12 +1,14 @@
 #pragma once
-#include "IShape.h"
+#include "ISolidShape.h"
 
-class CShape : public IShape
+class CFigure : public ISolidShape
 {
 public:
-	CShape(const uint32_t outlineColor);
+	CFigure(const uint32_t fillColor, const uint32_t outlineColor);
 
-	virtual ~CShape() = default;
+	virtual ~CFigure() = default;
+
+	uint32_t GetFillColor() const override final;
 
 	uint32_t GetOutlineColor() const override final;
 
@@ -27,5 +29,8 @@ protected:
 	}
 
 private:
+
+	uint32_t m_fillColor;
+	
 	uint32_t m_outlineColor;
 };

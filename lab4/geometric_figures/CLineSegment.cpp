@@ -1,9 +1,10 @@
 #include "CLineSegment.h"
 #include "CPoint.h"
+#include "CShape.h"
 #include "common_libs.h"
 
-CLineSegment::CLineSegment(const CPoint& startPoint, const CPoint& endPoint, const uint32_t outlineColor)
-	: m_outlineColor(outlineColor)
+CLineSegment::CLineSegment(const CPoint& startPoint, const CPoint& endPoint, const uint32_t outlineColor) 
+	: CShape(outlineColor) 
 	, m_startPoint(startPoint)
 	, m_endPoint(endPoint)
 {
@@ -11,6 +12,7 @@ CLineSegment::CLineSegment(const CPoint& startPoint, const CPoint& endPoint, con
 
 double CLineSegment::GetArea() const
 {
+	GetOutlineColor();
 	return 0;
 }
 
@@ -42,7 +44,7 @@ CPoint CLineSegment::GetEndPoint() const
 	return m_endPoint;
 }
 
-uint32_t CLineSegment::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
+//uint32_t CLineSegment::GetOutlineColor() const
+//{
+//	return m_outlineColor;
+//}

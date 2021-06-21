@@ -6,8 +6,7 @@
 CCircle::CCircle(const CPoint& centralPoint, const double raduis, const uint32_t outlineColor, const uint32_t fillColor)
 	: m_centralPoint(centralPoint)
 	, m_raduis(raduis)
-	, m_outlineColor(outlineColor)
-	, m_fillColor(fillColor)
+	, CFigure(fillColor, outlineColor)
 {
 }
 
@@ -29,19 +28,9 @@ std::string CCircle::ToString() const
 	oss << "circle with center ";
 	oss << "(" << m_centralPoint.x << ", " << m_centralPoint.y << "), ";
 	oss << "radius: " << m_raduis << ", ";
-	oss << "outline color: #" << std::hex << m_outlineColor << " and fill color: #" << std::hex << m_fillColor;
+	oss << "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
 
 	return oss.str();
-}
-
-uint32_t CCircle::GetOutlineColor() const
-{
-	return m_outlineColor;
-}
-
-uint32_t CCircle::GetFillColor() const
-{
-	return m_fillColor;
 }
 
 CPoint CCircle::GetCentralPoint() const
