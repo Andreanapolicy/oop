@@ -12,7 +12,6 @@ CLineSegment::CLineSegment(const CPoint& startPoint, const CPoint& endPoint, con
 
 double CLineSegment::GetArea() const
 {
-	GetOutlineColor();
 	return 0;
 }
 
