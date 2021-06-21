@@ -1,12 +1,12 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
-#include "../common_libs.h"
-#include "../CPoint.h"
-#include "../CLineSegment.h"
-#include "../CTriangle.h"
-#include "../CRectangle.h"
 #include "../CCircle.h"
 #include "../CController.h"
+#include "../CLineSegment.h"
+#include "../CPoint.h"
+#include "../CRectangle.h"
+#include "../CTriangle.h"
+#include "../common_libs.h"
 
 TEST_CASE("Test class CPoint")
 {
@@ -36,7 +36,7 @@ TEST_CASE("Test class CPoint")
 	{
 		CPoint point(124.123, -110.123);
 
-		THEN("x = 124.123; y = 10")
+		THEN("x = 124.123; y = -110.123")
 		{
 			REQUIRE(point.x == 124.123);
 			REQUIRE(point.y == -110.123);
@@ -125,6 +125,15 @@ TEST_CASE("Test class CLineSegment")
 			REQUIRE(CPoint::Equal(line.GetStartPoint(), firstPoint));
 			REQUIRE(CPoint::Equal(line.GetEndPoint(), secondPoint));
 		}
+
+		THEN("description will be right")
+		{
+			std::string description = "line with points "
+									  "(1.0, 1.0), (1.0, 1.0), "
+									  "outline color: #ffffff";
+
+			REQUIRE(line.ToString() == description);
+		}
 	}
 }
 
@@ -137,6 +146,7 @@ TEST_CASE("Test class CTriangle")
 		CPoint thirdPoint(5, 4);
 
 		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+
 		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
 		{
 			REQUIRE(triangle.GetArea() == 6);
@@ -147,6 +157,15 @@ TEST_CASE("Test class CTriangle")
 			REQUIRE(CPoint::Equal(triangle.GetVertex2(), secondPoint));
 			REQUIRE(CPoint::Equal(triangle.GetVertex3(), thirdPoint));
 		}
+
+		THEN("description will be right")
+		{
+			std::string description = "triangle with points "
+									  "(1.0, 1.0), (1.0, 4.0), (5.0, 4.0), "
+									  "outline color: #ffffff and fill color: #ffffff";
+
+			REQUIRE(triangle.ToString() == description);
+		}
 	}
 
 	WHEN("Triangle (1, 1)(1, 4)(3, 3) 'acute-angled triangle'")
@@ -156,6 +175,7 @@ TEST_CASE("Test class CTriangle")
 		CPoint thirdPoint(3, 3);
 
 		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+
 		THEN("area = 3; perimeter = sqrt(8) + sqrt(5) + 3; fill color = white, outline color = white")
 		{
 			REQUIRE(triangle.GetArea() > 0);
@@ -175,6 +195,7 @@ TEST_CASE("Test class CTriangle")
 		CPoint thirdPoint(4, 2);
 
 		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+
 		THEN("area = 5; perimeter = sqrt(8) + sqrt(13) + 5; fill color = white, outline color = white")
 		{
 			REQUIRE(triangle.GetArea() > 0);
@@ -194,6 +215,7 @@ TEST_CASE("Test class CTriangle")
 		CPoint thirdPoint(-1, 2);
 
 		CTriangle triangle(firstPoint, secondPoint, thirdPoint, 0xffffff, 0xffffff);
+
 		THEN("area = 0; perimeter = 0; fill color = white, outline color = white")
 		{
 			REQUIRE(triangle.GetArea() == 0);
@@ -215,6 +237,7 @@ TEST_CASE("Test class CRectangle")
 		CPoint bottomRightPoint(10, 0);
 
 		CRectangle rectangle(topLeftPoint, 5, 5, 0xffffff, 0xffffff);
+
 		THEN("area = 25; perimeter = 20; fill color = white, outline color = white")
 		{
 			REQUIRE(rectangle.GetArea() == 25);
@@ -234,7 +257,8 @@ TEST_CASE("Test class CRectangle")
 		CPoint bottomRightPoint(15.5, 0);
 
 		CRectangle rectangle(topLeftPoint, 5.5, 10, 0xffffff, 0xffffff);
-		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
+
+		THEN("area = 55; perimeter = 31; fill color = white, outline color = white")
 		{
 			REQUIRE(rectangle.GetArea() == 55);
 			REQUIRE(rectangle.GetPerimeter() == 31);
@@ -245,6 +269,15 @@ TEST_CASE("Test class CRectangle")
 			REQUIRE(CPoint::Equal(rectangle.GetTopLeftPoint(), topLeftPoint));
 			REQUIRE(CPoint::Equal(rectangle.GetBottomRightPoint(), bottomRightPoint));
 		}
+
+		THEN("description will be right")
+		{
+			std::string description = "rectangle with top left point "
+									  "(10.0, 10.0), width: 5.5 and height: 10.0, "
+									  "outline color: #ffffff and fill color: #ffffff";
+
+			REQUIRE(rectangle.ToString() == description);
+		}
 	}
 
 	WHEN("Rectangle (10, 10)  width = 0 height = 0")
@@ -253,7 +286,8 @@ TEST_CASE("Test class CRectangle")
 		CPoint bottomRightPoint(10, 10);
 
 		CRectangle rectangle(topLeftPoint, 0, 0, 0xffffff, 0xffffff);
-		THEN("area = 6; perimeter = 12; fill color = white, outline color = white")
+
+		THEN("area = 0; perimeter = 0; fill color = white, outline color = white")
 		{
 			REQUIRE(rectangle.GetArea() == 0);
 			REQUIRE(rectangle.GetPerimeter() == 0);
@@ -274,6 +308,7 @@ TEST_CASE("Test class CCircle")
 		CPoint centralPoint(5, 5);
 
 		CCircle circle(centralPoint, 4, 0xffffff, 0xffffff);
+
 		THEN("area = 50.24; perimeter = 25.12; fill color = white, outline color = white")
 		{
 			REQUIRE(circle.GetArea() == 50.24);
@@ -283,6 +318,15 @@ TEST_CASE("Test class CCircle")
 			REQUIRE(circle.GetRadius() == 4);
 			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));
 		}
+
+		THEN("description will be right")
+		{
+			std::string description = "circle with center "
+									  "(5.0, 5.0), radius: 4.0, "
+									  "outline color: #ffffff and fill color: #ffffff";
+
+			REQUIRE(circle.ToString() == description);
+		}
 	}
 
 	WHEN("Circle (5, 5) raduis = 0")
@@ -290,7 +334,8 @@ TEST_CASE("Test class CCircle")
 		CPoint centralPoint(5, 5);
 
 		CCircle circle(centralPoint, 0, 0xffffff, 0xffffff);
-		THEN("area = 50.24; perimeter = 25.12; fill color = white, outline color = white")
+		
+		THEN("area = 0; perimeter = 0; fill color = white, outline color = white")
 		{
 			REQUIRE(circle.GetArea() == 0);
 			REQUIRE(circle.GetPerimeter() == 0);

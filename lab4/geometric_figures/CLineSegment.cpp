@@ -42,8 +42,3 @@ CPoint CLineSegment::GetEndPoint() const
 {
 	return m_endPoint;
 }
-
-//uint32_t CLineSegment::GetOutlineColor() const
-//{
-//	return m_outlineColor;
-//}
