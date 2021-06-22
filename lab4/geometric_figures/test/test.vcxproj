@@ -185,6 +185,7 @@ $(TargetPath)</Command>
     <ClCompile Include="..\CRectangle.cpp" />
     <ClCompile Include="..\CShape.cpp" />
     <ClCompile Include="..\CTriangle.cpp" />
+    <ClCompile Include="CMockCanvas.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@ $(TargetPath)</Command>
     <ClInclude Include="..\CRectangle.h" />
     <ClInclude Include="..\CShape.h" />
     <ClInclude Include="..\CTriangle.h" />
+    <ClInclude Include="CMockCanvas.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

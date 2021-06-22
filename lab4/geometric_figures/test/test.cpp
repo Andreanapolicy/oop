@@ -6,6 +6,7 @@
 #include "../CPoint.h"
 #include "../CRectangle.h"
 #include "../CTriangle.h"
+#include "CMockCanvas.h"
 #include "../common_libs.h"
 
 TEST_CASE("Test class CPoint")
@@ -343,6 +344,157 @@ TEST_CASE("Test class CCircle")
 			REQUIRE(circle.GetOutlineColor() == 0xffffff);
 			REQUIRE(circle.GetFillColor() == 0xffffff);
 			REQUIRE(CPoint::Equal(circle.GetCentralPoint(), centralPoint));
+		}
+	}
+}
+
+TEST_CASE("test functional of drawing")
+{
+	GIVEN("circle")
+	{
+		CPoint firstPoint(5, 5);
+		CPoint secondPoint(10, 10);
+
+		CLineSegment line(firstPoint, secondPoint, 0xffffff);
+
+		WHEN("call draw")
+		{
+			CMockCanvas mockCanvas;
+
+			line.Draw(mockCanvas);
+
+			THEN("draw line will be in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawLine
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() == notifications);
+			}
+
+			THEN("draw circle will be not in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawCircle
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() != notifications);
+			}
+
+			THEN("draw polygon will be not in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawPolygon
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() != notifications);
+			}
+		}
+	}
+
+	GIVEN("circle")
+	{
+		CPoint centralPoint(5, 5);
+
+		CCircle circle(centralPoint, 4, 0xffffff, 0xffffff);
+
+		WHEN("call draw")
+		{
+			CMockCanvas mockCanvas;
+
+			circle.Draw(mockCanvas);
+
+			THEN("draw circle will be in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawCircle
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() == notifications);
+			}
+		}
+	}
+
+	GIVEN("rectangle")
+	{
+		CPoint rightTopPoint(5, 5);
+
+		CRectangle rectangle(rightTopPoint, 4, 4, 0xffffff, 0xffffff);
+
+		WHEN("call draw")
+		{
+			CMockCanvas mockCanvas;
+
+			rectangle.Draw(mockCanvas);
+
+			THEN("draw circle will be in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawPolygon
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() == notifications);
+			}
+		}
+	}
+
+	GIVEN("triangle")
+	{
+		CPoint firstVertex(5, 5);
+		CPoint secondVertex(6, 6);
+		CPoint thirdVertex(3, 12);
+
+		CTriangle triangle(firstVertex, secondVertex, thirdVertex, 0xffffff, 0xffffff);
+
+		WHEN("call draw")
+		{
+			CMockCanvas mockCanvas;
+
+			triangle.Draw(mockCanvas);
+
+			THEN("draw circle will be in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawPolygon
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() == notifications);
+			}
+		}
+	}
+
+	GIVEN("triangle, circle and line")
+	{
+		CPoint firstVertex(5, 5);
+		CPoint secondVertex(6, 6);
+		CPoint thirdVertex(3, 12);
+		CTriangle triangle(firstVertex, secondVertex, thirdVertex, 0xffffff, 0xffffff);
+
+		CPoint centralPoint(5, 5);
+		CCircle circle(centralPoint, 4, 0xffffff, 0xffffff);
+
+		CPoint firstPoint(5, 5);
+		CPoint secondPoint(10, 10);
+		CLineSegment line(firstPoint, secondPoint, 0xffffff);
+
+		WHEN("call draw (triangle, circle, line)")
+		{
+			CMockCanvas mockCanvas;
+
+			triangle.Draw(mockCanvas);
+			circle.Draw(mockCanvas);
+			line.Draw(mockCanvas);
+
+			THEN("draw triangle, circle, line will be in notifications")
+			{
+				std::vector<CMockCanvas::Notification> notifications = {
+					CMockCanvas::Notification::DrawPolygon,
+					CMockCanvas::Notification::DrawCircle,
+					CMockCanvas::Notification::DrawLine,
+				};
+
+				REQUIRE(mockCanvas.GetNotifications() == notifications);
+			}
 		}
 	}
 }
