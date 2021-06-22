@@ -17,5 +17,7 @@ int main()
 	}
 
 	controller.WriteAllInfoAboutShapes();
+
+	controller.Draw();
 	return 0;
 }

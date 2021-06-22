@@ -26,6 +26,11 @@ protected:
 		throw std::runtime_error("Error, can't covert this shape to string");
 	}
 
+	void Draw(ICanvas& canvas) const override
+	{
+		throw std::runtime_error("Error, can't draw this shape");
+	}
+
 private:
 	uint32_t m_outlineColor;
 };

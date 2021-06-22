@@ -14,6 +14,8 @@ public:
 
 	std::string ToString() const override;
 
+	void Draw(ICanvas& canvas) const override;
+
 	CPoint GetVertex1() const;
 
 	CPoint GetVertex2() const;

@@ -34,6 +34,18 @@ std::string CRectangle::ToString() const
 	return oss.str();
 }
 
+void CRectangle::Draw(ICanvas& canvas) const
+{
+	std::vector<CPoint> points = {
+		m_topLeftPoint,
+		CPoint(m_topLeftPoint.x + m_width, m_topLeftPoint.y),
+		CPoint(m_topLeftPoint.x + m_width, m_topLeftPoint.y - m_height),
+		CPoint(m_topLeftPoint.x, m_topLeftPoint.y - m_height),
+	};
+
+	canvas.DrawPolygon(points, GetOutlineColor(), GetFillColor());
+}
+
 CPoint CRectangle::GetTopLeftPoint() const
 {
 	return m_topLeftPoint;

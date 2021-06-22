@@ -15,6 +15,8 @@ public:
 
 	std::string ToString() const override;
 
+	void Draw(ICanvas& canvas) const override;
+
 	CPoint GetStartPoint() const;
 
 	CPoint GetEndPoint() const;

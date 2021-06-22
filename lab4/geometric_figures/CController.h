@@ -11,6 +11,8 @@ public:
 
 	void WriteAllInfoAboutShapes() const;
 
+	void Draw() const;
+
 	void SetRectangle(const std::string& args);
 
 	void SetLine(const std::string& args);

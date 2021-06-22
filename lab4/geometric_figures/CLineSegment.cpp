@@ -33,6 +33,11 @@ std::string CLineSegment::ToString() const
 	return oss.str();
 }
 
+void CLineSegment::Draw(ICanvas& canvas) const
+{
+	canvas.DrawLine(m_startPoint, m_endPoint, GetOutlineColor());
+}
+
 CPoint CLineSegment::GetStartPoint() const
 {
 	return m_startPoint;

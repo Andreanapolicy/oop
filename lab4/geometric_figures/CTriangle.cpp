@@ -46,6 +46,17 @@ std::string CTriangle::ToString() const
 	return oss.str();
 }
 
+void CTriangle::Draw(ICanvas& canvas) const
+{
+	std::vector<CPoint> points = {
+		m_firstVertex,
+		m_secondVertex,
+		m_thirdVertex,
+	};
+
+	canvas.DrawPolygon(points, GetOutlineColor(), GetFillColor());
+}
+
 double GetLenght(CPoint firstPoint, CPoint secondPoint)
 {
 	return sqrt(pow((firstPoint.x - secondPoint.x), 2) + pow((firstPoint.y - secondPoint.y), 2));

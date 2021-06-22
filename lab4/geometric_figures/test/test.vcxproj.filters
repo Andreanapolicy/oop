@@ -18,10 +18,16 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\CCanvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\CCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\CController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CFigure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\CLineSegment.cpp">
@@ -42,18 +48,18 @@
     <ClCompile Include="..\CTriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\IShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CFigure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CCanvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\CCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\CController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CFigure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\CLineSegment.h">
@@ -72,15 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\CTriangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\IShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ISolidShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CFigure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

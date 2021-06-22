@@ -4,6 +4,7 @@
 #include "CPoint.h"
 #include "CRectangle.h"
 #include "CTriangle.h"
+#include "CCanvas.h"
 #include "common_libs.h"
 
 const std::map<std::string, std::string> regexForShapes = {
@@ -176,4 +177,32 @@ void CController::WriteShapeWithMinPerimeter() const
 		});
 
 	m_output << (*it)->ToString() << std::endl;
+}
+
+void CController::Draw() const
+{
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Result");
+	CCanvas canvas(window);
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+		}
+
+		window.clear(sf::Color(255, 255, 255));
+
+		for (auto it = m_shapesList.begin(); it != m_shapesList.end(); it++)
+		{
+			(*it)->Draw(canvas);
+		}
+
+		window.display();
+	}
 }
