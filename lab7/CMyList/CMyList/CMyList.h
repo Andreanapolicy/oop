@@ -2,7 +2,6 @@
 #include "UnableChangeIteratorError.h"
 #include "UnableDeleteElementError.h"
 #include "UnableGetElementError.h"
-#include "UnableInsertElementError.h"
 
 #include <algorithm>
 #include <iterator>

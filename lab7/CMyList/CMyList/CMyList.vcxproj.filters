@@ -24,9 +24,6 @@
     <ClCompile Include="UnableDeleteElementError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnableInsertElementError.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UnableGetElementError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnableDeleteElementError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnableInsertElementError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnableGetElementError.h">
