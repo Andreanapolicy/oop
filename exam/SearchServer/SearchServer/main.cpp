@@ -1,3 +1,4 @@
+#include "../SearchServer/SearchServer.h"
 
 int main()
 {
