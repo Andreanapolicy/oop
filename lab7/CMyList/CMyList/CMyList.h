@@ -45,6 +45,7 @@ class CMyList
 			return m_value;
 		}
 
+	private:
 		T m_value;
 	};
 

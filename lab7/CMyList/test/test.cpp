@@ -397,7 +397,7 @@ TEST_CASE("test of getting elements")
 	{
 		CMyList<int> list;
 
-		WHEN("pop front")
+		WHEN("get front")
 		{
 			THEN("exception")
 			{
@@ -406,7 +406,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("pop back")
+		WHEN("get back")
 		{
 			THEN("exception")
 			{
@@ -421,7 +421,7 @@ TEST_CASE("test of getting elements")
 		CMyList<int> list;
 		list.PushFront(1);
 
-		WHEN("pop front")
+		WHEN("get front")
 		{
 			int element = list.GetFrontElement();
 
@@ -432,7 +432,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("pop back")
+		WHEN("get back")
 		{
 			int element = list.GetBackElement();
 
@@ -443,7 +443,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("const pop front")
+		WHEN("const get front")
 		{
 			const int element = list.GetFrontElement();
 
@@ -455,7 +455,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("const pop back")
+		WHEN("const get back")
 		{
 			const int element = list.GetBackElement();
 
@@ -474,7 +474,7 @@ TEST_CASE("test of getting elements")
 		list.PushFront(1);
 		list.PushFront(2);
 
-		WHEN("pop front")
+		WHEN("get front")
 		{
 			int element = list.GetFrontElement();
 
@@ -485,7 +485,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("pop back")
+		WHEN("get back")
 		{
 			int element = list.GetBackElement();
 
@@ -496,7 +496,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("const pop front")
+		WHEN("const get front")
 		{
 			const int element = list.GetFrontElement();
 
@@ -508,7 +508,7 @@ TEST_CASE("test of getting elements")
 			}
 		}
 
-		WHEN("const pop back")
+		WHEN("const get back")
 		{
 			const int element = list.GetBackElement();
 
