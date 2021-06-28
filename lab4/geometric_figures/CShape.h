@@ -26,7 +26,7 @@ protected:
 		throw std::runtime_error("Error, can't covert this shape to string");
 	}
 
-	void Draw(ICanvas& canvas) const override
+	virtual void Draw(ICanvas& canvas) const override
 	{
 		throw std::runtime_error("Error, can't draw this shape");
 	}
