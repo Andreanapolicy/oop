@@ -16,7 +16,7 @@ sf::Color GetColor(uint32_t color)
 	return sf::Color(red, green, blue);
 }
 
-void CCanvas::DrawLine(CPoint firstPoint, CPoint secondPoint, uint32_t outlineColor)
+void CCanvas::DrawLine(const CPoint& firstPoint, const CPoint& secondPoint, uint32_t outlineColor)
 {
 	sf::Vertex line[2] = {
 		sf::Vector2f((float)firstPoint.x, (float)firstPoint.y),
@@ -29,7 +29,7 @@ void CCanvas::DrawLine(CPoint firstPoint, CPoint secondPoint, uint32_t outlineCo
 	m_window.draw(line, 2, sf::Lines);
 }
 
-void CCanvas::DrawPolygon(std::vector<CPoint> points, uint32_t outlineColor, uint32_t fillColor)
+void CCanvas::DrawPolygon(const std::vector<CPoint>& points, uint32_t outlineColor, uint32_t fillColor)
 {
 	sf::ConvexShape shape;
 	shape.setPointCount(points.size());
@@ -45,7 +45,7 @@ void CCanvas::DrawPolygon(std::vector<CPoint> points, uint32_t outlineColor, uin
 	m_window.draw(shape);
 }
 
-void CCanvas::DrawCircle(CPoint center, double radius, uint32_t outlineColor, uint32_t fillColor)
+void CCanvas::DrawCircle(const CPoint& center, double radius, uint32_t outlineColor, uint32_t fillColor)
 {
 	sf::CircleShape shape;
 

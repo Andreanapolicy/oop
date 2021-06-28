@@ -12,11 +12,11 @@ public:
 		DrawCircle,
 	};
 
-	void DrawLine(CPoint firstPoint, CPoint secondPoint, uint32_t outlineColor) override;
+	void DrawLine(const CPoint& firstPoint, const CPoint& secondPoint, uint32_t outlineColor) override;
 
-	void DrawPolygon(std::vector<CPoint> points, uint32_t outlineColor, uint32_t fillColor) override;
+	void DrawPolygon(const std::vector<CPoint>& points, uint32_t outlineColor, uint32_t fillColor) override;
 
-	void DrawCircle(CPoint center, double radius, uint32_t outlineColor, uint32_t fillColor) override;
+	void DrawCircle(const CPoint& center, double radius, uint32_t outlineColor, uint32_t fillColor) override;
 
 	std::vector<Notification> GetNotifications() const;
 

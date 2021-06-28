@@ -24,11 +24,11 @@ std::string CLineSegment::ToString() const
 {
 	std::ostringstream oss;
 
-	oss << std::fixed << std::setprecision(1);
-	oss << "line with points ";
-	oss << "(" << m_startPoint.x << ", " << m_startPoint.y << "), ";
-	oss << "(" << m_endPoint.x << ", " << m_endPoint.y << "), ";
-	oss << "outline color: #" << std::hex << GetOutlineColor();
+	oss << std::fixed << std::setprecision(1)
+		<< "line with points "
+		<< "(" << m_startPoint.x << ", " << m_startPoint.y << "), "
+		<< "(" << m_endPoint.x << ", " << m_endPoint.y << "), "
+		<< "outline color: #" << std::hex << GetOutlineColor();
 
 	return oss.str();
 }

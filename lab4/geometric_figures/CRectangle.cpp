@@ -7,7 +7,7 @@ CRectangle::CRectangle(const CPoint& topLeftPoint, const double width, const dou
 	: m_topLeftPoint(topLeftPoint)
 	, m_width(width)
 	, m_height(height)
-	, CFigure(fillColor, outlineColor)
+	, CSolidShape(fillColor, outlineColor)
 {
 }
 
@@ -25,11 +25,11 @@ std::string CRectangle::ToString() const
 {
 	std::ostringstream oss;
 
-	oss << std::fixed << std::setprecision(1);
-	oss << "rectangle with top left point ";
-	oss << "(" << m_topLeftPoint.x << ", " << m_topLeftPoint.y << "), ";
-	oss << "width: " << m_width << " and height: " << m_height << ", ";
-	oss << "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
+	oss << std::fixed << std::setprecision(1)
+		<< "rectangle with top left point "
+		<< "(" << m_topLeftPoint.x << ", " << m_topLeftPoint.y << "), "
+		<< "width: " << m_width << " and height: " << m_height << ", "
+		<< "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
 
 	return oss.str();
 }

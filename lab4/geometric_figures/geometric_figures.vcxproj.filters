@@ -48,10 +48,10 @@
     <ClCompile Include="CShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CFigure.cpp">
+    <ClCompile Include="CCanvas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CCanvas.cpp">
+    <ClCompile Include="CSolidShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,9 +86,6 @@
     <ClInclude Include="CShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CFigure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ICanvasDrawable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -96,6 +93,9 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="CCanvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSolidShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

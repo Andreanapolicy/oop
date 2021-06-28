@@ -4,7 +4,7 @@
 #include "common_libs.h"
 
 CTriangle::CTriangle(const CPoint& firstVertex, const CPoint& secondVertex, const CPoint& thirdVertex, const uint32_t outlineColor, const uint32_t fillColor)
-	: CFigure(fillColor, outlineColor)
+	: CSolidShape(fillColor, outlineColor)
 	, m_firstVertex(firstVertex)
 	, m_secondVertex(secondVertex)
 	, m_thirdVertex(thirdVertex)
@@ -36,12 +36,12 @@ std::string CTriangle::ToString() const
 {
 	std::ostringstream oss;
 
-	oss << std::fixed << std::setprecision(1);
-	oss << "triangle with points ";
-	oss << "(" << m_firstVertex.x << ", " << m_firstVertex.y << "), ";
-	oss << "(" << m_secondVertex.x << ", " << m_secondVertex.y << "), ";
-	oss << "(" << m_thirdVertex.x << ", " << m_thirdVertex.y << "), ";
-	oss << "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
+	oss << std::fixed << std::setprecision(1)
+		<< "triangle with points "
+		<< "(" << m_firstVertex.x << ", " << m_firstVertex.y << "), "
+		<< "(" << m_secondVertex.x << ", " << m_secondVertex.y << "), "
+		<< "(" << m_thirdVertex.x << ", " << m_thirdVertex.y << "), "
+		<< "outline color: #" << std::hex << GetOutlineColor() << " and fill color: #" << std::hex << GetFillColor();
 
 	return oss.str();
 }

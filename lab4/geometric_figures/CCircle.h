@@ -1,9 +1,9 @@
 #pragma once
 #include "CPoint.h"
-#include "CFigure.h"
+#include "CSolidShape.h"
 #include "common_libs.h"
 
-class CCircle final : public CFigure
+class CCircle final : public CSolidShape
 {
 public:
 	CCircle(const CPoint& centralPoint, const double raduis, const uint32_t outlineColor, const uint32_t fillColor);

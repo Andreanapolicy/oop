@@ -1,9 +1,9 @@
 #pragma once
 #include "CPoint.h"
-#include "CFigure.h"
+#include "CSolidShape.h"
 #include "common_libs.h"
 
-class CRectangle : public CFigure
+class CRectangle : public CSolidShape
 {
 public:
 	CRectangle(const CPoint& topLeftPoint, const double width, const double height, const uint32_t outlineColor, const uint32_t fillColor);

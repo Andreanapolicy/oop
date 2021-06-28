@@ -1,10 +1,10 @@
 #include "CController.h"
+#include "CCanvas.h"
 #include "CCircle.h"
 #include "CLineSegment.h"
 #include "CPoint.h"
 #include "CRectangle.h"
 #include "CTriangle.h"
-#include "CCanvas.h"
 #include "common_libs.h"
 
 const std::map<std::string, std::string> regexForShapes = {
@@ -97,11 +97,11 @@ void CController::WriteAllInfoAboutShapes() const
 
 void CController::GetHelp(const std::string& args) const
 {
-	m_output << "line x1 y1 x2 y2 line color" << std::endl;
-	m_output << "rectangle x1 y1 width height outline color fill color" << std::endl;
-	m_output << "circle x1 y1 radius outline color fill color" << std::endl;
-	m_output << "triangle x1 y1 x2 y2 x3 y3 outline color fill color" << std::endl;
-	m_output << "Example: line 250 1 2 4 bbe4ff" << std::endl;
+	m_output << "line x1 y1 x2 y2 line color" << std::endl
+			 << "rectangle x1 y1 width height outline color fill color" << std::endl
+			 << "circle x1 y1 radius outline color fill color" << std::endl
+			 << "triangle x1 y1 x2 y2 x3 y3 outline color fill color" << std::endl
+			 << "Example: line 250 1 2 4 bbe4ff" << std::endl;
 }
 
 void CController::SetRectangle(const std::string& args)
@@ -127,7 +127,7 @@ void CController::SetTriangle(const std::string& args)
 	CPoint firstVertex(std::stod(matches[2]), std::stod(matches[4]));
 	CPoint secondVertex(std::stod(matches[6]), std::stod(matches[8]));
 	CPoint thirdVertex(std::stod(matches[10]), std::stod(matches[12]));
-	
+
 	uint32_t outlineColor = std::stoul(matches[14], nullptr, 16);
 	uint32_t fillColor = std::stoul(matches[14], nullptr, 16);
 
