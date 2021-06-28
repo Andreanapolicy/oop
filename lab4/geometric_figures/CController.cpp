@@ -34,7 +34,7 @@ CController::CController(std::istream& input, std::ostream& output)
 {
 }
 
-void CController::GetShape()
+void CController::GetShape() const
 {
 	std::string commandLine;
 	std::getline(m_input, commandLine);
@@ -95,7 +95,7 @@ void CController::WriteAllInfoAboutShapes() const
 	WriteShapeWithMinPerimeter();
 }
 
-void CController::GetHelp(const std::string& args)
+void CController::GetHelp(const std::string& args) const
 {
 	m_output << "line x1 y1 x2 y2 line color" << std::endl;
 	m_output << "rectangle x1 y1 width height outline color fill color" << std::endl;

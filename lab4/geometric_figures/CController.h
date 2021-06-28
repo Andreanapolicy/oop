@@ -7,7 +7,7 @@ class CController
 public:
 	CController(std::istream& input, std::ostream& output);
 
-	void GetShape();
+	void GetShape() const;
 
 	void WriteAllInfoAboutShapes() const;
 
@@ -21,7 +21,7 @@ public:
 
 	void SetCircle(const std::string& args);
 
-	void GetHelp(const std::string& args);
+	void GetHelp(const std::string& args) const;
 
 private:
 
