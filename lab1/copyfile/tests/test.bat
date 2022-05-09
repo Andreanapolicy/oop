@@ -6,7 +6,7 @@ if %PROGRAM%=="" (
 	exit /B 1
 )
 
-set OUT="c:/dev/executable/out.txt"
+set OUT="%TEMP%/out.txt"
 
  
 %PROGRAM% > %OUT%
