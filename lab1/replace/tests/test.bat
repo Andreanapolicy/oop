@@ -6,8 +6,8 @@ if %PROGRAM%=="" (
 	exit /B 1
 )
 
-set OUT="c:/dev/executable/out.txt"
-set TEMPTRASH="%TEMP%/out.txt"
+set OUT="%TEMP%/out.txt"
+set TEMPTRASH="%TEMP%/out_trash.txt"
 
  
 %PROGRAM% > %OUT%
